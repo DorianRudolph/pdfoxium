@@ -18,6 +18,10 @@ warning_spec = importlib.util.spec_from_file_location(
     "warnings_gate", SCRIPT.with_name("check-compiler-warnings.py"))
 warnings_gate = importlib.util.module_from_spec(warning_spec)
 warning_spec.loader.exec_module(warnings_gate)
+release_spec = importlib.util.spec_from_file_location(
+    "release_checks", SCRIPT.with_name("check-release.py"))
+release_checks = importlib.util.module_from_spec(release_spec)
+release_spec.loader.exec_module(release_checks)
 
 
 class LicenseInventoryTests(unittest.TestCase):
@@ -163,6 +167,38 @@ class ManifestWarningTests(unittest.TestCase):
 
     def test_cargo_failure_is_preserved(self):
         self.assertEqual(self.status("error: invalid manifest\n", 101), 101)
+
+
+class PackageSourceTests(unittest.TestCase):
+    def test_generated_notices_are_allowed_but_source_changes_are_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+
+            def git(*args):
+                release_checks.subprocess.run(
+                    ["git", "-c", "user.name=Release Test", "-c", "user.email=test@example.org",
+                     "-c", "core.hooksPath=/dev/null", "-c", "commit.gpgsign=false", *args],
+                    cwd=root, check=True, capture_output=True)
+
+            git("init", "--quiet")
+            (root / ".gitignore").write_text("THIRD_PARTY_LICENSES.md\n")
+            source = root / "source.rs"
+            source.write_text("original\n")
+            git("add", ".")
+            git("commit", "--quiet", "-m", "Source fixture")
+            (root / "THIRD_PARTY_LICENSES.md").write_text("Generated notice\n")
+            with patch.object(release_checks, "ROOT", root):
+                release_checks.require_clean_package_sources()
+                source.write_text("modified\n")
+                with self.assertRaisesRegex(SystemExit, "source.rs"):
+                    release_checks.require_clean_package_sources()
+                git("add", "source.rs")
+                with self.assertRaisesRegex(SystemExit, "source.rs"):
+                    release_checks.require_clean_package_sources()
+                git("commit", "--quiet", "-m", "Updated fixture")
+                (root / "untracked.rs").write_text("new source\n")
+                with self.assertRaisesRegex(SystemExit, "untracked.rs"):
+                    release_checks.require_clean_package_sources()
 
 
 if __name__ == "__main__":

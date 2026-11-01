@@ -20,6 +20,14 @@ def run(*args):
     subprocess.run(args, cwd=ROOT, check=True)
 
 
+def require_clean_package_sources():
+    changes = subprocess.check_output(
+        ["git", "status", "--porcelain=v1", "--untracked-files=all"], cwd=ROOT)
+    if changes:
+        raise SystemExit("Packaging requires a clean source tree; commit the changes or use "
+                         "--allow-dirty:\n" + changes.decode(errors="replace"))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--package", action="store_true", help="Build and verify every publishable crate archive")
@@ -55,10 +63,14 @@ def main():
     assert expected and expected == actual, "Bundled C headers differ from the pinned PDFium headers"
     run("python3", "scripts/generate-licenses.py", "--check")
     if args.package:
+        if not args.allow_dirty:
+            require_clean_package_sources()
         run("python3", "scripts/generate-licenses.py", "--sync-packages")
-        command = ["cargo", "package", "--workspace", "--exclude", "pdfoxium-diff", "--locked", "--no-verify"]
-        if args.allow_dirty:
-            command.append("--allow-dirty")
+        # Explicit Cargo include lists make even ignored generated notices
+        # count as dirty. Check the sources before staging, then permit these
+        # ordinary package files in the archives.
+        command = ["cargo", "package", "--workspace", "--exclude", "pdfoxium-diff",
+                   "--locked", "--no-verify", "--allow-dirty"]
         run(*command)
         # Cargo's temporary registry can reuse extracted sources from a previous
         # package with the same name/version, even after its tarball changes.
