@@ -4,7 +4,7 @@
 All Cargo targets/features and build/dev dependencies are included deliberately.
 License texts absent from published crates are fetched from their recorded VCS
 revision with --fetch. Later --check runs reuse those immutable texts from the
-existing document; local texts are always reread. Historical crates
+checked-in notice files; local texts are always reread. Historical crates
 without any upstream license file are identified explicitly below.
 """
 
@@ -21,6 +21,9 @@ import urllib.request
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCUMENT = ROOT / "THIRD_PARTY_LICENSES.md"
+NOTICE_DIR = Path("docs/licenses")
+BUNDLE = ROOT / "target/licenses/THIRD_PARTY_LICENSES.md"
+MAX_PAGE_BYTES = 250_000
 REPO = "https://github.com/DorianRudolph/pdfoxium"
 PDFIUM = "f51279699cb59754d1f49aef10eb8e825fe56532"
 PDFCRAFT = "3109bb2359759e24ef490e1cdbdba00722b20972"
@@ -84,13 +87,32 @@ class Inventory:
         self.fetch = fetch
         self.texts = {}
         self.previous = {}
-        if DOCUMENT.exists():
-            old = DOCUMENT.read_text()
-            for block in old.split("<!-- notice -->")[1:]:
+        # Read both the legacy monolith and the split inventory during migration.
+        paths = [DOCUMENT, *(DOCUMENT.parent / NOTICE_DIR).glob("*.md")]
+        for path in paths:
+            if not path.exists():
+                continue
+            for block in path.read_text().split("<!-- notice -->")[1:]:
                 match = re.search(r"````text\n(.*?)\n````", block, re.S)
                 if match:
-                    for url in re.findall(r"<!-- source: (.*?) -->", block):
-                        self.previous[url] = normalize(match.group(1))
+                    text = normalize(match.group(1))
+                else:
+                    parts = re.findall(r"\[Part \d+\]\(([^)]+)\)", block)
+                    if not parts:
+                        continue
+                    chunks = []
+                    for part in parts:
+                        # Generated links are sibling filenames, never arbitrary paths.
+                        if not re.fullmatch(r"[0-9a-f]{16}-part-\d+\.md", part):
+                            raise ValueError(f"Invalid notice part: {part}")
+                        chunk = (path.parent / part).read_text()
+                        chunks.append(re.search(r"````text\n(.*?)````", chunk, re.S)[1])
+                    text = "".join(chunks)
+                digest = re.search(r'notice-([0-9a-f]{16})', block)
+                if digest and hashlib.sha256(text.encode()).hexdigest()[:16] != digest[1]:
+                    raise ValueError(f"Notice content hash mismatch: {path}")
+                for url in re.findall(r"<!-- source: (.*?) -->", block):
+                    self.previous[url] = text
 
     def add(self, text, source):
         text = normalize(text)
@@ -398,8 +420,74 @@ def generate(fetch):
     return "\n".join(lines)
 
 
+def split_document(text):
+    """Keep full notices locally while making each repository page browsable."""
+    heading, *blocks = text.split("<!-- notice -->")
+    files = {}
+    for block in blocks:
+        digest = re.search(r'notice-([0-9a-f]{16})', block)[1]
+        path = NOTICE_DIR / f"{digest}.md"
+        page = "<!-- notice -->" + block
+        if len(page.encode()) > MAX_PAGE_BYTES:
+            match = re.search(r"````text\n(.*?)\n````", block, re.S)
+            body = match[1] + "\n"
+            # Rust's collection marks each dependency with a package heading.
+            # Keep every component intact and preserve concatenation byte-for-byte.
+            units = re.split(r"(?m)(?=^📦 )", body)
+            chunks = []
+            current = ""
+            for unit in units:
+                if len(unit.encode()) > MAX_PAGE_BYTES - 2000:
+                    raise ValueError(f"Notice {digest} needs a component boundary for splitting")
+                if current and len((current + unit).encode()) > MAX_PAGE_BYTES - 2000:
+                    chunks.append(current)
+                    current = ""
+                current += unit
+            if current:
+                chunks.append(current)
+            page = "<!-- notice -->" + block[:match.start()]
+            page += "Full notice, in original order:\n\n"
+            for number, chunk in enumerate(chunks, 1):
+                part = f"{digest}-part-{number}.md"
+                page += f"- [Part {number}]({part})\n"
+                files[NOTICE_DIR / part] = (
+                    f"# Notice {digest} — part {number}\n\n"
+                    f"[Sources and all parts]({digest}.md)\n\n````text\n{chunk}````\n")
+        files[path] = page
+        heading = heading.replace(f"(#notice-{digest})", f"({path.as_posix()})")
+    heading += ("Full texts are stored in the linked notice files, with identical texts shared by reference.\n"
+                "For a standalone distribution copy, run "
+                "`python3 scripts/generate-licenses.py --sync-packages`; "
+                "the complete document is written to `target/licenses/THIRD_PARTY_LICENSES.md`.\n")
+    files[Path(DOCUMENT.name)] = heading
+    for path, content in files.items():
+        if len(content.encode()) > MAX_PAGE_BYTES:
+            raise ValueError(f"License page exceeds {MAX_PAGE_BYTES} bytes: {path}")
+    return files
+
+
+def sync_inventory(files, check=False):
+    existing = set((ROOT / NOTICE_DIR).glob("*.md"))
+    expected = {ROOT / path for path in files if path.parent == NOTICE_DIR}
+    stale = existing - expected
+    changed = [path for path, content in files.items()
+               if not (ROOT / path).exists() or (ROOT / path).read_text() != content]
+    if check:
+        if stale or changed:
+            raise SystemExit("License inventory is stale; run scripts/generate-licenses.py --fetch")
+        print("License inventory is current.")
+        return
+    for path in stale:
+        path.unlink()
+    for path, content in files.items():
+        destination = ROOT / path
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(content)
+    print(f"Wrote license index and {len(files) - 1} notice pages.")
+
+
 def sync_packages(text):
-    """Stage the canonical inventory as ordinary files included by Cargo."""
+    """Stage the standalone inventory as ordinary files included by Cargo."""
     metadata = json.loads(subprocess.check_output(
         ["cargo", "metadata", "--locked", "--no-deps", "--format-version", "1"], cwd=ROOT))
     count = 0
@@ -421,14 +509,10 @@ def main():
                         help="Stage package copies of the checked-in inventory, failing if it is stale")
     args = parser.parse_args()
     text = generate(args.fetch)
-    if args.check or args.sync_packages:
-        if not DOCUMENT.exists() or DOCUMENT.read_text() != text:
-            raise SystemExit("THIRD_PARTY_LICENSES.md is stale; run scripts/generate-licenses.py --fetch")
-        print("License inventory is current.")
-    else:
-        DOCUMENT.write_text(text)
-        print(f"Wrote {DOCUMENT.name} ({len(text.encode()):,} bytes).")
+    sync_inventory(split_document(text), check=args.check or args.sync_packages)
     if not args.check or args.sync_packages:
+        BUNDLE.parent.mkdir(parents=True, exist_ok=True)
+        BUNDLE.write_text(text)
         sync_packages(text)
 
 

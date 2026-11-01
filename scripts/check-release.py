@@ -76,7 +76,7 @@ def main():
                     assert path.name != ".DS_Store" and "__pycache__" not in path.parts, archive
                     assert path.suffix not in (".pyc", ".pyo", ".pyd"), archive
                 text = tar.extractfile(stem + "/THIRD_PARTY_LICENSES.md").read()
-                assert text == (ROOT / "THIRD_PARTY_LICENSES.md").read_bytes(), archive
+                assert text == (ROOT / "target/licenses/THIRD_PARTY_LICENSES.md").read_bytes(), archive
                 manifest = tomllib.loads(tar.extractfile(stem + "/Cargo.toml").read().decode())
                 assert not manifest.get("patch"), archive
                 assert manifest["package"].get("license"), archive

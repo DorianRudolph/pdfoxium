@@ -25,8 +25,11 @@ builds them together, checking that external dependency versions remain locked.
 This avoids Cargo's temporary-registry cache reusing stale sources when a
 not-yet-published package keeps the same version. It does **not** publish anything.
 Each archive includes the
-complete [license document](../THIRD_PARTY_LICENSES.md), including upstream and
-transitive dependency notices. To refresh it after dependency/asset changes:
+complete standalone license document, including upstream and transitive dependency
+notices. The checked-in [inventory](../THIRD_PARTY_LICENSES.md) links to full
+texts in `docs/licenses/`; pages are limited to 250,000 bytes for GitHub browsing.
+Large Rust standard-library collections are split at package boundaries, retaining
+the original text and order. To refresh it after dependency/asset changes:
 
 ```sh
 python3 scripts/generate-licenses.py --fetch
@@ -34,9 +37,9 @@ python3 scripts/generate-licenses.py --check
 ```
 
 Manifests use SPDX `license` metadata. Before packaging, the release checker
-stages identical copies of the single canonical notice document into the publishable
-package directories; explicit `include` entries keep them in each archive even
-though the copies are Git-ignored. The checker verifies their contents afterward.
+assembles `target/licenses/THIRD_PARTY_LICENSES.md` and stages identical standalone
+copies into the publishable package directories; explicit `include` entries keep
+them in each archive even though the copies are Git-ignored. The checker verifies their contents afterward.
 Use this checker before distributing archives or publishing. To stage copies
 before invoking Cargo packaging directly, run
 `python3 scripts/generate-licenses.py --sync-packages`.
@@ -103,7 +106,8 @@ check its build result before announcing the documentation as available.
 ## Release contents, when approved
 
 Prepare the publishable Cargo archives and native CLI/viewer/C ABI builds from the
-validated commit. Include `THIRD_PARTY_LICENSES.md` beside binaries; include the
+validated commit. Run `python3 scripts/generate-licenses.py --sync-packages` and
+include the generated `target/licenses/THIRD_PARTY_LICENSES.md` beside binaries; include the
 C API's `include/public/` headers for C consumers. The viewer carries its own
 demo assets and opens the sample picker without a path argument.
 

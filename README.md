@@ -171,7 +171,7 @@ tooling uses [MIT](LICENSE); adapted files retain their upstream notices.
 The viewer also credits Chromium's PDF viewer and PdfCraft's egui architecture
 and programmatic control approach.
 
-The consolidated [licenses and attributions](THIRD_PARTY_LICENSES.md) contain
-project links, versions, full license texts and notices for the Rust dependency
+The [license inventory](THIRD_PARTY_LICENSES.md) contains project links and
+versions, with links to full license texts and notices for the Rust dependency
 graph, derived code, bundled fonts, runtime and test oracles. Every Cargo archive
-includes that document. PDF/font fixtures retain their separate rights notices.
+includes a complete standalone copy. PDF/font fixtures retain their separate rights notices.

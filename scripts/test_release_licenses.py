@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Focused regression tests for the license inventory's completeness rules."""
+import hashlib
 import importlib.util
 import io
 import json
 from pathlib import Path
+import re
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -25,6 +27,74 @@ class LicenseInventoryTests(unittest.TestCase):
         second = inventory.add("Copyright Example\nPermission.\n", "https://b.example/LICENSE")
         self.assertEqual(first, second)
         self.assertEqual(len(inventory.texts[first]["sources"]), 2)
+
+    def notice_document(self, text):
+        digest = hashlib.sha256(text.encode()).hexdigest()[:16]
+        return (f"# Inventory\n\n[text](#notice-{digest})\n\n"
+                f'<!-- notice -->\n<a id="notice-{digest}"></a>\n'
+                f"### Notice {digest}\n\n"
+                "<!-- source: https://example.org/commit/LICENSE -->\n"
+                "Source: <https://example.org/commit/LICENSE>\n\n"
+                f"````text\n{text}````\n")
+
+    def test_split_round_trip_preserves_complete_text_sources_and_order(self):
+        # Include non-ASCII, indentation and blank lines across component boundaries.
+        text = "Collection preface\n\n" + "".join(
+            f"📦 package-{number}\n\nCopyright © Author {number}\n"
+            + "  Full license grant.\n" * 100 + "\n"
+            for number in range(4))
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            with patch.object(licenses, "ROOT", root), \
+                 patch.object(licenses, "DOCUMENT", root / "THIRD_PARTY_LICENSES.md"), \
+                 patch.object(licenses, "MAX_PAGE_BYTES", 5000):
+                files = licenses.split_document(self.notice_document(text))
+                licenses.sync_inventory(files)
+                inventory = licenses.Inventory()
+                self.assertEqual(inventory.previous,
+                                 {"https://example.org/commit/LICENSE": text})
+                self.assertTrue(list((root / licenses.NOTICE_DIR).glob("*-part-*.md")))
+                for path, content in files.items():
+                    self.assertLessEqual(len(content.encode()), 5000)
+                    for target in re.findall(r"\]\(([^)]+)\)", content):
+                        self.assertTrue((root / path.parent / target).is_file(), target)
+                licenses.sync_inventory(files, check=True)
+                # Missing parts fail instead of silently shortening a notice.
+                part = next((root / licenses.NOTICE_DIR).glob("*-part-*.md"))
+                original = part.read_text()
+                part.write_text(original.replace("Full license grant.", "Changed grant.", 1))
+                with self.assertRaisesRegex(ValueError, "hash mismatch"):
+                    licenses.Inventory()
+                part.unlink()
+                with self.assertRaises(FileNotFoundError):
+                    licenses.Inventory()
+
+    def test_split_rejects_an_oversized_indivisible_component(self):
+        with patch.object(licenses, "MAX_PAGE_BYTES", 5000):
+            with self.assertRaisesRegex(ValueError, "component boundary"):
+                licenses.split_document(self.notice_document("Copyright Author\n" * 500))
+
+    def test_check_detects_changed_missing_and_obsolete_notice_pages(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            with patch.object(licenses, "ROOT", root):
+                files = licenses.split_document(self.notice_document("Copyright Author\nGrant.\n"))
+                licenses.sync_inventory(files)
+                notice = next(path for path in files if path.parent == licenses.NOTICE_DIR)
+                (root / notice).write_text("Incomplete grant.\n")
+                with self.assertRaises(SystemExit):
+                    licenses.sync_inventory(files, check=True)
+                (root / notice).unlink()
+                with self.assertRaises(SystemExit):
+                    licenses.sync_inventory(files, check=True)
+                licenses.sync_inventory(files)
+                obsolete = root / licenses.NOTICE_DIR / "obsolete.md"
+                obsolete.write_text("Stale notice.\n")
+                with self.assertRaises(SystemExit):
+                    licenses.sync_inventory(files, check=True)
+                licenses.sync_inventory(files)
+                self.assertFalse(obsolete.exists())
+                licenses.sync_inventory(files, check=True)
 
     def test_full_fonts_are_discovered(self):
         for name in ("fonts/OFL.txt", "fonts/UFL.txt", "fonts/Hack-Regular.txt",

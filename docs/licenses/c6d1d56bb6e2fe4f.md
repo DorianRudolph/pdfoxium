@@ -1,0 +1,18 @@
+<!-- notice -->
+<a id="notice-c6d1d56bb6e2fe4f"></a>
+### Notice c6d1d56bb6e2fe4f
+
+<!-- source: https://docs.rs/crate/tiff/0.11.3/source/tests/COPYRIGHT -->
+Source: <https://docs.rs/crate/tiff/0.11.3/source/tests/COPYRIGHT>
+
+````text
+subsubifd.tif:
+  url: https://data.kitware.com/api/v1/file/hashsum/sha512/372ca32735c8a8fdbe2286dabead9e779da63f10ba81eda84625e5273f76d74ca1a47a978f67e9c00c12f7f72009c7b2c07a641e643bb0c463812f4ae7f15d6e/download
+  credit: https://github.com/DigitalSlideArchive/tifftools/commit/4d00c70dbce828262f86c1431f7c66b1748965ac
+  license: CC0
+usda/*.tif
+  url: https://registry.opendata.aws/naip/index.html
+  credit: NAIP on AWS was accessed on 2026-01-28 from https://registry.opendata.aws/naip.
+  license: Public Domain
+````
+

@@ -13,7 +13,7 @@ __pycache__/
 *.py[cod]
 .DS_Store
 *.mp4
-# Release tooling copies the single tracked license inventory into packages.
+# Release tooling assembles the tracked license inventory into standalone package copies.
 /crates/*/THIRD_PARTY_LICENSES.md
 /third_party/*/THIRD_PARTY_LICENSES.md
 /tests/capi/results/
