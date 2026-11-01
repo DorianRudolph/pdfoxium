@@ -556,7 +556,7 @@ Cargo.lock SHA-256: `7b3e3f5537120a7ddf883352d78bd33fd57caa01a8f86d3d03cde027aa9
 
 Engine translation, Foxit substitute fonts and CMap tables; baseline `f51279699cb59754d1f49aef10eb8e825fe56532`. Original per-file copyright notices remain in the source.
 
-[text](docs/licenses/1fe9dea718fbd75c.md), [text](docs/licenses/589d386f2a305e86.md)
+[text](docs/licenses/1fe9dea718fbd75c.md), [text](docs/licenses/da54f1d66cc17980.md)
 
 ### [Chromium](https://chromium.googlesource.com/chromium/src/)
 
