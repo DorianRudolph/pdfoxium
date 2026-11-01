@@ -1,0 +1,9 @@
+function	header	reason
+FPDF_SetPrintMode	fpdfview.h	Windows printer backend.
+FPDF_RenderPage	fpdfview.h	Windows HDC rendering backend.
+FPDF_RenderPageSkia	fpdfview.h	Unselected Skia canvas backend.
+FPDF_FFLDrawSkia	fpdf_formfill.h	Unselected Skia form-drawing backend.
+FPDF_GetRecommendedV8Flags	fpdfview.h	V8-specific configuration; production scripting uses Boa.
+FPDF_GetArrayBufferAllocatorSharedInstance	fpdfview.h	V8 allocator-pointer API; no corresponding Boa object.
+FSDK_SetTimeFunction	fpdf_ext.h	Legacy C test override hook intentionally excluded from the selected runtime.
+FSDK_SetLocaltimeFunction	fpdf_ext.h	Legacy C test override hook intentionally excluded from the selected runtime.

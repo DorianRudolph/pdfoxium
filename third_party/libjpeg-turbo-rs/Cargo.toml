@@ -1,0 +1,29 @@
+[package]
+include = ["src/**", "assets/**", "examples/**", "tests/**", "testdata/**", "include/**", "web/**", "build.rs", "Cargo.toml", "README.md", "LICENSE*", "UPSTREAM.md", "THIRD_PARTY_LICENSES.md", "!**/.DS_Store", "!**/__pycache__/**", "!**/*.py[cod]"]
+name = "pdfoxium-jpeg"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.87"
+description = "Pinned pure-Rust JPEG codec used by pdfoxium"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/DorianRudolph/pdfoxium"
+autotests = false
+autoexamples = false
+autobenches = false
+
+[lib]
+name = "libjpeg_turbo_rs"
+
+[features]
+default = ["std", "simd"]
+std = ["thiserror/std"]
+simd = []
+full-c-parity = []
+png = ["dep:png", "std"]
+
+[dependencies]
+thiserror = { version = "2", default-features = false }
+png = { version = "0.18", optional = true }
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(loom)'] }

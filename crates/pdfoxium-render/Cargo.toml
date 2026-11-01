@@ -1,0 +1,55 @@
+[package]
+include = ["src/**", "test/**", "README.md", "LICENSE*", "THIRD_PARTY_LICENSES.md", "SAFE_API.json", "UPSTREAM_TESTS.tsv", "!**/.DS_Store", "!**/__pycache__/**", "!**/*.py[cod]"]
+name = "pdfoxium-render"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/pdfoxium-render"
+keywords = ["pdf", "pdfium", "rendering", "text", "forms"]
+categories = ["graphics", "parsing"]
+license = "MIT AND BSD-3-Clause"
+description = "The pdfium-render safe API implemented directly on pdfoxium-core"
+
+[lib]
+name = "pdfium_render"
+
+[features]
+default = ["image"]
+image = ["image_api", "image_025"]
+image_api = ["dep:image"]
+image_025 = ["dep:image", "image_api"]
+# Compile browser declarations on a native host without executing JavaScript.
+browser-interface-check = ["dep:js-sys", "dep:web-sys", "dep:wasm-bindgen", "dep:wasm-bindgen-futures"]
+
+[dependencies]
+pdfoxium-core = { path = "../pdfoxium-core", version = "=0.1.0" }
+itertools = "0.15"
+bitflags = "2"
+chrono = "0.4"
+libloading = "0.9"
+vecmath = "1.0"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"], optional = true }
+
+js-sys = { version="0.3", optional=true }
+web-sys = { version="0.3", optional=true, features=["Window", "Blob", "Response", "ImageData"] }
+wasm-bindgen = { version="0.2", optional=true }
+wasm-bindgen-futures = { version="0.4", optional=true }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "0.3"
+web-sys = { version="0.3", features=["Window", "Blob", "Response", "ImageData"] }
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+
+[dev-dependencies]
+pdfoxium-diff = { path = "../pdfoxium-diff" }
+native_pdfium = { package = "pdfium-render", version = "=0.9.4", default-features = false, features = ["pdfium_latest"] }
+
+# Build the native public API on docs.rs without internal/profiling features.
+[package.metadata.docs.rs]
+default-target = "x86_64-unknown-linux-gnu"
+targets = []
+# Include the browser declarations; this is not a WASM engine build.
+features = ["browser-interface-check"]

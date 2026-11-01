@@ -1,0 +1,45 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.402
+pdfoxium
+Read, search, annotate and interact — powered by safe Rust
+
+00:00:01.402 --> 00:00:11.698
+Read and navigate
+Bookmarks, page previews, links and crisp zoom
+
+00:00:11.698 --> 00:00:18.285
+PDF layers
+Toggle map details without changing the document
+
+00:00:18.285 --> 00:00:25.760
+Find and select
+Search from the current page; copy continuous text selections
+
+00:00:25.760 --> 00:00:36.983
+Annotate and save
+Markup, notes, styled text and shapes — move, resize, save
+
+00:00:36.983 --> 00:00:43.371
+Edit the document
+Insert images, rotate pages and import another PDF
+
+00:00:43.371 --> 00:00:50.649
+Forms + JavaScript
+Type, choose and check — with live currency formatting
+
+00:00:50.649 --> 00:00:55.392
+Interactive XFA
+Real widgets, data binding and JavaScript actions
+
+00:00:55.392 --> 00:00:59.861
+Dynamic XFA
+Add rows; pages and live previews follow the new layout
+
+00:00:59.861 --> 00:01:06.192
+PDF animation
+Click to play and pause — JavaScript timers and live previews
+
+00:01:06.192 --> 00:01:07.704
+Try pdfoxium
+cargo run --release -p pdfoxium-viewer

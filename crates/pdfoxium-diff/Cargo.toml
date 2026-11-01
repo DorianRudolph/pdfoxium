@@ -1,0 +1,22 @@
+[package]
+name = "pdfoxium-diff"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+publish = false
+description = "Native PDFium comparison and benchmark tooling"
+rust-version.workspace = true
+repository.workspace = true
+
+[dependencies]
+pdfium-render = { version = "0.9.4", default-features = false, features = ["pdfium_latest"] }
+image = { version = "0.25.10", default-features = false, features = ["png"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+libloading = "0.9.0"
+flip-rs = { version = "=0.1.2", default-features = false }
+ureq = { version = "3.5.0", default-features = false, features = ["rustls", "platform-verifier"] }
+
+[dev-dependencies]
+pdfoxium-core = { path = "../pdfoxium-core", version = "=0.1.0" }
+

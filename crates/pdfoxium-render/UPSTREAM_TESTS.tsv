@@ -1,0 +1,82 @@
+upstream_file	test	status	reason
+bindings.rs	test_is_true	excluded	C binding truth/handle helpers; no C handles in this crate
+bindings.rs	test_get_handle_from_form	excluded	C binding truth/handle helpers; no C handles in this crate
+config.rs	user_font_paths_are_kept_alive_and_null_terminated	excluded	Native C library configuration and null-terminated pointer lifetimes; no C library in this crate
+config.rs	empty_user_font_paths_use_a_null_pointer	excluded	Native C library configuration and null-terminated pointer lifetimes; no C library in this crate
+lib.rs	test_readme_example	ported	Original interface and assertions; safe test initialization adapted
+lib.rs	test_dynamic_bindings	ported	Original interface and assertions; safe test initialization adapted
+lib.rs	test_static_bindings	excluded	Native static library binding compilation; no native library in production
+lib.rs	test_reader_lifetime	ported	Original interface and assertions; safe test initialization adapted
+pdf/bitmap.rs	test_from_bytes	ported	Original interface and assertions; safe test initialization adapted
+pdf/bitmap.rs	test_from_bytes_errors	ported	Original interface and assertions; safe test initialization adapted
+pdf/bitmap.rs	test_from_bytes_unchecked	excluded	Unsafe unchecked bitmap constructor; checked borrowed-buffer constructor tested instead
+pdf/bitmap.rs	test_preferred_stride_bytes	ported	Original interface and assertions; safe test initialization adapted
+pdf/bitmap.rs	test_bytes_required_for_size_and_format	ported	Original interface and assertions; safe test initialization adapted
+pdf/color.rs	test_from_hex	ported	Original interface and assertions; safe test initialization adapted
+pdf/color.rs	test_to_hex	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/bookmark.rs	test_bookmarks	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/metadata.rs	test_modification_date	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/annotation/private.rs	test_get_annotation_flags	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/annotation/private.rs	test_set_annotation_flags	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/annotation/private.rs	test_update_one_annotation_flag	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/field/private.rs	test_get_form_field_flags	ported	Public safe scenario; corrected upstream DoNotSpellCheck bit-23 bug to PDF bit 22; scrolling independence regression added
+pdf/document/page/field/private.rs	test_set_form_field_flags	ported	Public safe scenario; corrected upstream DoNotSpellCheck bit-23 bug to PDF bit 22; scrolling independence regression added
+pdf/document/page/field/private.rs	test_update_one_form_field_flag	ported	Public safe scenario; corrected upstream DoNotSpellCheck bit-23 bug to PDF bit 22; scrolling independence regression added
+pdf/document/page/index_cache.rs	test_cache_instantiation	excluded	Private global cache indexed by C pointers; adapter uses document-owned page identities tested for insertion/import/deletion
+pdf/document/page/index_cache.rs	test_get_and_set_index_for_page	excluded	Private global cache indexed by C pointers; adapter uses document-owned page identities tested for insertion/import/deletion
+pdf/document/page/index_cache.rs	test_get_invalid_page	excluded	Private global cache indexed by C pointers; adapter uses document-owned page identities tested for insertion/import/deletion
+pdf/document/page/index_cache.rs	test_insert_pages_at_index	excluded	Private global cache indexed by C pointers; adapter uses document-owned page identities tested for insertion/import/deletion
+pdf/document/page/index_cache.rs	test_delete_pages_at_index	excluded	Private global cache indexed by C pointers; adapter uses document-owned page identities tested for insertion/import/deletion
+pdf/document/page/index_cache.rs	test_pathological_delete_all_pages	excluded	Private global cache indexed by C pointers; adapter uses document-owned page identities tested for insertion/import/deletion
+pdf/document/page/index_cache.rs	count_for_document_isolates_entries_by_document_handle	excluded	Private global cache indexed by C pointers; adapter uses document-owned page identities tested for insertion/import/deletion
+pdf/document/page/index_cache.rs	document_scoped_counts_isolate_across_live_documents	excluded	Private global cache indexed by C pointers; adapter uses document-owned page identities tested for insertion/import/deletion
+pdf/document/page/index_cache.rs	parallel_document_scoped_counts_do_not_abort	excluded	Private global cache indexed by C pointers; adapter uses document-owned page identities tested for insertion/import/deletion
+pdf/document/page/index_cache.rs	failed_document_scoped_assertion_does_not_poison_the_cache_mutex	excluded	Private global cache indexed by C pointers; adapter uses document-owned page identities tested for insertion/import/deletion
+pdf/document/page/object/group.rs	test_group_bounds	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object/group.rs	test_group_text	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object/group.rs	test_group_apply	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object/image.rs	test_page_image_object_retains_format	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object/image.rs	test_image_scaling_keeps_aspect_ratio	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object/private.rs	test_object_get_translation	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object/private.rs	test_object_get_scale	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object/private.rs	test_object_get_rotation	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object/private.rs	test_object_get_skew	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object.rs	test_apply_matrix	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object.rs	test_reset_matrix_to_identity	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/object.rs	test_transform_captured_in_content_regeneration	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/paragraph.rs	test_paragraph_construction	excluded	Private, unexported experimental paragraph diagnostic; not in upstream prelude and contains no assertions
+pdf/document/page/render_config.rs	test_set_origin_default_settings_zero	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/render_config.rs	test_set_origin_negative_offsets_pass_through	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/render_config.rs	test_set_origin_positive_offsets_pass_through	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/render_config.rs	test_set_origin_strips_stitch_to_full_page	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/render_config.rs	test_fixed_size_render_config	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/render_config.rs	test_target_size_render_config	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/render_config.rs	test_matrix_path_matches_form_path_for_each_intrinsic_rotation	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/render_config.rs	test_matrix_path_strip_stitch_matches_full_render	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/text.rs	test_overlapping_chars_results	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/text.rs	test_text_chars_results_equality	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page/text.rs	test_text_segment_chars_char_lifetimes	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page.rs	test_page_rendering_reusing_bitmap	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/page.rs	test_rendered_image_dimension	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/pages.rs	test_page_size	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/pages.rs	test_page_sizes	ported	Original interface and assertions; safe test initialization adapted
+pdf/document/pages.rs	copy_page_range_from_document	ported	Original interface and assertions; safe test initialization adapted
+pdf/link.rs	test_link_rect	ported	Original interface and assertions; safe test initialization adapted
+pdf/matrix.rs	test_matrix_apply_to_points	ported	Original interface and assertions; safe test initialization adapted
+pdf/path/segment.rs	test_point_transform	ported	Original interface and assertions; safe test initialization adapted
+pdf/path/segment.rs	test_point_transform_during_iteration	ported	Original interface and assertions; safe test initialization adapted
+pdf/points.rs	test_points_ordering	ported	Original interface and assertions; safe test initialization adapted
+pdf/quad_points.rs	test_quadpoints_extents	ported	Original interface and assertions; safe test initialization adapted
+pdf/quad_points.rs	test_quadpoints_to_rect	ported	Original interface and assertions; safe test initialization adapted
+pdf/rect.rs	test_rect_is_inside	ported	Original interface and assertions; safe test initialization adapted
+pdf/rect.rs	test_rect_does_overlap	ported	Original interface and assertions; safe test initialization adapted
+pdf/rect.rs	test_transform_rect	ported	Original interface and assertions; safe test initialization adapted
+pdf/rect.rs	test_coordinate_space_order_guard	ported	Original interface and assertions; safe test initialization adapted
+utils.rs	test_unaligned_bgr_to_rgba	excluded	Private upstream utilities; this adapter uses core text decoding and its own stride-aware pixels, not these helpers
+utils.rs	test_aligned_bgr_to_rgba	excluded	Private upstream utilities; this adapter uses core text decoding and its own stride-aware pixels, not these helpers
+utils.rs	test_bgra_to_rgba	excluded	Private upstream utilities; this adapter uses core text decoding and its own stride-aware pixels, not these helpers
+utils.rs	test_rgb_to_bgra	excluded	Private upstream utilities; this adapter uses core text decoding and its own stride-aware pixels, not these helpers
+utils.rs	test_rgba_to_bgra	excluded	Private upstream utilities; this adapter uses core text decoding and its own stride-aware pixels, not these helpers
+utils.rs	test_aligned_grayscale_to_unaligned	excluded	Private upstream utilities; this adapter uses core text decoding and its own stride-aware pixels, not these helpers
+utils.rs	test_date_time_to_pdf_date_string	excluded	Private upstream utilities; this adapter uses core text decoding and its own stride-aware pixels, not these helpers
+utils.rs	test_valid_utf16le_from_emoji	excluded	Private upstream utilities; this adapter uses core text decoding and its own stride-aware pixels, not these helpers

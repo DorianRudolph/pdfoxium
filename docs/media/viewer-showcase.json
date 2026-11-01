@@ -1,0 +1,58 @@
+{
+  "duration_seconds": 67.70445591612952,
+  "size": [
+    1280,
+    880
+  ],
+  "fps": 24,
+  "source_frames": 524,
+  "actual_capture_fps": 7.7395201380706355,
+  "bytes": 986560,
+  "setup_cut_seconds": 32.42625579185551,
+  "chapters": [
+    {
+      "time": 0.0002151249791495502,
+      "title": "pdfoxium"
+    },
+    {
+      "time": 1.4017187080462463,
+      "title": "Read and navigate"
+    },
+    {
+      "time": 11.698019041097723,
+      "title": "PDF layers"
+    },
+    {
+      "time": 18.284859167120885,
+      "title": "Find and select"
+    },
+    {
+      "time": 25.75967229210073,
+      "title": "Annotate and save"
+    },
+    {
+      "time": 36.98288079316262,
+      "title": "Edit the document"
+    },
+    {
+      "time": 43.371390292129945,
+      "title": "Forms + JavaScript"
+    },
+    {
+      "time": 50.64884095918387,
+      "title": "Interactive XFA"
+    },
+    {
+      "time": 55.39248425018741,
+      "title": "Dynamic XFA"
+    },
+    {
+      "time": 59.86106979113538,
+      "title": "PDF animation"
+    },
+    {
+      "time": 66.19210233312333,
+      "title": "Try pdfoxium"
+    }
+  ]
+}

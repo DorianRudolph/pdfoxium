@@ -1,0 +1,109 @@
+name: Build and release checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          persist-credentials: false
+      - name: Linux build and headless viewer dependencies
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libclang-dev libxkbcommon-dev libwayland-dev libvulkan1 mesa-vulkan-drivers xvfb python3-pil
+      - name: Rust
+        run: |
+          rustup update stable --no-self-update
+          rustup default stable
+          rustup component add rustfmt
+      - run: cargo fmt --all --check
+      - run: python3 scripts/check-compiler-warnings.py
+      - run: python3 scripts/check-release.py
+      - run: python3 scripts/test_release_licenses.py
+      - run: python3 scripts/audit-capi-tests.py --check
+      - run: python3 scripts/audit-unit-tests.py --check
+      - name: API, viewer and CLI tests
+        run: cargo test --locked -p pdfoxium -p pdfoxium-viewer -p pdfoxium-cli
+      - name: Codec regressions
+        run: cargo test --locked -p pdfoxium-ccitt -p pdfoxium-jbig2 -p pdfoxium-jpeg2000 -p pdfoxium-jpeg --lib
+      - name: C ABI comparisons
+        shell: bash
+        run: |
+          python3 scripts/download-pdfium.py
+          cargo build --locked -p pdfoxium-capi
+          cmake -S tests/capi -B target/capi -DCMAKE_BUILD_TYPE=Release
+          cmake --build target/capi --parallel 3
+          if [[ "$RUNNER_OS" == macOS ]]; then
+            export PDFOXIUM_NATIVE_LIBRARY="$PWD/vendor/pdfium/chromium-8100/mac-arm64/libpdfium.dylib"
+            export PDFOXIUM_RUST_LIBRARY="$PWD/target/debug/libpdfoxium_capi.dylib"
+          else
+            export PDFOXIUM_NATIVE_LIBRARY="$PWD/vendor/pdfium/chromium-8100/linux-x64/libpdfium.so"
+            export PDFOXIUM_RUST_LIBRARY="$PWD/target/debug/libpdfoxium_capi.so"
+          fi
+          target/capi/pdfoxium_capi_tests --gtest_filter='Smoke.*:Imports.*:CoverageBarcodeBoundaries.*:CoverageFontFacePaths.*'
+      - name: Viewer demo control smoke (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cargo build --locked -p pdfoxium-viewer
+          xvfb-run -a python3 scripts/smoke-viewer-demo.py --binary target/debug/pdfoxium-viewer --output target/release-smoke/demo
+      - name: Local package verification
+        if: runner.os == 'Linux'
+        run: python3 scripts/check-release.py --package
+
+  minimum-rust:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          persist-credentials: false
+      - run: sudo apt-get update && sudo apt-get install -y libclang-dev libxkbcommon-dev libwayland-dev
+      - run: rustup toolchain install 1.95.0 --profile minimal
+      - run: cargo +1.95.0 check --workspace --all-targets --locked
+
+  features:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        features: ['', js, xfa, 'simd,xfa']
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          persist-credentials: false
+      - run: sudo apt-get update && sudo apt-get install -y libclang-dev
+      - run: rustup update stable --no-self-update && rustup default stable
+      - run: cargo check --locked -p pdfoxium -p pdfoxium-capi --no-default-features --features '${{ matrix.features }}'
+
+  wasm:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - run: rustup toolchain install nightly-2026-10-29 --profile minimal --component rust-src
+      - run: cargo install wasm-bindgen-cli --version 0.2.130 --locked
+      - run: python3 scripts/check-compiler-warnings.py --wasm
+      - run: scripts/build-viewer-wasm.sh --features web-test

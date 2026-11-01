@@ -1,0 +1,3 @@
+[submodule "upstream/pdfium"]
+	path = upstream/pdfium
+	url = https://pdfium.googlesource.com/pdfium.git

@@ -1,0 +1,22 @@
+[workspace]
+members = [
+    "crates/pdfoxium-core",
+    "crates/pdfoxium-render",
+    "crates/pdfoxium",
+    "crates/pdfoxium-capi",
+    "crates/pdfoxium-diff",
+    "crates/pdfoxium-cli",
+    "crates/pdfoxium-viewer",
+    "third_party/hayro-ccitt",
+    "third_party/hayro-jbig2",
+    "third_party/hayro-jpeg2000",
+    "third_party/libjpeg-turbo-rs",
+    "third_party/moxcms",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+rust-version = "1.95"
+repository = "https://github.com/DorianRudolph/pdfoxium"

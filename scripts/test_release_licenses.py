@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+"""Focused regression tests for the license inventory's completeness rules."""
+import importlib.util
+import io
+import json
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+
+SCRIPT = Path(__file__).with_name("generate-licenses.py")
+spec = importlib.util.spec_from_file_location("licenses", SCRIPT)
+licenses = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(licenses)
+warning_spec = importlib.util.spec_from_file_location(
+    "warnings_gate", SCRIPT.with_name("check-compiler-warnings.py"))
+warnings_gate = importlib.util.module_from_spec(warning_spec)
+warning_spec.loader.exec_module(warnings_gate)
+
+
+class LicenseInventoryTests(unittest.TestCase):
+    def test_identical_text_keeps_every_source(self):
+        inventory = licenses.Inventory()
+        first = inventory.add("Copyright Example\r\nPermission.\r\n", "https://a.example/LICENSE")
+        second = inventory.add("Copyright Example\nPermission.\n", "https://b.example/LICENSE")
+        self.assertEqual(first, second)
+        self.assertEqual(len(inventory.texts[first]["sources"]), 2)
+
+    def test_full_fonts_are_discovered(self):
+        for name in ("fonts/OFL.txt", "fonts/UFL.txt", "fonts/Hack-Regular.txt",
+                     "fonts/emoji-icon-font-mit-license.txt", "LICENSE-OPENJPEG-DWT"):
+            self.assertTrue(licenses.license_path(Path(name)), name)
+        self.assertFalse(licenses.license_path(Path("fonts/Ubuntu-Light.ttf")))
+
+    def test_missing_new_license_fails_instead_of_substituting_spdx(self):
+        with tempfile.TemporaryDirectory() as folder:
+            package = {"name": "new-dependency", "version": "1.0.0", "license": "MIT",
+                       "manifest_path": str(Path(folder) / "Cargo.toml"),
+                       "repository": "https://github.com/example/new-dependency", "source": "registry"}
+            with self.assertRaisesRegex(ValueError, "Missing original license source"):
+                licenses.Inventory().package(package)
+
+    def test_previous_document_reuses_exact_immutable_text(self):
+        with tempfile.TemporaryDirectory() as folder:
+            document = Path(folder) / "licenses.md"
+            document.write_text("<!-- notice -->\n<!-- source: https://example.org/commit/LICENSE -->\n"
+                                "````text\nCopyright Example\nFull grant.\n````\n")
+            with patch.object(licenses, "DOCUMENT", document):
+                inventory = licenses.Inventory()
+                digest = inventory.remote("https://example.org/commit/LICENSE")
+            self.assertEqual(inventory.texts[digest]["text"], "Copyright Example\nFull grant.\n")
+
+    def test_runtime_html_keeps_notice_and_project_links(self):
+        parser = licenses.NoticeHTML()
+        parser.feed('<p>Copyright Authors</p><pre>Full permission\n  notice.</pre>'
+                    '<a href="https://example.org/project">Dependency</a>')
+        text = parser.text()
+        self.assertIn("Copyright Authors", text)
+        self.assertIn("Full permission\n  notice.", text)
+        self.assertIn("https://example.org/project", text)
+
+    def test_html_error_pages_are_rejected(self):
+        with self.assertRaisesRegex(ValueError, "Not a license text"):
+            licenses.Inventory().add("<html>Not found</html>", "https://example.org/LICENSE")
+
+    def test_package_staging_preserves_notices_and_skips_private_tools(self):
+        with tempfile.TemporaryDirectory() as folder:
+            package = Path(folder) / "public"
+            package.mkdir()
+            metadata = {"packages": [
+                {"manifest_path": str(package / "Cargo.toml"), "publish": None},
+                {"manifest_path": str(Path(folder) / "private/Cargo.toml"), "publish": []},
+            ]}
+            text = "Copyright Example — original notice\nFull grant.\n"
+            with patch.object(licenses.subprocess, "check_output", return_value=json.dumps(metadata).encode()):
+                licenses.sync_packages(text)
+            self.assertEqual((package / licenses.DOCUMENT.name).read_bytes(), text.encode())
+            self.assertFalse((Path(folder) / "private" / licenses.DOCUMENT.name).exists())
+
+
+class ManifestWarningTests(unittest.TestCase):
+    def status(self, stderr, returncode=0):
+        result = warnings_gate.subprocess.CompletedProcess([], returncode, "{}", stderr)
+        with patch.object(warnings_gate.subprocess, "run", return_value=result), \
+             patch.object(warnings_gate.sys, "stderr", io.StringIO()):
+            return warnings_gate.check_manifests()
+
+    def test_manifest_warning_fails_even_when_cargo_succeeds(self):
+        self.assertEqual(self.status("warning: only one of `license` or `license-file` is necessary\n"), 1)
+
+    def test_clean_metadata_passes(self):
+        self.assertEqual(self.status(""), 0)
+
+    def test_cargo_failure_is_preserved(self):
+        self.assertEqual(self.status("error: invalid manifest\n", 101), 101)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,2 @@
+# PDF offsets and stream lengths depend on unchanged bytes.
+*.pdf binary

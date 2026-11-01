@@ -1,0 +1,2 @@
+# Keep upstream PDF fixtures byte-for-byte, including xref whitespace and offsets.
+test/*.pdf binary

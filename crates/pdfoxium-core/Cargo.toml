@@ -1,0 +1,58 @@
+[package]
+include = ["src/**", "assets/**", "examples/**", "tests/**", "testdata/**", "include/**", "web/**", "build.rs", "Cargo.toml", "README.md", "LICENSE*", "UPSTREAM.md", "THIRD_PARTY_LICENSES.md", "!**/.DS_Store", "!**/__pycache__/**", "!**/*.py[cod]"]
+name = "pdfoxium-core"
+version = "0.1.0"
+edition.workspace = true
+license = "BSD-3-Clause"
+description = "Safe Rust PDF engine derived from PDFium"
+rust-version.workspace = true
+repository.workspace = true
+
+[features]
+default = ["simd", "xfa"]
+js = ["dep:boa_engine", "dep:boa_gc"]
+xfa = ["js"]
+render-profile = []
+simd = ["dep:fearless_simd", "libjpeg-turbo-rs/simd"]
+# Scalar full-function builds: --no-default-features --features xfa.
+# Compatibility alias; JPEG reduction now uses scaled IDCT.
+jpeg-box-simd = ["simd"]
+
+[dependencies]
+boa_engine = { version = "=0.22.0", default-features = false, features = ["annex-b"], optional = true }
+boa_gc = { version = "=0.22.0", optional = true }
+aes = "0.9.3"
+brotli-decompressor = "6.2.0"
+hayro-ccitt = { package = "pdfoxium-ccitt", path = "../../third_party/hayro-ccitt", version = "=0.1.0" }
+hayro-jbig2 = { package = "pdfoxium-jbig2", path = "../../third_party/hayro-jbig2", version = "=0.1.0" }
+hayro-jpeg2000 = { package = "pdfoxium-jpeg2000", path = "../../third_party/hayro-jpeg2000", version = "=0.1.0" }
+fearless_simd = { version = "=1.2.0", optional = true }
+icu_casemap = "=2.3.0"
+kurbo = "0.13.1"
+moxcms = { package = "pdfoxium-moxcms", path = "../../third_party/moxcms", version = "=0.1.0", features = ["options", "any_to_any"] }
+png = "0.18.1"
+tiff = { version = "0.11.3", default-features = false, features = ["deflate", "fax", "jpeg", "lzw"] }
+read-fonts = { version = "0.46.0", features = ["agl"] }
+# Published pure Rust subsetting with the same Fontations types as rendering.
+skera = "=0.9.0"
+sha1 = "0.11.0"
+sha2 = "0.11.1"
+skrifa = "0.49.0"
+stable_deref_trait = "1.2.1"
+# The evaluated pure-Rust snapshot; see its UPSTREAM.md for source revision.
+libjpeg-turbo-rs = { package = "pdfoxium-jpeg", path = "../../third_party/libjpeg-turbo-rs", version = "=0.1.0", default-features = false, features = ["std"] }
+# Raw two-component DeviceN JPEGs are not supported by libjpeg-turbo-rs.
+zune-jpeg = "=0.5.15"
+yoke = { version = "0.8.4", features = ["derive"] }
+unicode-bidi = "0.3.18"
+unicode-general-category = "1.1.0"
+zlib-rs = { version = "0.6.8", default-features = false, features = ["std"] }
+
+[dev-dependencies]
+# Existing inflate-comparison example; not part of the production engine.
+miniz_oxide = "0.9.1"
+
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+boa_engine = { version = "=0.22.0", default-features = false, features = ["js"], optional = true }
+web-time = "1.1.0"

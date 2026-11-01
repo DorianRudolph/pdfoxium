@@ -1,0 +1,715 @@
+// libjpeg-turbo-rs: alloc prelude (no_std support, issue #356)
+#[allow(unused_imports)]
+use alloc::vec::Vec;
+/// JPEG color spaces.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ColorSpace {
+    Grayscale,
+    YCbCr,
+    Rgb,
+    Cmyk,
+    Ycck,
+    /// Unknown / pass-through colorspace (no color conversion).
+    /// Matches libjpeg's `JCS_UNKNOWN`.
+    Unknown,
+}
+
+impl ColorSpace {
+    /// Classify a JPEG source the way libjpeg's `default_decompress_parms`
+    /// (`jdapimin.c:137`) does when the first SOS is reached.
+    ///
+    /// `saw_jfif_marker` and `adobe_transform` must be the marker state
+    /// *at that point*, not of the whole stream: libjpeg classifies once and
+    /// markers between later scans never change `jpeg_color_space`. For
+    /// three components a JFIF marker wins, then the Adobe transform byte
+    /// (0 = RGB, anything else = YCbCr — libjpeg warns on codes other than
+    /// 0/1 and still assumes YCbCr), then the component IDs (`'R','G','B'`
+    /// = RGB; lossless streams default to RGB, everything else to YCbCr).
+    /// Four components are CMYK unless Adobe says otherwise (0 = CMYK,
+    /// anything else = YCCK, with the same "assume" fallback for unknown
+    /// codes). Any other count is `Unknown`.
+    pub(crate) fn classify_source(
+        num_components: usize,
+        saw_jfif_marker: bool,
+        adobe_transform: Option<u8>,
+        component_ids: &[u8],
+        is_lossless: bool,
+    ) -> ColorSpace {
+        match num_components {
+            1 => ColorSpace::Grayscale,
+            3 => {
+                if saw_jfif_marker {
+                    ColorSpace::YCbCr
+                } else if let Some(transform) = adobe_transform {
+                    if transform == 0 {
+                        ColorSpace::Rgb
+                    } else {
+                        ColorSpace::YCbCr
+                    }
+                } else if component_ids == b"RGB" || is_lossless {
+                    ColorSpace::Rgb
+                } else {
+                    ColorSpace::YCbCr
+                }
+            }
+            4 => match adobe_transform {
+                Some(0) | None => ColorSpace::Cmyk,
+                Some(_) => ColorSpace::Ycck,
+            },
+            _ => ColorSpace::Unknown,
+        }
+    }
+
+    pub fn num_components(self) -> usize {
+        match self {
+            Self::Grayscale => 1,
+            Self::YCbCr | Self::Rgb => 3,
+            Self::Cmyk | Self::Ycck => 4,
+            // Warning: returns 3 for `Unknown`. Callers processing unknown
+            // colorspaces should use `FrameHeader::components.len()` instead.
+            Self::Unknown => 3,
+        }
+    }
+}
+
+/// Chroma subsampling modes.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Subsampling {
+    /// 4:4:4 — no subsampling
+    S444,
+    /// 4:2:2 — horizontal 2x, vertical 1x
+    S422,
+    /// 4:2:0 — horizontal 2x, vertical 2x
+    S420,
+    /// 4:4:0 — horizontal 1x, vertical 2x
+    S440,
+    /// 4:1:1 — horizontal 4x, vertical 1x
+    S411,
+    /// 4:4:1 — horizontal 1x, vertical 4x
+    S441,
+    /// 4:1:0 — horizontal 4x, vertical 2x (TJSAMP_410, libjpeg-turbo 3.x).
+    S410,
+    /// 2:4 — horizontal 2x, vertical 4x (TJSAMP_24, libjpeg-turbo 3.x).
+    S24,
+    /// Unknown / non-standard subsampling factors.
+    /// Matches libjpeg's `TJSAMP_UNKNOWN`.
+    Unknown,
+}
+
+impl Subsampling {
+    /// The `TJSAMP_*` integer for this mode.
+    ///
+    /// One definition, because two would drift: the TJ3 parameter accessor and
+    /// the legacy `tjTransform` size bridge (P4-151) both need it, and the
+    /// bridge lives in a different crate. `Unknown` maps to `TJSAMP_444`,
+    /// which never *under*-states a bound you are about to allocate.
+    ///
+    /// Callers using the result as a **capacity to trust** need more care: a
+    /// grayscale image probes as `Unknown`, and 4:4:4 over-states it, so a
+    /// buffer sized `TJSAMP_GRAY` would be overrun. Decide grayscale from the
+    /// component count before calling this — see the legacy `tjTransform`
+    /// bridge, which does.
+    ///
+    /// Note `TJSAMP_GRAY` (3) is absent: grayscale is not a variant here, and a
+    /// transform that forces it applies `TJXOPT_GRAY` to the *result*, which
+    /// the caller handles.
+    pub fn to_tjsamp(self) -> i32 {
+        match self {
+            Subsampling::S444 => 0,
+            Subsampling::S422 => 1,
+            Subsampling::S420 => 2,
+            Subsampling::S440 => 4,
+            Subsampling::S411 => 5,
+            Subsampling::S441 => 6,
+            Subsampling::S410 => 7,
+            Subsampling::S24 => 8,
+            Subsampling::Unknown => 0,
+        }
+    }
+
+    /// Max horizontal sampling factor (luma blocks per MCU row).
+    pub fn mcu_width_blocks(self) -> usize {
+        match self {
+            Self::S444 | Self::S440 | Self::S441 | Self::Unknown => 1,
+            Self::S422 | Self::S420 | Self::S24 => 2,
+            Self::S411 | Self::S410 => 4,
+        }
+    }
+
+    /// Max vertical sampling factor (luma blocks per MCU column).
+    pub fn mcu_height_blocks(self) -> usize {
+        match self {
+            Self::S444 | Self::S422 | Self::S411 | Self::Unknown => 1,
+            Self::S420 | Self::S440 | Self::S410 => 2,
+            Self::S441 | Self::S24 => 4,
+        }
+    }
+
+    /// Returns (h_sampling_factor, v_sampling_factor) for SOF component definitions.
+    pub fn sampling_factors(self) -> (u8, u8) {
+        match self {
+            Self::S444 | Self::Unknown => (1, 1),
+            Self::S422 => (2, 1),
+            Self::S420 => (2, 2),
+            Self::S440 => (1, 2),
+            Self::S411 => (4, 1),
+            Self::S441 => (1, 4),
+            Self::S410 => (4, 2),
+            Self::S24 => (2, 4),
+        }
+    }
+}
+
+/// DCT/IDCT algorithm selection.
+///
+/// Controls which forward DCT algorithm the encoder uses. All three methods
+/// produce valid JPEG output that any decoder can read. They differ in speed
+/// and accuracy trade-offs, matching libjpeg-turbo's `JDCT_ISLOW`, `JDCT_IFAST`,
+/// and `JDCT_FLOAT`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum DctMethod {
+    /// Accurate integer DCT (default). Uses 13-bit fixed-point arithmetic.
+    /// Matches libjpeg-turbo's `JDCT_ISLOW`.
+    #[default]
+    IsLow,
+    /// Fast integer DCT with reduced accuracy. Uses 8-bit fixed-point arithmetic
+    /// and the AA&N (Arai, Agui, Nakajima) algorithm with only 5 multiplies.
+    /// Matches libjpeg-turbo's `JDCT_IFAST`.
+    IsFast,
+    /// Floating-point DCT. Uses f64 arithmetic and the AA&N algorithm.
+    /// Matches libjpeg-turbo's `JDCT_FLOAT`.
+    Float,
+}
+
+/// Output pixel formats.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum PixelFormat {
+    Grayscale,
+    Rgb,
+    Rgba,
+    Bgr,
+    Bgra,
+    /// Raw CMYK output (4 bytes per pixel: C, M, Y, K).
+    Cmyk,
+    /// RGB + padding byte (4bpp, padding ignored).
+    Rgbx,
+    /// BGR + padding byte (4bpp, padding ignored).
+    Bgrx,
+    /// Padding + RGB (4bpp, padding byte first).
+    Xrgb,
+    /// Padding + BGR (4bpp, padding byte first).
+    Xbgr,
+    /// Alpha + RGB (4bpp, alpha byte first).
+    Argb,
+    /// Alpha + BGR (4bpp, alpha byte first).
+    Abgr,
+    /// 5-6-5 packed RGB (2bpp, decode output only).
+    Rgb565,
+}
+
+impl PixelFormat {
+    pub fn bytes_per_pixel(self) -> usize {
+        match self {
+            Self::Grayscale => 1,
+            Self::Rgb565 => 2,
+            Self::Rgb | Self::Bgr => 3,
+            Self::Rgba
+            | Self::Bgra
+            | Self::Cmyk
+            | Self::Rgbx
+            | Self::Bgrx
+            | Self::Xrgb
+            | Self::Xbgr
+            | Self::Argb
+            | Self::Abgr => 4,
+        }
+    }
+
+    /// Channel byte offset for red within one pixel.
+    /// Returns `None` for Grayscale, Cmyk, and Rgb565.
+    pub fn red_offset(self) -> Option<usize> {
+        match self {
+            Self::Rgb | Self::Rgba | Self::Rgbx => Some(0),
+            Self::Bgr | Self::Bgra | Self::Bgrx => Some(2),
+            Self::Xrgb | Self::Argb => Some(1),
+            Self::Xbgr | Self::Abgr => Some(3),
+            _ => None,
+        }
+    }
+
+    /// Channel byte offset for green within one pixel.
+    /// Returns `None` for Grayscale, Cmyk, and Rgb565.
+    pub fn green_offset(self) -> Option<usize> {
+        match self {
+            Self::Rgb | Self::Rgba | Self::Rgbx => Some(1),
+            Self::Bgr | Self::Bgra | Self::Bgrx => Some(1),
+            Self::Xrgb | Self::Argb => Some(2),
+            Self::Xbgr | Self::Abgr => Some(2),
+            _ => None,
+        }
+    }
+
+    /// Channel byte offset for blue within one pixel.
+    /// Returns `None` for Grayscale, Cmyk, and Rgb565.
+    pub fn blue_offset(self) -> Option<usize> {
+        match self {
+            Self::Rgb | Self::Rgba | Self::Rgbx => Some(2),
+            Self::Bgr | Self::Bgra | Self::Bgrx => Some(0),
+            Self::Xrgb | Self::Argb => Some(3),
+            Self::Xbgr | Self::Abgr => Some(1),
+            _ => None,
+        }
+    }
+}
+
+/// Information about a single image component (Y, Cb, or Cr).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ComponentInfo {
+    /// Component identifier (1=Y, 2=Cb, 3=Cr per JFIF).
+    pub id: u8,
+    /// Horizontal sampling factor (1-4).
+    pub horizontal_sampling: u8,
+    /// Vertical sampling factor (1-4).
+    pub vertical_sampling: u8,
+    /// Index into the quantization table array.
+    pub quant_table_index: u8,
+}
+
+/// Maximum number of frame/scan components the decoder supports.
+///
+/// `read_sof` / `read_sos` reject anything above this, which is what
+/// lets the decode path use fixed `[_; MAX_COMPONENTS]` arrays instead
+/// of per-decode Vecs (issue #351).
+///
+/// For **scans** this is exactly the spec limit: ISO 10918-1 B.2.3 caps
+/// `Ns ≤ 4`, and C's `MAX_COMPS_IN_SCAN` (`jpeglib.h:71`) is likewise 4.
+/// For **frames** it is deliberately stricter than C: ISO 10918-1 B.2.2
+/// allows `Nf ≤ 255` and C caps frame components at `MAX_COMPONENTS`
+/// = 10 (`jmorecfg.h:30`, enforced in `jdinput.c:74` with
+/// `JERR_COMPONENT_COUNT`). No real-world colour model needs more than
+/// 4 (YCbCr / YCCK / CMYK), and a 5+-component SOF that C would accept
+/// is rejected here — a known, intentional divergence, not spec parity.
+pub const MAX_COMPONENTS: usize = 4;
+
+/// Parsed from the SOF marker — describes the image frame.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct FrameHeader {
+    /// Sample precision in bits (8 for Baseline).
+    pub precision: u8,
+    /// Image height in pixels.
+    pub height: u16,
+    /// Image width in pixels.
+    pub width: u16,
+    /// Per-component info.
+    pub components: Vec<ComponentInfo>,
+    /// True for SOF2 (progressive DCT).
+    pub is_progressive: bool,
+    /// True for SOF3 (lossless Huffman-coded).
+    pub is_lossless: bool,
+}
+
+impl FrameHeader {
+    /// Image width as `usize`, so callers stop casting the raw `u16`
+    /// field at every use site (issue #386). Shadows the `width` field
+    /// by name — safe, since the field is `u16` and this is `usize`,
+    /// so mixing them up is a type error.
+    #[must_use]
+    #[inline]
+    pub fn width(&self) -> usize {
+        usize::from(self.width)
+    }
+
+    /// Image height as `usize` (issue #386); same field-shadowing note
+    /// as [`FrameHeader::width`].
+    #[must_use]
+    #[inline]
+    pub fn height(&self) -> usize {
+        usize::from(self.height)
+    }
+
+    /// `(width, height)` as `usize`, for destructuring (issue #386).
+    #[must_use]
+    #[inline]
+    pub fn dimensions(&self) -> (usize, usize) {
+        (self.width(), self.height())
+    }
+}
+
+/// Parsed from the SOS marker — describes one scan.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ScanHeader {
+    /// Component selectors for this scan.
+    pub components: Vec<ScanComponentSelector>,
+    /// Spectral selection start (0 for DC, 1..63 for AC).
+    pub spec_start: u8,
+    /// Spectral selection end (0 for DC-only, up to 63).
+    pub spec_end: u8,
+    /// Successive approximation high bit position (0 = first scan for this band).
+    pub succ_high: u8,
+    /// Successive approximation low bit position.
+    pub succ_low: u8,
+}
+
+/// Region of interest for cropped decompression.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct CropRegion {
+    pub x: usize,
+    pub y: usize,
+    pub width: usize,
+    pub height: usize,
+}
+
+/// Per-component selector within a scan.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ScanComponentSelector {
+    /// Component identifier (matches ComponentInfo::id).
+    pub component_id: u8,
+    /// DC Huffman table index (0-3).
+    pub dc_table_index: u8,
+    /// AC Huffman table index (0-3).
+    pub ac_table_index: u8,
+}
+
+/// Decompression scaling factor.
+///
+/// Controls the output size via scaled IDCT. Exactly the 16 libjpeg-turbo
+/// factors are representable — [`ScalingFactor::SUPPORTED`]: 2/1, 15/8, 7/4,
+/// 13/8, 3/2, 11/8, 5/4, 9/8, 1/1, 7/8, 3/4, 5/8, 1/2, 3/8, 1/4, 1/8. Each is
+/// `N/8` in lowest terms and maps to an `N×N` IDCT block, from 16×16 (2/1)
+/// down to 1×1 (1/8).
+///
+/// The fields are private so that every value is one of those sixteen: build
+/// one with [`ScalingFactor::try_new`] or take it from
+/// [`ScalingFactor::SUPPORTED`] (P4-139 criterion 4, #478).
+///
+/// ```
+/// use libjpeg_turbo_rs::ScalingFactor;
+///
+/// let half: ScalingFactor = ScalingFactor::try_new(1, 2)?;
+/// assert_eq!((half.num(), half.denom()), (1, 2));
+/// assert_eq!(half.scale_dim(641), 321);
+/// assert!(ScalingFactor::try_new(4, 8).is_err()); // equal to 1/2, not upstream's form
+/// assert!(ScalingFactor::try_new(1, 0).is_err());
+/// # Ok::<(), libjpeg_turbo_rs::JpegError>(())
+/// ```
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ScalingFactor {
+    num: u32,
+    denom: u32,
+}
+
+impl ScalingFactor {
+    /// Every factor [`ScalingFactor::try_new`] accepts, in the order
+    /// `tj3GetScalingFactors` reports them (upstream's `sf` table,
+    /// `turbojpeg.c:199-217`).
+    pub const SUPPORTED: [ScalingFactor; 16] = [
+        Self::table_entry(2, 1),
+        Self::table_entry(15, 8),
+        Self::table_entry(7, 4),
+        Self::table_entry(13, 8),
+        Self::table_entry(3, 2),
+        Self::table_entry(11, 8),
+        Self::table_entry(5, 4),
+        Self::table_entry(9, 8),
+        Self::table_entry(1, 1),
+        Self::table_entry(7, 8),
+        Self::table_entry(3, 4),
+        Self::table_entry(5, 8),
+        Self::table_entry(1, 2),
+        Self::table_entry(3, 8),
+        Self::table_entry(1, 4),
+        Self::table_entry(1, 8),
+    ];
+
+    /// Private, so the table above is the only place an unvalidated pair
+    /// becomes a value.
+    const fn table_entry(num: u32, denom: u32) -> Self {
+        Self { num, denom }
+    }
+
+    /// Validate `num/denom` against the factors libjpeg-turbo supports.
+    ///
+    /// Accepts exactly the sixteen entries of [`ScalingFactor::SUPPORTED`] and
+    /// refuses everything else with [`JpegError::Unsupported`]. This is
+    /// upstream's rule: `tj3SetScalingFactor` (`turbojpeg.c:2053-2058`)
+    /// compares both fields against its table, so a factor *equal in value* to
+    /// a supported one but not in its lowest terms — `4/8`, `2/2`, `16/8` — is
+    /// refused, as is any zero numerator or denominator.
+    ///
+    /// [`JpegError::Unsupported`]: crate::JpegError::Unsupported
+    pub fn try_new(num: u32, denom: u32) -> crate::common::error::Result<Self> {
+        let candidate: Self = Self { num, denom };
+        if Self::SUPPORTED.contains(&candidate) {
+            Ok(candidate)
+        } else {
+            Err(crate::common::error::JpegError::Unsupported(
+                alloc::format!(
+                    "scaling factor {num}/{denom}; libjpeg-turbo supports only N/8 \
+                     for N in 1..=16, in lowest terms"
+                ),
+            ))
+        }
+    }
+
+    /// The numerator.
+    pub const fn num(self) -> u32 {
+        self.num
+    }
+
+    /// The denominator. Never zero.
+    pub const fn denom(self) -> u32 {
+        self.denom
+    }
+
+    /// The IDCT block output size for this scaling factor: `N` for `N/8`.
+    /// Ranges from 16 (for 2/1) through 8 (for 1/1) down to 1 (for 1/8).
+    pub const fn block_size(self) -> usize {
+        // Exact for every member of `SUPPORTED`: `num <= 15`, `denom >= 1`,
+        // and `denom` divides `num * 8`.
+        (self.num * 8 / self.denom) as usize
+    }
+
+    /// Scaled output dimension: `ceil(input_dim * num / denom)`, which for
+    /// `N/8` is upstream's `jdiv_round_up(dim * N, 8)` (`jdmaster.c`).
+    ///
+    /// Returns 0 when the result is not representable as `usize` — possible
+    /// only for an upscaling factor and an `input_dim` far beyond any JPEG
+    /// dimension. 0 is the crate's refusal value for an unrepresentable size
+    /// (see the `bufsize` helpers such as [`crate::jpeg_buf_size`]); it never
+    /// wraps.
+    pub fn scale_dim(self, input_dim: usize) -> usize {
+        let num: usize = self.num as usize;
+        let denom: usize = self.denom as usize;
+        // Split `input_dim` so the only product that can overflow is the one
+        // whose overflow means the *result* is unrepresentable:
+        // ceil(d * n / q) = (d / q) * n + ceil((d % q) * n / q), and
+        // (d % q) * n < 8 * 15.
+        let whole: usize = input_dim / denom;
+        let remainder: usize = input_dim % denom;
+        whole
+            .checked_mul(num)
+            .and_then(|scaled: usize| scaled.checked_add((remainder * num).div_ceil(denom)))
+            .unwrap_or(0)
+    }
+}
+
+impl Default for ScalingFactor {
+    fn default() -> Self {
+        Self { num: 1, denom: 1 }
+    }
+}
+
+/// Configurable decoder resource limits (issue #355, the Rust-side twin
+/// of P4-14's C-ABI `max_memory_to_use`).
+///
+/// Defaults are permissive — they accept everything `djpeg` accepts in
+/// the corpus gates (the drop-in contract comes first) while still
+/// bounding the pathological corner: a header-only 65535x65535 SOF
+/// (4.29 gigapixels from a few dozen bytes) exceeds the default
+/// `max_pixels` and is rejected before any plane allocation.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct DecodeLimits {
+    /// Maximum image width in pixels (default: 65_500, matching C's
+    /// `JPEG_MAX_DIMENSION`). Mostly shadowed by `max_pixels`; matters
+    /// for extreme aspect ratios.
+    pub max_width: usize,
+    /// Maximum image height in pixels (default: 65_500).
+    pub max_height: usize,
+    /// Maximum total pixels, guarding the product the individual
+    /// dimension caps cannot (default: 2_147_483_647 ≈ 2.1 gigapixels).
+    pub max_pixels: u64,
+    /// Maximum number of scans (default: 8_192 — far above any real
+    /// progressive script, low enough to stop scan bombs).
+    pub max_scans: usize,
+    /// Estimated decode-memory ceiling in bytes (default: `None`).
+    /// Shares the estimation model of `Decoder::set_max_memory`.
+    ///
+    /// Note: the default `max_pixels` bounds the *header bomb*, not
+    /// decode memory — a 2-gigapixel progressive image legitimately
+    /// needs multi-GB coefficient buffers. Set `max_memory` to bound
+    /// memory.
+    pub max_memory: Option<u64>,
+}
+
+impl Default for DecodeLimits {
+    fn default() -> Self {
+        Self {
+            max_width: 65_500,
+            max_height: 65_500,
+            max_pixels: 2_147_483_647,
+            max_scans: 8_192,
+            max_memory: None,
+        }
+    }
+}
+
+impl DecodeLimits {
+    /// Frame-dimension checks shared by every decode entry point. The
+    /// ones without a limits API (`read_coefficients`, and
+    /// `decompress_12bit`/`_16bit` — whose `_with_limits` spellings take a
+    /// budget) apply the defaults.
+    pub(crate) fn check_frame(
+        &self,
+        width: usize,
+        height: usize,
+    ) -> crate::common::error::Result<()> {
+        use crate::common::error::JpegError;
+        if width > self.max_width {
+            return Err(JpegError::LimitExceeded {
+                what: "image width",
+                actual: width as u64,
+                limit: self.max_width as u64,
+            });
+        }
+        if height > self.max_height {
+            return Err(JpegError::LimitExceeded {
+                what: "image height",
+                actual: height as u64,
+                limit: self.max_height as u64,
+            });
+        }
+        let total_pixels: u64 = (width as u64) * (height as u64);
+        if total_pixels > self.max_pixels {
+            return Err(JpegError::LimitExceeded {
+                what: "total pixels",
+                actual: total_pixels,
+                limit: self.max_pixels,
+            });
+        }
+        Ok(())
+    }
+
+    /// The scan-count check every decode entry point shares, against the
+    /// scans the header walk found.
+    pub(crate) fn check_scans(&self, scans: usize) -> crate::common::error::Result<()> {
+        if scans > self.max_scans {
+            return Err(crate::common::error::JpegError::LimitExceeded {
+                what: "scan count",
+                actual: scans as u64,
+                limit: self.max_scans as u64,
+            });
+        }
+        Ok(())
+    }
+
+    /// Refuse a decode whose estimated allocations exceed `max_memory`.
+    /// Each entry point estimates its own geometry-sized buffers; what each
+    /// estimate counts is listed in docs/STABILITY.md, "What the memory budget covers".
+    pub(crate) fn check_memory(&self, estimated: u64) -> crate::common::error::Result<()> {
+        match self.max_memory {
+            Some(limit) if estimated > limit => {
+                Err(crate::common::error::JpegError::LimitExceeded {
+                    what: "estimated decode memory",
+                    actual: estimated,
+                    limit,
+                })
+            }
+            _ => Ok(()),
+        }
+    }
+
+    /// zune-jpeg `new_safe`-like values for callers that want tight
+    /// bounds: 16_384x16_384, 100 scans. Memory stays unbounded — set
+    /// `max_memory` if you need a byte ceiling.
+    pub fn strict() -> Self {
+        Self {
+            max_width: 16_384,
+            max_height: 16_384,
+            max_pixels: 16_384 * 16_384,
+            max_scans: 100,
+            max_memory: None,
+        }
+    }
+}
+
+/// Pixel density information from JFIF marker.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct DensityInfo {
+    pub unit: DensityUnit,
+    pub x: u16,
+    pub y: u16,
+}
+
+impl Default for DensityInfo {
+    fn default() -> Self {
+        Self {
+            unit: DensityUnit::Unknown,
+            x: 1,
+            y: 1,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum DensityUnit {
+    Unknown,
+    Dpi,
+    Dpcm,
+}
+
+/// A saved JPEG marker (APP or COM).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct SavedMarker {
+    /// Marker code (e.g., 0xE0 for APP0, 0xFE for COM).
+    pub code: u8,
+    /// Raw marker data (after the 2-byte length field).
+    pub data: Vec<u8>,
+}
+
+/// Configuration for which markers the decoder should save.
+///
+/// Controls which APP and COM markers are preserved during decoding,
+/// matching libjpeg-turbo's `jpeg_save_markers()` / `TJPARAM_SAVEMARKERS`.
+#[derive(Debug, Clone, Default)]
+pub enum MarkerSaveConfig {
+    /// Do not save any markers (default).
+    #[default]
+    None,
+    /// Save all APP (0xE0-0xEF) and COM (0xFE) markers.
+    All,
+    /// Save only APP markers (0xE0-0xEF), not COM.
+    AppOnly,
+    /// Save only the specified marker codes.
+    Specific(Vec<u8>),
+    /// Save only the specified marker codes, truncating each marker's body
+    /// to at most the associated byte limit.
+    ///
+    /// This matches libjpeg's `jpeg_save_markers(cinfo, code, length_limit)`
+    /// per-code truncation: the saved `data` slice is `min(full_len, limit)`
+    /// bytes long.  A missing entry for a code is treated as "no limit"
+    /// (`usize::MAX`).
+    WithLimits(alloc::collections::BTreeMap<u8, usize>),
+}
+
+/// Progressive scan script entry.
+///
+/// Defines one scan in a custom progressive scan script. Users can build
+/// a `Vec<ScanScript>` to control the exact ordering and spectral/successive
+/// approximation parameters of each progressive scan pass.
+#[derive(Debug, Clone)]
+pub struct ScanScript {
+    /// Component indices (0-based) included in this scan.
+    pub components: Vec<u8>,
+    /// Spectral selection start (0 for DC).
+    pub ss: u8,
+    /// Spectral selection end (0 for DC-only, 63 for full AC).
+    pub se: u8,
+    /// Successive approximation high bit (0 for first pass).
+    pub ah: u8,
+    /// Successive approximation low bit.
+    pub al: u8,
+}
+
+/// One chunk of an ICC profile stored in an APP2 marker.
+///
+/// ICC profiles larger than 65519 bytes are split across multiple APP2 markers,
+/// each carrying a sequence number and total count.
+#[derive(Debug, Clone)]
+pub struct IccChunk {
+    /// 1-based sequence number of this chunk.
+    pub seq_no: u8,
+    /// Total number of chunks for the complete profile.
+    pub num_markers: u8,
+    /// Raw profile data for this chunk.
+    pub data: Vec<u8>,
+}

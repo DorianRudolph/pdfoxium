@@ -1,0 +1,1723 @@
+// libjpeg-turbo-rs: alloc prelude (no_std support, issue #356)
+use alloc::sync::Arc;
+#[allow(unused_imports)]
+use alloc::{format, vec};
+#[allow(unused_imports)]
+use alloc::{string::String, vec::Vec};
+
+use crate::common::error::{JpegError, Result};
+use crate::common::huffman_table::HuffmanTable;
+use crate::common::quant_table::QuantTable;
+use crate::common::types::*;
+
+/// "ICC_PROFILE\0" identifier (12 bytes) in APP2 markers.
+const ICC_PROFILE_HEADER: &[u8; 12] = b"ICC_PROFILE\0";
+
+/// Default parse-time SOS cap (issue #355). See `MarkerReader::set_scan_cap`.
+pub const DEFAULT_PARSE_SCAN_CAP: usize = 8_192;
+
+/// "Exif\0\0" identifier (6 bytes) in APP1 markers.
+const EXIF_HEADER: &[u8; 6] = b"Exif\0\0";
+
+/// Standard XMP packet identifier in APP1 markers (Adobe XMP Part 3).
+const XMP_HEADER: &[u8; 29] = b"http://ns.adobe.com/xap/1.0/\0";
+
+/// Extended XMP chunk identifier in APP1 markers. Each chunk carries a
+/// 32-byte GUID + u32 full length + u32 offset after this header.
+const XMP_EXT_HEADER: &[u8; 35] = b"http://ns.adobe.com/xmp/extension/\0";
+
+/// Photoshop 3.0 IRB identifier in APP13 markers (hosts IPTC IIM in
+/// resource 0x0404).
+const PHOTOSHOP_HEADER: &[u8; 14] = b"Photoshop 3.0\0";
+
+// JPEG marker codes
+const SOI: u8 = 0xD8;
+const EOI: u8 = 0xD9;
+const SOF0: u8 = 0xC0;
+const SOF1: u8 = 0xC1; // Extended sequential, Huffman-coded
+const SOF2: u8 = 0xC2;
+const SOF3: u8 = 0xC3; // Lossless, Huffman-coded
+                       // SOF5–SOF7: differential Huffman-coded variants (ISO 10918-1 Table B.1).
+                       // Bit 3 of (marker & 0x0F) is 0 → Huffman family.
+const SOF5: u8 = 0xC5; // Differential sequential, Huffman-coded
+const SOF6: u8 = 0xC6; // Differential progressive, Huffman-coded
+const SOF7: u8 = 0xC7; // Differential lossless, Huffman-coded
+const SOF9: u8 = 0xC9; // Arithmetic sequential
+const SOF10: u8 = 0xCA; // Arithmetic progressive
+const SOF11: u8 = 0xCB; // Lossless, arithmetic-coded
+                        // SOF13–SOF15: differential arithmetic-coded variants (ISO 10918-1 Table B.1).
+                        // Bit 3 of (marker & 0x0F) is 1 → arithmetic family.
+const SOF13: u8 = 0xCD; // Differential sequential, arithmetic-coded
+const SOF14: u8 = 0xCE; // Differential progressive, arithmetic-coded
+const SOF15: u8 = 0xCF; // Differential lossless, arithmetic-coded
+const DHT: u8 = 0xC4;
+const DAC: u8 = 0xCC; // Define arithmetic conditioning
+const DQT: u8 = 0xDB;
+const SOS: u8 = 0xDA;
+const DRI: u8 = 0xDD;
+const COM: u8 = 0xFE;
+
+/// One Extended XMP chunk (APP1 `http://ns.adobe.com/xmp/extension/`),
+/// reassembled into the full extension packet in offset order.
+#[derive(Debug, Clone)]
+struct XmpExtChunk {
+    guid: [u8; 32],
+    full_len: u32,
+    offset: u32,
+    data: Vec<u8>,
+}
+
+/// Per-scan info with Huffman table snapshot (needed because tables can be
+/// redefined between scans in progressive JPEG).
+#[derive(Debug, Clone)]
+pub struct ScanInfo {
+    pub header: ScanHeader,
+    /// Byte offset where this scan's entropy-coded data begins.
+    pub data_offset: usize,
+    pub dc_huffman_tables: [Option<Arc<HuffmanTable>>; 4],
+    pub ac_huffman_tables: [Option<Arc<HuffmanTable>>; 4],
+    pub restart_interval: u16,
+}
+
+/// All metadata parsed from JPEG markers.
+///
+/// For baseline: one scan, entropy_data_offset points to its data.
+/// For progressive: multiple scans with separate offsets and table snapshots.
+#[derive(Debug)]
+pub struct JpegMetadata {
+    /// Total non-padding bytes discarded while finding markers.
+    pub extraneous_bytes: usize,
+    pub frame: FrameHeader,
+    /// First scan header (used by baseline path).
+    pub scan: ScanHeader,
+    pub quant_tables: [Option<QuantTable>; 4],
+    pub dc_huffman_tables: [Option<Arc<HuffmanTable>>; 4],
+    pub ac_huffman_tables: [Option<Arc<HuffmanTable>>; 4],
+    pub restart_interval: u16,
+    /// Byte offset where the first scan's entropy-coded data begins.
+    pub entropy_data_offset: usize,
+    /// For progressive: all scans with table snapshots.
+    pub scans: Vec<ScanInfo>,
+    /// True if an Adobe APP14 marker was found anywhere in the stream
+    /// (before or after the first SOS). Mirrors libjpeg's
+    /// `cinfo.saw_Adobe_marker`, which `examine_app14` keeps updating
+    /// between scans.
+    pub saw_adobe_marker: bool,
+    /// Adobe color transform code (0 = CMYK/RGB, 1 = YCbCr, 2 = YCCK) from
+    /// the last Adobe APP14 seen, matching `cinfo.Adobe_transform`.
+    pub adobe_transform: u8,
+    /// Adobe transform byte as it stood when the first SOS was reached,
+    /// `None` if no Adobe APP14 preceded it. libjpeg classifies the
+    /// colorspace exactly once, in `default_decompress_parms` at
+    /// `JPEG_REACHED_SOS` (`jdapimin.c:137`), so an Adobe marker that
+    /// only appears between scans never changes `jpeg_color_space`;
+    /// this is the value that classification must read (P4-181).
+    pub adobe_transform_at_first_sos: Option<u8>,
+    /// `saw_jfif_marker` as it stood when the first SOS was reached —
+    /// the JFIF input to libjpeg's one-time colorspace classification,
+    /// see `adobe_transform_at_first_sos`.
+    pub saw_jfif_marker_at_first_sos: bool,
+    /// ICC profile chunks from APP2 markers (reassembled via `common::icc`).
+    pub icc_chunks: Vec<IccChunk>,
+    /// Raw EXIF TIFF data from the first APP1 marker (after "Exif\0\0" header).
+    pub exif_data: Option<Vec<u8>>,
+    /// Raw XMP packet from APP1 (standard packet, with any Extended XMP
+    /// chunks reassembled in offset order and appended).
+    pub xmp_data: Option<Vec<u8>>,
+    /// Raw IPTC IIM payload from the APP13 Photoshop IRB (resource 0x0404).
+    pub iptc_data: Option<Vec<u8>>,
+    /// COM marker text, if present.
+    pub comment: Option<String>,
+    /// True if a JFIF APP0 marker was observed (regardless of its
+    /// density values). Mirrors libjpeg's `cinfo.saw_JFIF_marker`.
+    pub saw_jfif_marker: bool,
+    /// JFIF major version byte from the APP0 marker (only meaningful
+    /// when `saw_jfif_marker` is true).
+    pub jfif_major_version: u8,
+    /// JFIF minor version byte from the APP0 marker.
+    pub jfif_minor_version: u8,
+    /// Pixel density from JFIF header.
+    pub density: DensityInfo,
+    /// True if using arithmetic entropy coding.
+    ///
+    /// Per ISO 10918-1 Table B.1, bit 3 of `(SOF_marker & 0x0F)` selects the
+    /// entropy-coding family: 0 = Huffman, 1 = arithmetic.  This decoder
+    /// supports SOF9 (0xC9), SOF10 (0xCA), and SOF11 (0xCB) as arithmetic; and
+    /// SOF0–SOF3 (0xC0–0xC3) as Huffman.  Differential variants SOF5–SOF7 and
+    /// SOF13–SOF15 are rejected with `JpegError::Unsupported`, matching C
+    /// libjpeg-turbo behaviour.
+    pub is_arithmetic: bool,
+    /// DAC conditioning: DC parameters (L, U) per table. 16 slots per
+    /// ITU-T T.81 `NUM_ARITH_TBLS`.
+    pub arith_dc_params: [(u8, u8); crate::decode::arithmetic::NUM_ARITH_TBLS],
+    /// DAC conditioning: AC parameter (Kx) per table. 16 slots per
+    /// ITU-T T.81 `NUM_ARITH_TBLS`.
+    pub arith_ac_params: [u8; crate::decode::arithmetic::NUM_ARITH_TBLS],
+    /// Saved APP/COM markers according to the marker save configuration.
+    pub saved_markers: Vec<SavedMarker>,
+}
+
+impl JpegMetadata {
+    /// The metadata walk aggregates discarded bytes without per-marker allocation.
+    pub(crate) fn marker_warnings(&self) -> Result<Vec<crate::common::error::DecodeWarning>> {
+        if self.extraneous_bytes == 0 {
+            return Ok(Vec::new());
+        }
+        crate::common::try_alloc::try_filled_vec(
+            1,
+            crate::common::error::DecodeWarning::ExtraneousData {
+                bytes: self.extraneous_bytes,
+            },
+            "marker warning",
+        )
+    }
+}
+
+/// Reads and parses JPEG markers from a byte slice.
+pub struct MarkerReader<'a> {
+    // Aggregate in constant space rather than allocating one warning per marker.
+    extraneous_bytes: usize,
+    data: &'a [u8],
+    pos: usize,
+    marker_save_config: MarkerSaveConfig,
+    /// Parse-time SOS cap (issue #355): bounds ScanInfo buffering while
+    /// markers are read, before any decode-time limit can apply.
+    scan_cap: usize,
+    /// Stop at the first SOS whatever the frame type, as `jpeg_read_header`
+    /// does. Off by default: a decode needs every scan located.
+    stop_at_first_sos: bool,
+}
+
+impl<'a> MarkerReader<'a> {
+    pub fn new(data: &'a [u8]) -> Self {
+        Self {
+            data,
+            pos: 0,
+            extraneous_bytes: 0,
+            marker_save_config: MarkerSaveConfig::None,
+            scan_cap: DEFAULT_PARSE_SCAN_CAP,
+            stop_at_first_sos: false,
+        }
+    }
+
+    /// Stop the walk at the first SOS even for a progressive or
+    /// non-interleaved frame — the header-only read `tj3DecompressHeader`
+    /// performs through `jpeg_read_header` (P4-142). The resulting metadata
+    /// holds one scan and is fit for describing the frame, not for decoding.
+    pub(crate) fn set_stop_at_first_sos(&mut self, stop: bool) {
+        self.stop_at_first_sos = stop;
+    }
+
+    /// Override the parse-time SOS cap. The default (8192) bounds
+    /// parse-stage buffering for every caller; raising it is for the
+    /// C-ABI shim, whose TurboJPEG contract (TJPARAM_SCANLIMIT = 0)
+    /// promises NO library-level scan cap.
+    pub fn set_scan_cap(&mut self, cap: usize) {
+        self.scan_cap = cap;
+    }
+
+    /// Set the marker save configuration.
+    pub fn set_marker_save_config(&mut self, config: MarkerSaveConfig) {
+        self.marker_save_config = config;
+    }
+
+    /// Check whether a given marker code should be saved according to config.
+    fn should_save_marker(&self, code: u8) -> bool {
+        match &self.marker_save_config {
+            MarkerSaveConfig::None => false,
+            MarkerSaveConfig::All => (0xE0..=0xEF).contains(&code) || code == COM,
+            MarkerSaveConfig::AppOnly => (0xE0..=0xEF).contains(&code),
+            MarkerSaveConfig::Specific(codes) => codes.contains(&code),
+            MarkerSaveConfig::WithLimits(limits) => limits.contains_key(&code),
+        }
+    }
+
+    /// Return the per-marker body limit for `code`. Returns `usize::MAX`
+    /// when the config imposes no per-code limit (save full body).
+    fn marker_limit(&self, code: u8) -> usize {
+        match &self.marker_save_config {
+            MarkerSaveConfig::WithLimits(limits) => {
+                limits.get(&code).copied().unwrap_or(usize::MAX)
+            }
+            _ => usize::MAX,
+        }
+    }
+
+    /// Append a saved marker, growing the list fallibly.
+    ///
+    /// P4-153: a stream may carry arbitrarily many APP/COM segments, and with
+    /// marker saving on — TJ3 defaults to `TJSM_ALL` — each one lands here. The
+    /// list is the unbounded exposure at this layer; the per-segment payloads
+    /// are capped at 64 KiB apiece. Erroring matches `icc_chunks` and the rest
+    /// of the caller-visible metadata: `saved_markers` is read back through the
+    /// C API, so a silently dropped entry is indistinguishable from a file that
+    /// never carried the marker.
+    fn push_saved_marker(saved: &mut Vec<SavedMarker>, marker: SavedMarker) -> Result<()> {
+        saved
+            .try_reserve(1)
+            .map_err(|_| JpegError::AllocationFailed {
+                what: "saved marker list",
+                bytes: ((saved.len() + 1) * core::mem::size_of::<SavedMarker>()) as u64,
+            })?;
+        saved.push(marker);
+        Ok(())
+    }
+
+    /// Read a marker segment's raw data without advancing pos.
+    /// Returns the data portion (after the 2-byte length field).
+    fn peek_marker_data(&self) -> Option<Vec<u8>> {
+        if self.pos + 2 > self.data.len() {
+            return None;
+        }
+        let length = u16::from_be_bytes([self.data[self.pos], self.data[self.pos + 1]]) as usize;
+        if length < 2 || self.pos + length > self.data.len() {
+            return None;
+        }
+        // P4-153: `None` already means "this segment is not readable", so an
+        // allocation refusal joins an outcome every caller handles. Nothing is
+        // lost by degrading here that erroring would recover.
+        crate::common::try_alloc::try_copy_of(
+            &self.data[self.pos + 2..self.pos + length],
+            "peeked marker segment",
+        )
+        .ok()
+    }
+
+    /// Parse all markers. For baseline, stops after first SOS.
+    /// For progressive, reads all SOS markers until EOI.
+    pub fn read_markers(&mut self) -> Result<JpegMetadata> {
+        self.expect_marker(SOI)?;
+
+        let mut frame: Option<FrameHeader> = None;
+        let mut quant_tables: [Option<QuantTable>; 4] = [None, None, None, None];
+        let mut dc_huffman_tables: [Option<Arc<HuffmanTable>>; 4] = [None, None, None, None];
+        let mut ac_huffman_tables: [Option<Arc<HuffmanTable>>; 4] = [None, None, None, None];
+        let mut restart_interval: u16 = 0;
+        let mut scans: Vec<ScanInfo> = Vec::new();
+        let mut saw_adobe_marker: bool = false;
+        let mut adobe_transform: u8 = 0;
+        let mut adobe_transform_at_first_sos: Option<u8> = None;
+        let mut saw_jfif_marker_at_first_sos: bool = false;
+        let mut icc_chunks: Vec<IccChunk> = Vec::new();
+        let mut exif_data: Option<Vec<u8>> = None;
+        let mut xmp_data: Option<Vec<u8>> = None;
+        let mut xmp_ext_chunks: Vec<XmpExtChunk> = Vec::new();
+        let mut iptc_data: Option<Vec<u8>> = None;
+        let mut is_arithmetic = false;
+        let mut arith_dc_params: [(u8, u8); crate::decode::arithmetic::NUM_ARITH_TBLS] =
+            [(0, 1); crate::decode::arithmetic::NUM_ARITH_TBLS];
+        let mut arith_ac_params: [u8; crate::decode::arithmetic::NUM_ARITH_TBLS] =
+            [5; crate::decode::arithmetic::NUM_ARITH_TBLS];
+        let mut comment: Option<String> = None;
+        let mut density: DensityInfo = DensityInfo::default();
+        let mut saw_jfif_marker: bool = false;
+        let mut jfif_major_version: u8 = 0;
+        let mut jfif_minor_version: u8 = 0;
+        let mut saved_markers: Vec<SavedMarker> = Vec::new();
+
+        // Per JPEG spec § B.2.4.2 a stream contains exactly one SOF marker.
+        // Accepting a second SOF leaves coefficient buffers / sampling
+        // factors sized to the first dimensions while later code uses the
+        // second, which produced a slice-OOB panic in fancy_h1v2 and a
+        // length-mismatch panic in the NEON YCbCr->RGB row helper. Reject
+        // duplicates up front. Discovered via fuzz_progressive_decoder on a
+        // double-SOF input.
+        let reject_duplicate_sof = |frame: &Option<FrameHeader>| -> Result<()> {
+            if frame.is_some() {
+                Err(JpegError::CorruptData(
+                    "multiple SOF markers in stream (JPEG spec § B.2.4.2)".into(),
+                ))
+            } else {
+                Ok(())
+            }
+        };
+        loop {
+            let marker = self.read_marker()?;
+            match marker {
+                SOF0 | SOF1 => {
+                    // SOF0 = baseline, SOF1 = extended sequential (e.g., 16-bit DQT)
+                    // Both are sequential DCT with Huffman coding, decoded identically.
+                    reject_duplicate_sof(&frame)?;
+                    frame = Some(self.read_sof(false, false)?);
+                }
+                SOF2 => {
+                    reject_duplicate_sof(&frame)?;
+                    frame = Some(self.read_sof(true, false)?);
+                }
+                SOF3 => {
+                    reject_duplicate_sof(&frame)?;
+                    frame = Some(self.read_sof(false, true)?);
+                }
+                // Differential Huffman-coded variants (ISO 10918-1 Table B.1,
+                // markers 0xC5–0xC7).  C libjpeg-turbo rejects these with
+                // "Unsupported JPEG process: SOF type 0xCN"; match that behaviour.
+                SOF5 | SOF6 | SOF7 => {
+                    return Err(JpegError::Unsupported(format!(
+                        "unsupported JPEG process: SOF type 0x{marker:02X}"
+                    )));
+                }
+                SOF9 => {
+                    // Arithmetic sequential
+                    reject_duplicate_sof(&frame)?;
+                    frame = Some(self.read_sof(false, false)?);
+                    is_arithmetic = true;
+                }
+                SOF10 => {
+                    // Arithmetic progressive
+                    reject_duplicate_sof(&frame)?;
+                    frame = Some(self.read_sof(true, false)?);
+                    is_arithmetic = true;
+                }
+                SOF11 => {
+                    // Lossless, arithmetic-coded
+                    reject_duplicate_sof(&frame)?;
+                    frame = Some(self.read_sof(false, true)?);
+                    is_arithmetic = true;
+                }
+                // Differential arithmetic-coded variants (ISO 10918-1 Table B.1,
+                // markers 0xCD–0xCF).  C libjpeg-turbo rejects these with
+                // "Unsupported JPEG process: SOF type 0xCN"; match that behaviour.
+                SOF13 | SOF14 | SOF15 => {
+                    return Err(JpegError::Unsupported(format!(
+                        "unsupported JPEG process: SOF type 0x{marker:02X}"
+                    )));
+                }
+                DAC => {
+                    self.read_dac(&mut arith_dc_params, &mut arith_ac_params)?;
+                }
+                DQT => {
+                    self.read_dqt(&mut quant_tables)?;
+                }
+                DHT => {
+                    self.read_dht(&mut dc_huffman_tables, &mut ac_huffman_tables)?;
+                }
+                DRI => {
+                    restart_interval = self.read_dri()?;
+                }
+                SOS => {
+                    // Parse-time scan-bomb bound (issue #355): each
+                    // ScanInfo buffers a table snapshot, so an unbounded
+                    // SOS count lets a small file allocate without limit
+                    // during header parse — before any Decoder limit can
+                    // apply. The default is far above any real
+                    // progressive script (and above the 5000-scan bomb
+                    // the worker_b8 suite pins as parseable);
+                    // Decoder::new_with_limits threads a tighter
+                    // DecodeLimits::max_scans in via set_scan_cap.
+                    if scans.len() >= self.scan_cap {
+                        return Err(JpegError::LimitExceeded {
+                            what: "scan count at parse",
+                            actual: (scans.len() + 1) as u64,
+                            limit: self.scan_cap as u64,
+                        });
+                    }
+                    let header = self.read_sos()?;
+                    // C jdmarker.c get_sos: every scan component must bind
+                    // to a distinct frame component; no match is fatal
+                    // (ERREXIT JERR_BAD_COMPONENT_ID, "Invalid component ID
+                    // %d in SOS"). Without this, a stream whose later scans
+                    // reference undeclared ids decodes every scan C would
+                    // never reach — Fuzz Smoke run 29815394302 hit a
+                    // 1371-scan arithmetic-progressive stream that C rejects
+                    // at scan 8 in milliseconds while we ground through all
+                    // of it (libFuzzer timeout, P4-37).
+                    //
+                    // C's search guard `!cinfo->cur_comp_info[ci]` indexes by
+                    // frame slot while matches are stored at *scan* slot `i`;
+                    // since slots fill sequentially, the guard reduces to
+                    // "frame index >= scan position". Net effect (replicated
+                    // here exactly): an interleaved scan listing components
+                    // in a different order than the frame header is rejected
+                    // too, and the trailing pointer-equality loop rejects a
+                    // repeated CSi.
+                    if let Some(f) = frame.as_ref() {
+                        // Fixed-size scratch: read_sos caps scan components
+                        // at MAX_COMPONENTS, and this runs per SOS on the
+                        // small-decode fixed-cost path (issue #351).
+                        let mut chosen: [usize; MAX_COMPONENTS] = [usize::MAX; MAX_COMPONENTS];
+                        for (scan_pos, scan_comp) in header.components.iter().enumerate() {
+                            match f
+                                .components
+                                .iter()
+                                .enumerate()
+                                .skip(scan_pos)
+                                .find(|(_, frame_comp)| frame_comp.id == scan_comp.component_id)
+                            {
+                                Some((ci, _)) if !chosen[..scan_pos].contains(&ci) => {
+                                    chosen[scan_pos] = ci;
+                                }
+                                _ => {
+                                    return Err(JpegError::CorruptData(format!(
+                                        "Invalid component ID {} in SOS",
+                                        scan_comp.component_id
+                                    )));
+                                }
+                            }
+                        }
+                    }
+                    let offset = self.pos;
+                    if scans.is_empty() {
+                        // libjpeg runs `default_decompress_parms` once, when
+                        // the first SOS is reached; markers between later
+                        // scans update `saw_*` but never re-classify.
+                        adobe_transform_at_first_sos = saw_adobe_marker.then_some(adobe_transform);
+                        saw_jfif_marker_at_first_sos = saw_jfif_marker;
+                    }
+                    scans.push(ScanInfo {
+                        header,
+                        data_offset: offset,
+                        dc_huffman_tables: dc_huffman_tables.clone(),
+                        ac_huffman_tables: ac_huffman_tables.clone(),
+                        restart_interval,
+                    });
+
+                    let is_progressive = frame.as_ref().is_some_and(|f| f.is_progressive);
+                    // Non-interleaved baseline: SOS has fewer components than
+                    // the frame.  Continue reading to find remaining SOS markers.
+                    let scan_comp_count = scans.last().unwrap().header.components.len();
+                    let is_non_interleaved_baseline = !is_progressive
+                        && frame
+                            .as_ref()
+                            .is_some_and(|f| scan_comp_count < f.components.len());
+                    if self.stop_at_first_sos || (!is_progressive && !is_non_interleaved_baseline) {
+                        // Interleaved baseline: single scan, stop here. A
+                        // header-only read stops here for every frame type.
+                        break;
+                    }
+
+                    // Progressive or non-interleaved baseline: skip entropy
+                    // data to find next marker
+                    self.skip_entropy_data();
+                }
+                EOI => {
+                    break;
+                }
+                // APP1 (EXIF) — parse for EXIF metadata
+                0xE1 => {
+                    if self.should_save_marker(0xE1) {
+                        if let Some(mut raw) = self.peek_marker_data() {
+                            raw.truncate(self.marker_limit(0xE1));
+                            Self::push_saved_marker(
+                                &mut saved_markers,
+                                SavedMarker {
+                                    code: 0xE1,
+                                    data: raw,
+                                },
+                            )?;
+                        }
+                    }
+                    self.read_app1(&mut exif_data, &mut xmp_data, &mut xmp_ext_chunks)?;
+                }
+                // APP2 (ICC profile) — parse for ICC profile chunks
+                0xE2 => {
+                    if self.should_save_marker(0xE2) {
+                        if let Some(mut raw) = self.peek_marker_data() {
+                            raw.truncate(self.marker_limit(0xE2));
+                            Self::push_saved_marker(
+                                &mut saved_markers,
+                                SavedMarker {
+                                    code: 0xE2,
+                                    data: raw,
+                                },
+                            )?;
+                        }
+                    }
+                    self.read_app2(&mut icc_chunks)?;
+                }
+                // APP13 (Photoshop IRB) — parse for IPTC IIM
+                0xED => {
+                    if self.should_save_marker(0xED) {
+                        if let Some(mut raw) = self.peek_marker_data() {
+                            raw.truncate(self.marker_limit(0xED));
+                            Self::push_saved_marker(
+                                &mut saved_markers,
+                                SavedMarker {
+                                    code: 0xED,
+                                    data: raw,
+                                },
+                            )?;
+                        }
+                    }
+                    self.read_app13(&mut iptc_data)?;
+                }
+                // APP14 (Adobe marker) — parse for color transform info
+                0xEE => {
+                    if self.should_save_marker(0xEE) {
+                        if let Some(mut raw) = self.peek_marker_data() {
+                            raw.truncate(self.marker_limit(0xEE));
+                            Self::push_saved_marker(
+                                &mut saved_markers,
+                                SavedMarker {
+                                    code: 0xEE,
+                                    data: raw,
+                                },
+                            )?;
+                        }
+                    }
+                    self.read_app14(&mut saw_adobe_marker, &mut adobe_transform)?;
+                }
+                // APP0 (JFIF) — parse for density info
+                0xE0 => {
+                    if self.should_save_marker(0xE0) {
+                        if let Some(mut raw) = self.peek_marker_data() {
+                            raw.truncate(self.marker_limit(0xE0));
+                            Self::push_saved_marker(
+                                &mut saved_markers,
+                                SavedMarker {
+                                    code: 0xE0,
+                                    data: raw,
+                                },
+                            )?;
+                        }
+                    }
+                    self.read_app0(
+                        &mut density,
+                        &mut saw_jfif_marker,
+                        &mut jfif_major_version,
+                        &mut jfif_minor_version,
+                    )?;
+                }
+                // COM marker — parse comment text
+                COM => {
+                    if self.should_save_marker(COM) {
+                        if let Some(mut raw) = self.peek_marker_data() {
+                            raw.truncate(self.marker_limit(COM));
+                            Self::push_saved_marker(
+                                &mut saved_markers,
+                                SavedMarker {
+                                    code: COM,
+                                    data: raw,
+                                },
+                            )?;
+                        }
+                    }
+                    self.read_com(&mut comment)?;
+                }
+                // Other APPn markers — save if configured, then skip
+                m if (0xE3..=0xEF).contains(&m) => {
+                    if self.should_save_marker(m) {
+                        if let Some(mut raw) = self.peek_marker_data() {
+                            raw.truncate(self.marker_limit(m));
+                            Self::push_saved_marker(
+                                &mut saved_markers,
+                                SavedMarker { code: m, data: raw },
+                            )?;
+                        }
+                    }
+                    self.skip_marker_segment()?;
+                }
+                // Skip other markers with length
+                m if m != 0x00 && m != 0xFF => {
+                    self.skip_marker_segment()?;
+                }
+                m => {
+                    return Err(JpegError::InvalidMarker(m));
+                }
+            }
+        }
+
+        // `ok_or_else`, not `ok_or`: the latter builds the error String
+        // eagerly on every successful parse.
+        let frame = frame.ok_or_else(|| JpegError::CorruptData("missing SOF marker".into()))?;
+        if scans.is_empty() {
+            return Err(JpegError::CorruptData("missing SOS marker".into()));
+        }
+
+        let first_scan = scans[0].header.clone();
+        let first_offset = scans[0].data_offset;
+
+        // Reassemble Extended XMP (offset order, single GUID) and append
+        // to the standard packet. Malformed chunk geometry degrades to
+        // the standard packet alone rather than erroring — metadata must
+        // never fail an otherwise-valid decode.
+        if !xmp_ext_chunks.is_empty() {
+            if let Some(std_packet) = xmp_data.as_mut() {
+                const MAX_XMP_EXT: usize = 64 * 1024 * 1024;
+                let guid = xmp_ext_chunks[0].guid;
+                let full_len = xmp_ext_chunks[0].full_len as usize;
+                // Cap the extension buffer by BOTH the hard ceiling and
+                // the bytes actually present, so a tiny file declaring
+                // 64 MiB cannot make us reserve it (codex/review).
+                let available: usize = xmp_ext_chunks
+                    .iter()
+                    .filter(|c| c.guid == guid && c.full_len as usize == full_len)
+                    .map(|c| c.data.len())
+                    .sum();
+                // The order matters: the ceiling and the "bytes actually
+                // present" test come first, so a tiny file declaring a huge
+                // `full_len` is rejected before anything is allocated.
+                if full_len > 0 && full_len <= MAX_XMP_EXT && available >= full_len {
+                    // P4-144: three allocations here, and all three used to
+                    // abort the process when the allocator refused — the `ext`
+                    // buffer, the chunk reference list, and growing
+                    // `std_packet` by up to the 64 MiB ceiling.
+                    //
+                    // Refusal *degrades* rather than erroring, unlike the ICC
+                    // path: the contract above is that a broken extension keeps
+                    // the standard packet rather than failing an otherwise-valid
+                    // decode, and "the allocator said no" is a worse reason to
+                    // break that than "the chunks were malformed". An early
+                    // return would be worse still — it would abandon the rest
+                    // of the metadata this function has already parsed.
+                    let mut chunks: Vec<&XmpExtChunk> = Vec::new();
+                    let listed: bool = chunks.try_reserve_exact(xmp_ext_chunks.len()).is_ok();
+                    let buffer =
+                        crate::common::try_alloc::try_zeroed_bytes(full_len, "Extended XMP");
+
+                    if let (true, Ok(mut ext)) = (listed, buffer) {
+                        chunks.extend(
+                            xmp_ext_chunks
+                                .iter()
+                                .filter(|c| c.guid == guid && c.full_len as usize == full_len),
+                        );
+                        // `sort_by_key` is stable and allocates scratch, which
+                        // would abort on refusal after both explicit buffers
+                        // were reserved fallibly. Offsets are unique for valid
+                        // data — the contiguity check below rejects anything
+                        // else — so the unstable sort loses nothing.
+                        chunks.sort_unstable_by_key(|c| c.offset);
+                        // Exact contiguity: summing lengths would let
+                        // overlapping chunks satisfy the coverage test while
+                        // leaving zero-filled holes — silent corruption an
+                        // attacker controls (review MEDIUM).
+                        let mut cursor: usize = 0;
+                        let mut valid = true;
+                        for c in chunks {
+                            let off = c.offset as usize;
+                            if off != cursor {
+                                valid = false;
+                                break;
+                            }
+                            let Some(end) = off.checked_add(c.data.len()) else {
+                                valid = false;
+                                break;
+                            };
+                            if end > full_len {
+                                valid = false;
+                                break;
+                            }
+                            ext[off..end].copy_from_slice(&c.data);
+                            cursor = end;
+                        }
+                        if valid && cursor == full_len && std_packet.try_reserve(ext.len()).is_ok()
+                        {
+                            std_packet.extend_from_slice(&ext);
+                        }
+                    }
+                }
+            }
+        }
+
+        Ok(JpegMetadata {
+            extraneous_bytes: self.extraneous_bytes,
+            frame,
+            scan: first_scan,
+            quant_tables,
+            dc_huffman_tables,
+            ac_huffman_tables,
+            restart_interval,
+            entropy_data_offset: first_offset,
+            scans,
+            saw_adobe_marker,
+            adobe_transform,
+            adobe_transform_at_first_sos,
+            saw_jfif_marker_at_first_sos,
+            icc_chunks,
+            exif_data,
+            xmp_data,
+            iptc_data,
+            comment,
+            saw_jfif_marker,
+            jfif_major_version,
+            jfif_minor_version,
+            density,
+            is_arithmetic,
+            arith_dc_params,
+            arith_ac_params,
+            saved_markers,
+        })
+    }
+
+    /// Skip past entropy-coded data to find the next marker.
+    /// Entropy data ends at an unescaped 0xFF byte followed by a non-zero, non-RST marker.
+    fn skip_entropy_data(&mut self) {
+        while self.pos < self.data.len() {
+            if self.data[self.pos] != 0xFF {
+                self.pos += 1;
+                continue;
+            }
+            // Entropy readers accept FF fill before stuffed bytes and restart
+            // markers. Consume the whole run here too, or read_marker would
+            // misclassify the rest of this scan as discarded header bytes.
+            let mut code_pos: usize = self.pos + 1;
+            while code_pos < self.data.len() && self.data[code_pos] == 0xFF {
+                code_pos += 1;
+            }
+            if code_pos == self.data.len() {
+                self.pos = code_pos;
+                return;
+            }
+            let next: u8 = self.data[code_pos];
+            if next == 0x00 || (0xD0..=0xD7).contains(&next) {
+                self.pos = code_pos + 1;
+            } else {
+                // Real marker — leave pos at 0xFF so read_marker can find it
+                return;
+            }
+        }
+    }
+
+    fn expect_marker(&mut self, expected: u8) -> Result<()> {
+        if self.pos + 1 >= self.data.len() {
+            return Err(JpegError::UnexpectedEof);
+        }
+        if self.data[self.pos] != 0xFF || self.data[self.pos + 1] != expected {
+            return Err(JpegError::UnexpectedMarker(
+                self.data.get(self.pos + 1).copied().unwrap_or(0),
+            ));
+        }
+        self.pos += 2;
+        Ok(())
+    }
+
+    /// The next marker, as C jdmarker.c `next_marker` finds it: bytes that are not 0xFF before it
+    /// are skipped (C warns JWRN_EXTRANEOUS_DATA), so are the 0xFF fill bytes, and so is a stuffed
+    /// 0xFF 0x00.
+    fn read_marker(&mut self) -> Result<u8> {
+        loop {
+            while self.pos < self.data.len() && self.data[self.pos] != 0xFF {
+                self.extraneous_bytes += 1;
+                self.pos += 1;
+            }
+            while self.pos < self.data.len() && self.data[self.pos] == 0xFF {
+                self.pos += 1;
+            }
+            if self.pos >= self.data.len() {
+                return Err(JpegError::UnexpectedEof);
+            }
+            let marker = self.data[self.pos];
+            self.pos += 1;
+            if marker != 0x00 {
+                return Ok(marker);
+            }
+            // C counts the stuffed FF/00 pair, but not preceding FF fill bytes.
+            self.extraneous_bytes += 2;
+        }
+    }
+
+    fn read_u8(&mut self) -> Result<u8> {
+        if self.pos >= self.data.len() {
+            return Err(JpegError::UnexpectedEof);
+        }
+        let val = self.data[self.pos];
+        self.pos += 1;
+        Ok(val)
+    }
+
+    fn read_u16_be(&mut self) -> Result<u16> {
+        let hi = self.read_u8()? as u16;
+        let lo = self.read_u8()? as u16;
+        Ok((hi << 8) | lo)
+    }
+
+    fn skip_marker_segment(&mut self) -> Result<()> {
+        let length = self.read_u16_be()? as usize;
+        if length < 2 {
+            return Err(JpegError::CorruptData("marker segment length < 2".into()));
+        }
+        let skip = length - 2;
+        if self.pos + skip > self.data.len() {
+            return Err(JpegError::UnexpectedEof);
+        }
+        self.pos += skip;
+        Ok(())
+    }
+
+    /// Parse APP0 (JFIF) marker to extract pixel density info,
+    /// version bytes, and surface presence so callers don't have to
+    /// infer it from density values.
+    fn read_app0(
+        &mut self,
+        density: &mut DensityInfo,
+        saw_jfif: &mut bool,
+        jfif_major: &mut u8,
+        jfif_minor: &mut u8,
+    ) -> Result<()> {
+        let length = self.read_u16_be()? as usize;
+        if length < 2 {
+            return Err(JpegError::CorruptData("APP0 segment length < 2".into()));
+        }
+        let end = self.pos + length - 2;
+
+        // JFIF header: "JFIF\0" (5 bytes) + version (2) + units (1) + density (4) = 12 bytes min payload
+        if length >= 16
+            && self.pos + 12 <= self.data.len()
+            && &self.data[self.pos..self.pos + 5] == b"JFIF\0"
+        {
+            *saw_jfif = true;
+            *jfif_major = self.data[self.pos + 5];
+            *jfif_minor = self.data[self.pos + 6];
+            let unit_byte = self.data[self.pos + 7];
+            let x_density = u16::from_be_bytes([self.data[self.pos + 8], self.data[self.pos + 9]]);
+            let y_density =
+                u16::from_be_bytes([self.data[self.pos + 10], self.data[self.pos + 11]]);
+            density.unit = match unit_byte {
+                1 => DensityUnit::Dpi,
+                2 => DensityUnit::Dpcm,
+                _ => DensityUnit::Unknown,
+            };
+            density.x = x_density;
+            density.y = y_density;
+        }
+
+        self.pos = end;
+        Ok(())
+    }
+
+    /// Parse COM marker to extract comment text.
+    fn read_com(&mut self, comment: &mut Option<String>) -> Result<()> {
+        let length = self.read_u16_be()? as usize;
+        if length < 2 {
+            return Err(JpegError::CorruptData("COM segment length < 2".into()));
+        }
+        let text_len = length - 2;
+        if self.pos + text_len > self.data.len() {
+            return Err(JpegError::UnexpectedEof);
+        }
+        let data = &self.data[self.pos..self.pos + text_len];
+        self.pos += text_len;
+        // P4-153: error. `from_utf8_lossy` borrows when the bytes are already
+        // valid UTF-8 and allocates when they are not, so the copy is
+        // input-sized either way. `comment` is a caller-visible field with no
+        // warning channel, and every other way this segment can be unusable
+        // already errors.
+        let text: Vec<u8> = crate::common::try_alloc::try_copy_of(data, "COM segment text")?;
+        // `from_utf8` *takes* the buffer when the bytes are already valid UTF-8,
+        // so the common case is one allocation rather than the two an
+        // `into_owned()` on a borrowed `Cow` would make — the fallible copy
+        // above must not double peak storage for every well-formed comment.
+        //
+        // The invalid-UTF-8 branch still allocates infallibly inside
+        // `from_utf8_lossy`, which has no fallible form. Bounded: a COM segment
+        // is at most 65 533 bytes and replacement characters expand it by at
+        // most 3x, so ~192 KiB on a path that only a malformed comment reaches.
+        *comment = Some(match String::from_utf8(text) {
+            Ok(valid) => valid,
+            Err(invalid) => String::from_utf8_lossy(invalid.as_bytes()).into_owned(),
+        });
+        Ok(())
+    }
+
+    /// Parse Adobe APP14 marker to extract color transform.
+    /// Transform values: 0 = CMYK or RGB, 1 = YCbCr, 2 = YCCK.
+    fn read_app14(&mut self, saw_adobe: &mut bool, transform: &mut u8) -> Result<()> {
+        let length = self.read_u16_be()? as usize;
+        if length < 2 {
+            return Err(JpegError::CorruptData("APP14 segment length < 2".into()));
+        }
+        let end = self.pos + length - 2;
+
+        // Adobe APP14 marker starts with "Adobe" (5 bytes) and is at least 12 bytes
+        if length >= 14
+            && self.pos + 12 <= self.data.len()
+            && &self.data[self.pos..self.pos + 5] == b"Adobe"
+        {
+            // Skip "Adobe" (5) + version (2) + flags0 (2) + flags1 (2) = 11 bytes
+            *transform = self.data[self.pos + 11];
+            *saw_adobe = true;
+        }
+
+        self.pos = end;
+        Ok(())
+    }
+
+    /// Parse APP1 marker for EXIF data.
+    /// Only the first EXIF APP1 is stored; subsequent ones are skipped.
+    fn read_app1(
+        &mut self,
+        exif_data: &mut Option<Vec<u8>>,
+        xmp_data: &mut Option<Vec<u8>>,
+        xmp_ext_chunks: &mut Vec<XmpExtChunk>,
+    ) -> Result<()> {
+        let length = self.read_u16_be()? as usize;
+        if length < 2 {
+            return Err(JpegError::CorruptData("APP1 segment length < 2".into()));
+        }
+        let end = self.pos + length - 2;
+        // Clamp the body upper bound to the buffer size: a truncated stream
+        // can declare a segment length that runs past EOF, and unguarded
+        // slicing would panic. `self.pos = end` past EOF is fine — the
+        // outer marker loop hits EOF on the next read.
+        let data_end = end.min(self.data.len());
+
+        // "Exif\0\0" header is 6 bytes; only store first EXIF APP1
+        if exif_data.is_none()
+            && length >= 8
+            && self.pos + 6 <= self.data.len()
+            && &self.data[self.pos..self.pos + 6] == EXIF_HEADER
+        {
+            let data_start = self.pos + 6;
+            let data_len = data_end.saturating_sub(data_start);
+            // P4-153: error rather than degrade. `exif_data` is a field the
+            // caller reads, and there is no warning channel at this layer, so a
+            // silent drop is undetectable — the failure mode with nothing to
+            // notice. Every other way this segment can be unusable already
+            // errors.
+            *exif_data = Some(crate::common::try_alloc::try_copy_of(
+                &self.data[data_start..data_start + data_len],
+                "EXIF payload",
+            )?);
+        }
+
+        // Standard XMP packet (issue #358); only the first is stored,
+        // mirroring the EXIF rule above.
+        if xmp_data.is_none()
+            && self.pos + XMP_HEADER.len() <= data_end
+            && &self.data[self.pos..self.pos + XMP_HEADER.len()] == XMP_HEADER
+        {
+            let data_start = self.pos + XMP_HEADER.len();
+            // P4-153: error, for the same reason as EXIF above.
+            *xmp_data = Some(crate::common::try_alloc::try_copy_of(
+                &self.data[data_start..data_end],
+                "XMP packet",
+            )?);
+        }
+
+        // Extended XMP chunk: GUID (32 ASCII bytes) + full length (u32
+        // BE) + this chunk's offset (u32 BE), then payload bytes.
+        let ext_hdr = XMP_EXT_HEADER.len();
+        if self.pos + ext_hdr + 40 <= data_end
+            && &self.data[self.pos..self.pos + ext_hdr] == XMP_EXT_HEADER
+        {
+            let p = self.pos + ext_hdr;
+            let guid: [u8; 32] = self.data[p..p + 32].try_into().expect("32-byte slice");
+            let full_len = u32::from_be_bytes(self.data[p + 32..p + 36].try_into().unwrap());
+            let offset = u32::from_be_bytes(self.data[p + 36..p + 40].try_into().unwrap());
+            // P4-153: degrade, and this is the one segment here that does.
+            // P4-144 set the precedent when it made the *reassembly* fallible:
+            // an Extended XMP chunk that cannot be held is dropped and the
+            // standard packet is kept, because the extension is an optional
+            // enlargement of data the caller already has. Erroring would throw
+            // away the packet too. The reassembler already treats a missing
+            // chunk as "extension unavailable" and returns the standard packet,
+            // so this joins a path that is exercised.
+            let chunk_data: Option<Vec<u8>> = crate::common::try_alloc::try_copy_of(
+                &self.data[p + 40..data_end],
+                "Extended XMP chunk",
+            )
+            .ok();
+            if let Some(data) = chunk_data {
+                if xmp_ext_chunks.try_reserve(1).is_ok() {
+                    xmp_ext_chunks.push(XmpExtChunk {
+                        guid,
+                        full_len,
+                        offset,
+                        data,
+                    });
+                }
+            }
+        }
+
+        self.pos = end;
+        Ok(())
+    }
+
+    /// Parse APP13 (Photoshop 3.0 IRB) for the IPTC IIM payload
+    /// (resource 0x0404), walking `8BIM` resources with their even-byte
+    /// padding rules (issue #358). Only the first IPTC resource is kept.
+    fn read_app13(&mut self, iptc_data: &mut Option<Vec<u8>>) -> Result<()> {
+        let length = self.read_u16_be()? as usize;
+        if length < 2 {
+            return Err(JpegError::CorruptData("APP13 segment length < 2".into()));
+        }
+        let end = self.pos + length - 2;
+        let data_end = end.min(self.data.len());
+
+        let hdr = PHOTOSHOP_HEADER.len();
+        if self.pos + hdr <= data_end && &self.data[self.pos..self.pos + hdr] == PHOTOSHOP_HEADER {
+            let mut p = self.pos + hdr;
+            // Resource block: '8BIM' + u16 id + Pascal name (padded to
+            // even including the length byte) + u32 size + data (padded
+            // to even).
+            while data_end >= 12 && p <= data_end - 12 && &self.data[p..p + 4] == b"8BIM" {
+                let id = u16::from_be_bytes([self.data[p + 4], self.data[p + 5]]);
+                let name_len = self.data[p + 6] as usize;
+                // name storage = 1 length byte + name, padded to even.
+                let name_storage = 1 + name_len + (1 + name_len) % 2;
+                let Some(size_pos) = p.checked_add(6).and_then(|v| v.checked_add(name_storage))
+                else {
+                    break;
+                };
+                if data_end < 4 || size_pos > data_end - 4 {
+                    break;
+                }
+                let size = u32::from_be_bytes(self.data[size_pos..size_pos + 4].try_into().unwrap())
+                    as usize;
+                let payload = size_pos + 4;
+                if size > data_end.saturating_sub(payload) {
+                    break;
+                }
+                if id == 0x0404 && iptc_data.is_none() {
+                    // P4-153: error. `iptc_data` is a caller-visible field
+                    // with no warning channel, so a silent drop is
+                    // undetectable — same reasoning as EXIF.
+                    *iptc_data = Some(crate::common::try_alloc::try_copy_of(
+                        &self.data[payload..payload + size],
+                        "IPTC payload",
+                    )?);
+                }
+                // Advance past this resource. Checked, and forward
+                // progress is required so a malformed IRB cannot spin.
+                let Some(next) = payload
+                    .checked_add(size)
+                    .and_then(|v| v.checked_add(size % 2))
+                else {
+                    break;
+                };
+                if next <= p {
+                    break;
+                }
+                p = next;
+            }
+        }
+
+        self.pos = end;
+        Ok(())
+    }
+
+    /// Parse APP2 marker for ICC profile data.
+    /// ICC profile chunks have a 14-byte overhead: "ICC_PROFILE\0" (12) + seq_no (1) + num_markers (1).
+    fn read_app2(&mut self, icc_chunks: &mut Vec<IccChunk>) -> Result<()> {
+        let length = self.read_u16_be()? as usize;
+        if length < 2 {
+            return Err(JpegError::CorruptData("APP2 segment length < 2".into()));
+        }
+        let end = self.pos + length - 2;
+
+        // ICC_PROFILE header: 12 bytes identifier + 1 seq_no + 1 num_markers = 14 bytes overhead
+        if length >= 16
+            && self.pos + 14 <= self.data.len()
+            && &self.data[self.pos..self.pos + 12] == ICC_PROFILE_HEADER
+        {
+            let seq_no = self.data[self.pos + 12];
+            let num_markers = self.data[self.pos + 13];
+            let data_start = self.pos + 14;
+            // Same truncation guard as APP1: a malformed segment length can
+            // place `end` past the buffer; clamp before the slice copy.
+            let data_end = end.min(self.data.len());
+            let data_len = data_end.saturating_sub(data_start);
+            // P4-153: error. A dropped ICC *chunk* is worse than a dropped
+            // whole profile — reassembly checks that sequence numbers 1..=N are
+            // all present, so losing one silently turns a valid profile into a
+            // missing one, and the caller cannot tell that from a file that
+            // never carried a profile. This is also where P4-144 landed for the
+            // reassembly buffers, which every other ICC allocation now matches.
+            let data: Vec<u8> = crate::common::try_alloc::try_copy_of(
+                &self.data[data_start..data_start + data_len],
+                "ICC profile chunk",
+            )?;
+            icc_chunks
+                .try_reserve(1)
+                .map_err(|_| JpegError::AllocationFailed {
+                    what: "ICC chunk list",
+                    bytes: ((icc_chunks.len() + 1) * core::mem::size_of::<IccChunk>()) as u64,
+                })?;
+            icc_chunks.push(IccChunk {
+                seq_no,
+                num_markers,
+                data,
+            });
+        }
+
+        self.pos = end;
+        Ok(())
+    }
+
+    fn read_sof(&mut self, is_progressive: bool, is_lossless: bool) -> Result<FrameHeader> {
+        let length = self.read_u16_be()? as usize;
+        if length < 2 {
+            return Err(JpegError::CorruptData(format!(
+                "SOF segment length {} < 2",
+                length
+            )));
+        }
+        let start = self.pos;
+
+        let precision = self.read_u8()?;
+        let height = self.read_u16_be()?;
+        let width = self.read_u16_be()?;
+        let num_components = self.read_u8()? as usize;
+
+        if width == 0 {
+            return Err(JpegError::CorruptData("SOF width must not be 0".into()));
+        }
+        if num_components == 0 || num_components > MAX_COMPONENTS {
+            return Err(JpegError::CorruptData(format!(
+                "SOF component count must be 1-{}, got {}",
+                MAX_COMPONENTS, num_components
+            )));
+        }
+
+        let mut components = Vec::with_capacity(num_components);
+        for _ in 0..num_components {
+            let id = self.read_u8()?;
+            let sampling = self.read_u8()?;
+            let h_samp = sampling >> 4;
+            let v_samp = sampling & 0x0F;
+            if h_samp == 0 || h_samp > 4 || v_samp == 0 || v_samp > 4 {
+                return Err(JpegError::CorruptData(format!(
+                    "sampling factor must be 1-4, got {}x{}",
+                    h_samp, v_samp
+                )));
+            }
+            let quant_table_index = self.read_u8()?;
+            if quant_table_index > 3 {
+                return Err(JpegError::CorruptData(format!(
+                    "quantization table index {} out of range (0-3)",
+                    quant_table_index
+                )));
+            }
+            components.push(ComponentInfo {
+                id,
+                horizontal_sampling: h_samp,
+                vertical_sampling: v_samp,
+                quant_table_index,
+            });
+        }
+
+        let consumed = self.pos - start;
+        if consumed != length - 2 {
+            self.pos = start + length - 2;
+        }
+
+        Ok(FrameHeader {
+            precision,
+            height,
+            width,
+            components,
+            is_progressive,
+            is_lossless,
+        })
+    }
+
+    fn read_dqt(&mut self, tables: &mut [Option<QuantTable>; 4]) -> Result<()> {
+        let length = self.read_u16_be()? as usize;
+        let end = self.pos + length - 2;
+
+        while self.pos < end {
+            let info = self.read_u8()?;
+            let precision = info >> 4;
+            let table_id = (info & 0x0F) as usize;
+
+            if table_id >= 4 {
+                return Err(JpegError::CorruptData(format!(
+                    "quantization table id {} out of range",
+                    table_id
+                )));
+            }
+
+            let mut zigzag = [0u16; 64];
+            if precision == 0 {
+                for entry in zigzag.iter_mut() {
+                    *entry = self.read_u8()? as u16;
+                }
+            } else {
+                for entry in zigzag.iter_mut() {
+                    *entry = self.read_u16_be()?;
+                }
+            }
+
+            tables[table_id] = Some(QuantTable::from_zigzag(&zigzag));
+        }
+
+        Ok(())
+    }
+
+    fn read_dht(
+        &mut self,
+        dc_tables: &mut [Option<Arc<HuffmanTable>>; 4],
+        ac_tables: &mut [Option<Arc<HuffmanTable>>; 4],
+    ) -> Result<()> {
+        let length = self.read_u16_be()? as usize;
+        let end = self.pos + length - 2;
+
+        while self.pos < end {
+            let info = self.read_u8()?;
+            let table_class = info >> 4;
+            let table_id = (info & 0x0F) as usize;
+
+            if table_id >= 4 {
+                return Err(JpegError::CorruptData(format!(
+                    "Huffman table id {} out of range",
+                    table_id
+                )));
+            }
+            // Match libjpeg-turbo's `JERR_DHT_INDEX` rejection: only Tc=0
+            // (DC) and Tc=1 (AC) are valid. Without this check, malformed
+            // DHTs (e.g. Tc=2) silently fall into the AC branch below
+            // and corrupt unrelated tables, while libjpeg-turbo aborts
+            // with "Bogus DHT index". jdmarker.c folds the same check
+            // into its `index & 0x10` / index-range test.
+            if table_class > 1 {
+                return Err(JpegError::CorruptData(format!("Bogus DHT index {}", info)));
+            }
+
+            let mut bits = [0u8; 17];
+            for b in &mut bits[1..=16] {
+                *b = self.read_u8()?;
+            }
+
+            let total: usize = bits[1..=16].iter().map(|&b| b as usize).sum();
+            // Mirror C's get_dht bounds (jdmarker.c JERR_BAD_HUFF_TABLE):
+            // the symbol count must fit inside the DHT segment itself, not
+            // just the stream — otherwise a short segment would silently
+            // consume bytes belonging to the following markers where djpeg
+            // aborts.
+            if total > end.saturating_sub(self.pos) || self.pos + total > self.data.len() {
+                return Err(JpegError::UnexpectedEof);
+            }
+            // Borrow symbol bytes directly from the input; `build` copies
+            // them into the table's inline storage (no temp Vec).
+            let values = &self.data[self.pos..self.pos + total];
+            self.pos += total;
+
+            let table = Arc::new(HuffmanTable::build(&bits, values)?);
+
+            if table_class == 0 {
+                dc_tables[table_id] = Some(table);
+            } else {
+                ac_tables[table_id] = Some(table);
+            }
+        }
+
+        Ok(())
+    }
+
+    fn read_dri(&mut self) -> Result<u16> {
+        let _length = self.read_u16_be()?;
+        self.read_u16_be()
+    }
+
+    /// Parse DAC (Define Arithmetic Conditioning) marker (ITU-T T.81 B.2.4.3).
+    ///
+    /// Tb (table index) is valid in 0..=15 per NUM_ARITH_TBLS.
+    fn read_dac(
+        &mut self,
+        dc_params: &mut [(u8, u8); crate::decode::arithmetic::NUM_ARITH_TBLS],
+        ac_params: &mut [u8; crate::decode::arithmetic::NUM_ARITH_TBLS],
+    ) -> Result<()> {
+        let length = self.read_u16_be()? as usize;
+        let end = self.pos + length - 2;
+
+        while self.pos < end {
+            let tc_tb = self.read_u8()?;
+            let tc = tc_tb >> 4; // table class: 0=DC, 1=AC
+            let tb = (tc_tb & 0x0F) as usize; // table index 0..=15
+            let val = self.read_u8()?;
+
+            // Spec requires Tb in 0..=15. Upper nibble of Tc/Tb byte is 0..=1
+            // (DC vs AC); defensive skip for anything else.
+            if tb >= crate::decode::arithmetic::NUM_ARITH_TBLS {
+                continue;
+            }
+            if tc == 0 {
+                // DC: val = L | (U << 4)
+                let l = val & 0x0F;
+                let u = val >> 4;
+                dc_params[tb] = (l, u);
+            } else if tc == 1 {
+                // AC: val = Kx
+                ac_params[tb] = val;
+            }
+        }
+        Ok(())
+    }
+
+    /// Crate-public shim for `read_dac`, enabling round-trip tests in
+    /// the encoder crate without exposing the internal parsing API to
+    /// downstream consumers.
+    #[cfg(test)]
+    pub(crate) fn read_dac_public(
+        &mut self,
+        dc_params: &mut [(u8, u8); crate::decode::arithmetic::NUM_ARITH_TBLS],
+        ac_params: &mut [u8; crate::decode::arithmetic::NUM_ARITH_TBLS],
+    ) -> Result<()> {
+        self.read_dac(dc_params, ac_params)
+    }
+
+    fn read_sos(&mut self) -> Result<ScanHeader> {
+        let _length = self.read_u16_be()?;
+        let num_components = self.read_u8()? as usize;
+
+        if num_components == 0 || num_components > MAX_COMPONENTS {
+            return Err(JpegError::CorruptData(format!(
+                "SOS component count must be 1-{}, got {}",
+                MAX_COMPONENTS, num_components
+            )));
+        }
+
+        let mut components = Vec::with_capacity(num_components);
+        for _ in 0..num_components {
+            let component_id = self.read_u8()?;
+            let tables = self.read_u8()?;
+            let dc_idx = tables >> 4;
+            let ac_idx = tables & 0x0F;
+            if dc_idx > 3 || ac_idx > 3 {
+                return Err(JpegError::CorruptData(format!(
+                    "Huffman table index out of range: dc={}, ac={}",
+                    dc_idx, ac_idx
+                )));
+            }
+            components.push(ScanComponentSelector {
+                component_id,
+                dc_table_index: dc_idx,
+                ac_table_index: ac_idx,
+            });
+        }
+
+        let ss = self.read_u8()?;
+        let se = self.read_u8()?;
+        let ahl = self.read_u8()?;
+        let ah = ahl >> 4;
+        let al = ahl & 0x0F;
+
+        Ok(ScanHeader {
+            components,
+            spec_start: ss,
+            spec_end: se,
+            succ_high: ah,
+            succ_low: al,
+        })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::decode::arithmetic::NUM_ARITH_TBLS;
+
+    /// P4-153: every metadata copy in this file goes through the fallible
+    /// allocator, and this is checked against the source rather than asserted
+    /// in prose.
+    ///
+    /// **Why the source and not the behaviour.** Each parse copy is bounded by
+    /// its segment's `u16` length — at most 65 533 bytes — so no real host
+    /// refuses one and no JPEG can be built that makes it. The refusal is
+    /// reachable only under a memory-constrained allocator, which is the caller
+    /// P4-153 exists for. A test that called `try_copy_of` with an unservable
+    /// length would prove the helper works, which `api::progressive_output`
+    /// already does, and would pass unchanged if this file went back to
+    /// `.to_vec()` — the drift it is supposed to catch.
+    ///
+    /// So the property checked here is the one that can actually regress: that
+    /// no bare `to_vec()` / `into_owned()` reappears on a metadata path. Proven
+    /// by reverting one site, which fails this test naming it.
+    ///
+    /// Skipped where the source tree is not readable (`wasm32-wasip1` under
+    /// wasmtime, a packaged crate); it runs on every native leg.
+    #[test]
+    fn no_metadata_copy_bypasses_the_fallible_allocator() {
+        let path: std::path::PathBuf =
+            std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/decode/marker.rs");
+        let Ok(text) = std::fs::read_to_string(&path) else {
+            eprintln!(
+                "SKIP: {} is not readable; this gate inspects repository sources, \
+                 which a packaged crate and a sandboxed target do not provide.",
+                path.display()
+            );
+            return;
+        };
+
+        // Only the production code: this module necessarily contains the
+        // predicate below as *source*, and a gate that trips on its own
+        // definition gets deleted rather than obeyed. Everything the gate is
+        // about lives above the test module.
+        let production_end: usize = text
+            .find("\n#[cfg(test)]\nmod tests {")
+            .unwrap_or(text.len());
+
+        // Statements, not lines. A copy split across lines — which rustfmt
+        // produces for any call with more than one argument — would slip past a
+        // per-line scan, and review found exactly that: the first version
+        // false-greened the COM path because `from_utf8_lossy` and its argument
+        // sat on different lines from the slice.
+        //
+        // `to_vec()` on a *fixed-size* array (`guid`, table entries) is not an
+        // input-sized copy; the metadata ones all slice `self.data`.
+        const COPY_FORMS: [&str; 4] = [
+            ".to_vec()",
+            ".to_owned()",
+            ".into_owned()",
+            "from_utf8_lossy",
+        ];
+        let offenders: Vec<String> = text[..production_end]
+            .split(';')
+            .filter_map(|statement| {
+                let code: String = statement
+                    .lines()
+                    .map(str::trim)
+                    .filter(|l| !l.starts_with("//"))
+                    .collect::<Vec<&str>>()
+                    .join(" ");
+                let copies_input: bool =
+                    code.contains("self.data[") && COPY_FORMS.iter().any(|f| code.contains(f));
+                // A statement that already routes through the fallible helper is
+                // the fixed shape, not an offender.
+                let is_fallible: bool = code.contains("try_alloc") || code.contains("try_copy_of");
+                (copies_input && !is_fallible).then(|| format!("  {}", code.trim()))
+            })
+            .collect();
+
+        assert!(
+            offenders.is_empty(),
+            "a metadata copy slices the input and allocates infallibly:\n\n{}\n\n\
+             An input-sized copy must go through `common::try_alloc`, so an \
+             allocator refusal becomes `JpegError::AllocationFailed` rather than \
+             aborting the process mid-decode (P4-153). Use `try_copy_of(.., \
+             \"<segment name>\")` and either propagate with `?` or, for the \
+             Extended XMP chunk alone, degrade — see the note below on why that \
+             one is different.",
+            offenders.join("\n")
+        );
+    }
+
+    // P4-153: the one segment that degrades rather than erroring is the
+    // Extended XMP chunk, and its degrade is proven by
+    // `tests/xmp_iptc_metadata.rs::incomplete_extended_xmp_falls_back_to_the_standard_packet`
+    // rather than duplicated here. A chunk dropped at parse time leaves exactly
+    // the state that test already pins: an extension that cannot be assembled,
+    // with the standard packet surviving. The merge is inline in `read_markers`
+    // rather than a callable unit, so a unit test would have to rebuild the
+    // whole marker stream to reach it and would assert the same thing less
+    // directly — and a test that merely set a field and read it back would
+    // assert nothing at all.
+    //
+    // Why that segment and no other: an Extended XMP chunk is an optional
+    // *enlargement* of a packet the caller already holds, so dropping one
+    // leaves the standard packet intact, and P4-144 made the same call for the
+    // reassembly buffers. Every other segment errors, because there is no
+    // warning channel at this layer: `exif_data`, `xmp_data`, `iptc_data`,
+    // `icc_chunks` and `comment` are fields the caller reads, and a silent drop
+    // is indistinguishable from a file that never carried the data.
+
+    /// Build a minimal JPEG byte stream containing only the given SOF marker
+    /// followed by the simplest possible 1-component SOF segment and a
+    /// 1-component SOS segment.  The result is accepted by `read_markers` and
+    /// exercises the `is_arithmetic` classification without needing a complete
+    /// entropy-coded bitstream.
+    ///
+    /// SOF segment (1 component, 8-bit, 8×8 image):
+    ///   FF marker | len=0x000B | P=8 | H=0x0008 | W=0x0008 | Nf=1 |
+    ///   C1=1, H1V1=0x11, Tq=0
+    ///
+    /// SOS segment (1 component):
+    ///   FF DA | len=0x0008 | Ns=1 | C1=1, Td0/Ta0=0x00 | Ss=0 | Se=63 | Ah/Al=0x00
+    fn make_minimal_jpeg(sof_marker: u8) -> Vec<u8> {
+        let mut v: Vec<u8> = Vec::with_capacity(40);
+        // SOI
+        v.extend_from_slice(&[0xFF, 0xD8]);
+        // SOF
+        v.extend_from_slice(&[0xFF, sof_marker]);
+        v.extend_from_slice(&[
+            0x00, 0x0B, // length = 11 (covers P + H + W + Nf + 1×3 bytes)
+            0x08, // precision = 8
+            0x00, 0x08, // height = 8
+            0x00, 0x08, // width = 8
+            0x01, // Nf = 1 component
+            0x01, 0x11, 0x00, // comp 1: id=1, H=1 V=1, Tq=0
+        ]);
+        // SOS — Ah/Al values indicate the spectral band for progressive scans.
+        // For a complete (non-progressive) scan: Ss=0, Se=63, Ah/Al=0.
+        // For a progressive scan the parser calls skip_entropy_data() and
+        // loops looking for more SOS or EOI; supplying EOI immediately
+        // after the SOS header satisfies that loop without any entropy data.
+        v.extend_from_slice(&[0xFF, 0xDA]);
+        v.extend_from_slice(&[
+            0x00, 0x08, // length = 8
+            0x01, // Ns = 1 component
+            0x01, 0x00, // comp 1: Cs=1, Td=0 Ta=0
+            0x00, // Ss = 0
+            0x3F, // Se = 63
+            0x00, // Ah=0, Al=0
+        ]);
+        // EOI — terminates the progressive marker loop (and is harmless for
+        // baseline, where the loop already exited after the SOS header).
+        v.extend_from_slice(&[0xFF, 0xD9]);
+        v
+    }
+
+    /// Supported SOF variants (SOF0–SOF3, SOF9–SOF11) must parse and report
+    /// `is_arithmetic` correctly.  The classification rule per ISO 10918-1
+    /// Table B.1: bit 3 of `(SOF_marker & 0x0F)` selects the entropy-coding
+    /// family — 0 = Huffman, 1 = arithmetic.
+    ///
+    /// C libjpeg-turbo supports the same set; validated by running the C
+    /// reference against synthetic JPEG headers.
+    #[test]
+    fn is_arithmetic_supported_sof_variants() {
+        // (sof_marker, expected_is_arithmetic)
+        let cases: &[(u8, bool)] = &[
+            (0xC0, false), // SOF0  baseline DCT, Huffman
+            (0xC1, false), // SOF1  extended sequential DCT, Huffman
+            (0xC2, false), // SOF2  progressive DCT, Huffman
+            (0xC3, false), // SOF3  lossless, Huffman
+            (0xC9, true),  // SOF9  extended sequential DCT, arithmetic
+            (0xCA, true),  // SOF10 progressive DCT, arithmetic
+            (0xCB, true),  // SOF11 lossless, arithmetic
+        ];
+
+        for &(sof_byte, expected) in cases {
+            let jpeg: Vec<u8> = make_minimal_jpeg(sof_byte);
+            let mut reader: MarkerReader = MarkerReader::new(&jpeg);
+            let meta: JpegMetadata = reader
+                .read_markers()
+                .unwrap_or_else(|e| panic!("SOF 0x{sof_byte:02X} parse failed: {e:?}"));
+            assert_eq!(
+                meta.is_arithmetic, expected,
+                "SOF 0x{sof_byte:02X}: expected is_arithmetic={expected}, got {}",
+                meta.is_arithmetic,
+            );
+        }
+    }
+
+    /// Differential SOF variants (SOF5/SOF6/SOF7 Huffman and SOF13/SOF14/SOF15
+    /// arithmetic) are rejected with `JpegError::Unsupported`, matching C
+    /// libjpeg-turbo's "Unsupported JPEG process: SOF type 0xCN" behaviour.
+    #[test]
+    fn unsupported_differential_sof_variants_return_error() {
+        let unsupported: &[u8] = &[
+            0xC5, // SOF5  differential sequential DCT, Huffman
+            0xC6, // SOF6  differential progressive DCT, Huffman
+            0xC7, // SOF7  differential lossless, Huffman
+            0xCD, // SOF13 differential sequential DCT, arithmetic
+            0xCE, // SOF14 differential progressive DCT, arithmetic
+            0xCF, // SOF15 differential lossless, arithmetic
+        ];
+
+        for &sof_byte in unsupported {
+            let jpeg: Vec<u8> = make_minimal_jpeg(sof_byte);
+            let mut reader: MarkerReader = MarkerReader::new(&jpeg);
+            let result: Result<JpegMetadata> = reader.read_markers();
+            match result {
+                Err(JpegError::Unsupported(msg)) => {
+                    assert!(
+                        msg.contains(&format!("0x{sof_byte:02X}")),
+                        "SOF 0x{sof_byte:02X}: error message should contain marker code, got: {msg}"
+                    );
+                }
+                Err(other) => {
+                    panic!("SOF 0x{sof_byte:02X}: expected Unsupported error, got {other:?}")
+                }
+                Ok(_) => {
+                    panic!("SOF 0x{sof_byte:02X}: expected Unsupported error, but parse succeeded")
+                }
+            }
+        }
+    }
+
+    /// Checked-in SOF9 arithmetic-sequential fixture exercises the real-file
+    /// path through `read_markers` without depending on the optional submodule.
+    #[test]
+    fn is_arithmetic_true_for_testimgari() {
+        let data: &[u8] = include_bytes!(
+            "../../tests/fixtures/real_world/libjpeg_testimgari_227x149_arithmetic.jpg"
+        );
+        let mut reader: MarkerReader = MarkerReader::new(data);
+        let meta: JpegMetadata = reader.read_markers().expect("testimgari.jpg must parse");
+        assert!(
+            meta.is_arithmetic,
+            "testimgari.jpg (SOF9) must report is_arithmetic=true"
+        );
+    }
+
+    /// Checked-in SOF2 progressive-Huffman fixture confirms
+    /// `is_arithmetic = false` for the process actually named by the test.
+    #[test]
+    fn is_arithmetic_false_for_progressive_huffman() {
+        let data: &[u8] =
+            include_bytes!("../../tests/fixtures/real_world/derived_227x149_progressive.jpg");
+        let mut reader: MarkerReader = MarkerReader::new(data);
+        let meta: JpegMetadata = reader
+            .read_markers()
+            .expect("progressive fixture must parse");
+        assert!(
+            !meta.is_arithmetic,
+            "SOF2 progressive Huffman must report is_arithmetic=false"
+        );
+    }
+
+    /// Synthetic DAC segment with high table indices (Tb=10 DC, Tb=12 AC) must
+    /// parse without panic and populate the corresponding 16-slot arrays.
+    /// Spec ref: ITU-T T.81 B.2.4.3, NUM_ARITH_TBLS = 16.
+    #[test]
+    fn dac_parses_high_table_indices_without_panic() {
+        // DAC segment: length(2) + 2 pairs of 2 bytes = 6 bytes
+        //   Tc/Tb = 0x0A (DC, Tb=10), val = 0x21 (U=2, L=1)
+        //   Tc/Tb = 0x1C (AC, Tb=12), val = 7 (Kx=7)
+        let segment: Vec<u8> = vec![0x00, 0x06, 0x0A, 0x21, 0x1C, 0x07];
+
+        let mut dc_params: [(u8, u8); NUM_ARITH_TBLS] = [(0, 1); NUM_ARITH_TBLS];
+        let mut ac_params: [u8; NUM_ARITH_TBLS] = [5; NUM_ARITH_TBLS];
+
+        let mut reader = MarkerReader::new(&segment);
+        reader
+            .read_dac(&mut dc_params, &mut ac_params)
+            .expect("DAC with Tb=10,12 must parse");
+
+        assert_eq!(dc_params[10], (1, 2), "DC Tb=10 L/U populated");
+        assert_eq!(ac_params[12], 7, "AC Tb=12 Kx populated");
+        // Slots 0..4 untouched by this DAC
+        assert_eq!(dc_params[0], (0, 1));
+        assert_eq!(ac_params[0], 5);
+    }
+
+    /// Regression: a truncated APP1/APP2 segment must not panic, even when the
+    /// declared `length` field runs past the end of the buffer.
+    ///
+    /// Found by `fuzz_read_coefficients` / `fuzz_decompress_lenient` (Fuzz Smoke
+    /// CI run 25147432663): with `length = 0xFFFF` and the EXIF or ICC_PROFILE
+    /// signature present but the body chopped, the previous slice copy
+    /// `self.data[data_start..data_start + data_len]` indexed past EOF.
+    #[test]
+    fn app1_app2_truncated_segments_do_not_panic() {
+        // EXIF APP1 advertising body length 0xFFFF but only providing the 6-byte
+        // signature and a single byte beyond.
+        let mut exif_seg: Vec<u8> = vec![0xFF, 0xFF]; // length = 65535
+        exif_seg.extend_from_slice(b"Exif\0\0"); // EXIF_HEADER (6 bytes)
+        exif_seg.push(0x42); // one byte of body
+        let mut reader = MarkerReader::new(&exif_seg);
+        let mut exif: Option<Vec<u8>> = None;
+        // The parse may report end-of-data later (since pos = end overshoots),
+        // but it must not panic during the slice copy.
+        let mut xmp: Option<Vec<u8>> = None;
+        let mut xmp_ext: Vec<XmpExtChunk> = Vec::new();
+        let _ = reader.read_app1(&mut exif, &mut xmp, &mut xmp_ext);
+        // If the EXIF header was recognised, we must have grabbed only the
+        // bytes that actually exist (no out-of-bounds slice).
+        if let Some(body) = exif {
+            assert!(
+                body.len() <= exif_seg.len(),
+                "EXIF body must not exceed buffer size, got {}",
+                body.len()
+            );
+        }
+
+        // ICC APP2 advertising body length 0x100 but only providing the 14-byte
+        // header (`ICC_PROFILE\0` + seq + num_markers).
+        let mut icc_seg: Vec<u8> = vec![0x01, 0x00]; // length = 256
+        icc_seg.extend_from_slice(b"ICC_PROFILE\0"); // ICC_PROFILE_HEADER (12 bytes)
+        icc_seg.push(0x01); // seq_no
+        icc_seg.push(0x01); // num_markers
+                            // No body bytes follow — declared length lies.
+        let mut reader = MarkerReader::new(&icc_seg);
+        let mut icc_chunks: Vec<IccChunk> = Vec::new();
+        let _ = reader.read_app2(&mut icc_chunks);
+        for chunk in &icc_chunks {
+            assert!(
+                chunk.data.len() <= icc_seg.len(),
+                "ICC chunk body must not exceed buffer size, got {}",
+                chunk.data.len()
+            );
+        }
+    }
+}

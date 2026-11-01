@@ -1,0 +1,34 @@
+% Copyright (c) 2026 DorianRudolph
+% SPDX-License-Identifier: MIT
+{{header}}
+{{object 1 0}}
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+{{object 2 0}}
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+{{object 3 0}}
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 256 192] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>
+endobj
+{{object 4 0}}
+<<  {{streamlen}} >>
+stream
+BT /F1 24 Tf 24 130 Td (PDF rendering 123) Tj /F1 12 Tf 0 -35 Td (AV fi / spaced text) Tj ET
+endstream
+endobj
+{{object 5 0}}
+<< /Type /Font /Subtype /TrueType /BaseFont /Roboto-Regular /Encoding /WinAnsiEncoding /FirstChar 32 /LastChar 126 /Widths [248 258 320 616 562 732 622 175 342 348 431 567 197 276 264 413 562 562 562 562 562 562 562 562 562 562 242 211 508 549 523 473 898 652 623 651 656 568 553 681 713 272 552 627 539 873 713 688 631 688 616 594 597 648 637 887 627 601 599 265 411 265 418 451 309 544 562 523 564 530 348 562 551 243 239 507 243 877 552 570 562 568 339 516 327 551 484 751 496 473 496 338 244 338 680] /FontDescriptor 6 0 R >>
+endobj
+{{object 6 0}}
+<< /Type /FontDescriptor /FontName /Roboto-Regular /Flags 32 /FontBBox [-891 -271 2045 1056] /ItalicAngle 0 /Ascent 928 /Descent -244 /CapHeight 711 /StemV 80 /FontFile2 7 0 R >>
+endobj
+{{object 7 0}}
+<< /Length1 305608 {{streamlen}} >>
+stream
+{{include ../../../crates/pdfoxium-core/testdata/harfbuzz/Roboto-Regular.ttf}}
+endstream
+endobj
+{{xref}}
+{{trailer}}
+{{startxref}}
+%%EOF

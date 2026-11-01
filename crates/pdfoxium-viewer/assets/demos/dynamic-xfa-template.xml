@@ -1,0 +1,18 @@
+<template xmlns="http://www.xfa.org/schema/xfa-template/3.3/">
+<subform name="demo" layout="tb" locale="en_US">
+<pageSet><pageArea name="page"><occur min="1" max="-1"/>
+<medium short="612pt" long="792pt"/><contentArea x="36pt" y="36pt" w="540pt" h="720pt"/>
+</pageArea></pageSet>
+<subform name="controls" layout="position" w="540pt" h="120pt">
+<draw x="0pt" y="0pt" w="540pt" h="36pt"><font typeface="Helvetica" size="24pt"/><value><text>Dynamic XFA: repeating rows</text></value></draw>
+<draw x="0pt" y="40pt" w="540pt" h="22pt"><font typeface="Helvetica" size="11pt"/><value><text>Add two rows to create another page. Remove rows to shrink again.</text></value></draw>
+<field name="add" x="0pt" y="74pt" w="150pt" h="30pt"><ui><button/></ui><caption><font typeface="Helvetica" size="12pt"/><value><text>Add row</text></value></caption><border><edge/></border>
+<event activity="click"><script contentType="application/x-javascript">if (xfa.form.demo._item.count &lt; 20) { xfa.form.demo._item.addInstance(true); xfa.layout.relayout(); }</script></event></field>
+<field name="remove" x="175pt" y="74pt" w="170pt" h="30pt"><ui><button/></ui><caption><font typeface="Helvetica" size="12pt"/><value><text>Remove last row</text></value></caption><border><edge/></border>
+<event activity="click"><script contentType="application/x-javascript">if (xfa.form.demo._item.count &gt; 1) { xfa.form.demo._item.removeInstance(xfa.form.demo._item.count - 1); xfa.layout.relayout(); }</script></event></field>
+</subform>
+<subform name="item" layout="position" w="540pt" h="180pt">
+<occur min="1" initial="2" max="20"/><keep intact="contentArea"/>
+<field name="description" x="0pt" y="5pt" w="500pt" h="45pt"><font typeface="Helvetica" size="12pt"/><ui><textEdit/></ui><caption placement="top" reserve="18pt"><font typeface="Helvetica" size="10pt"/><value><text>Item description</text></value></caption><border><edge/></border><value><text>New item</text></value></field>
+<field name="notes" x="0pt" y="65pt" w="500pt" h="90pt"><font typeface="Helvetica" size="12pt"/><ui><textEdit multiLine="1"/></ui><caption placement="top" reserve="18pt"><font typeface="Helvetica" size="10pt"/><value><text>Notes (multiline)</text></value></caption><border><edge/></border><value><text>Enter notes for this row.</text></value></field>
+</subform></subform></template>

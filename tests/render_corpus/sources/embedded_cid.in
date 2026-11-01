@@ -1,0 +1,37 @@
+% Copyright (c) 2026 DorianRudolph
+% SPDX-License-Identifier: MIT
+{{header}}
+{{object 1 0}}
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+{{object 2 0}}
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+{{object 3 0}}
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 256 192] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>
+endobj
+{{object 4 0}}
+<<  {{streamlen}} >>
+stream
+BT /F1 28 Tf 24 110 Td <00350029002b0005002602390270> Tj ET
+endstream
+endobj
+{{object 5 0}}
+<< /Type /Font /Subtype /Type0 /BaseFont /Roboto-Regular /Encoding /Identity-H /DescendantFonts [8 0 R] >>
+endobj
+{{object 6 0}}
+<< /Type /FontDescriptor /FontName /Roboto-Regular /Flags 32 /FontBBox [-891 -271 2045 1056] /ItalicAngle 0 /Ascent 928 /Descent -244 /CapHeight 711 /StemV 80 /FontFile2 7 0 R >>
+endobj
+{{object 7 0}}
+<< /Length1 305608 {{streamlen}} >>
+stream
+{{include ../../../crates/pdfoxium-core/testdata/harfbuzz/Roboto-Regular.ttf}}
+endstream
+endobj
+{{object 8 0}}
+<< /Type /Font /Subtype /CIDFontType2 /BaseFont /Roboto-Regular /CIDSystemInfo << /Registry (Adobe) /Ordering (Identity) /Supplement 0 >> /CIDToGIDMap /Identity /FontDescriptor 6 0 R /DW 1000 /W [53 [631] 41 [656] 43 [553] 5 [248] 38 [652] 569 [665] 624 [908]] >>
+endobj
+{{xref}}
+{{trailer}}
+{{startxref}}
+%%EOF

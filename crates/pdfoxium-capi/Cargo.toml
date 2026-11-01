@@ -1,0 +1,30 @@
+[package]
+include = ["src/**", "assets/**", "examples/**", "tests/**", "testdata/**", "include/**", "web/**", "build.rs", "Cargo.toml", "README.md", "LICENSE*", "UPSTREAM.md", "THIRD_PARTY_LICENSES.md", "!**/.DS_Store", "!**/__pycache__/**", "!**/*.py[cod]"]
+name = "pdfoxium-capi"
+version = "0.1.0"
+edition.workspace = true
+license = "BSD-3-Clause"
+description = "PDFium-compatible C ABI for the Rust pdfoxium engine"
+rust-version.workspace = true
+repository.workspace = true
+build = "build.rs"
+
+[features]
+default = ["simd", "xfa"]
+js = ["pdfoxium-core/js", "pdfoxium/js"]
+xfa = ["js", "pdfoxium-core/xfa", "pdfoxium/xfa"]
+render-profile = ["pdfoxium-core/render-profile", "pdfoxium/render-profile"]
+simd = ["pdfoxium-core/simd", "pdfoxium/simd"]
+jpeg-box-simd = ["pdfoxium-core/jpeg-box-simd"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+pdfoxium = { path = "../pdfoxium", version = "=0.1.0", default-features = false, features = ["capi-support"] }
+pdfoxium-core = { path = "../pdfoxium-core", version = "=0.1.0", default-features = false }
+
+[build-dependencies]
+bindgen = "0.73.2"
+quote = "1.0.47"
+syn = { version = "3.0.9", features = ["full", "printing"] }

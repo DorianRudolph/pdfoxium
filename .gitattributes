@@ -1,0 +1,5 @@
+*.dylib binary
+*.so binary
+
+# Preserve the original license/notice text, including its whitespace.
+THIRD_PARTY_LICENSES.md whitespace=-blank-at-eol,-blank-at-eof

@@ -1,0 +1,747 @@
+{
+  "licenses": {
+    "pdfium": {
+      "spdx": "BSD-3-Clause",
+      "path": "tests/render_corpus/licenses/PDFIUM.txt"
+    },
+    "project": {
+      "spdx": "MIT",
+      "path": "LICENSE"
+    },
+    "roboto": {
+      "spdx": "Apache-2.0",
+      "path": "crates/pdfoxium-core/testdata/harfbuzz/LICENSE-Roboto.txt",
+      "font_source_url": "https://github.com/harfbuzz/harfbuzz/blob/ff36703b95013ec1d437e6038e1aa7c881275f4e/perf/fonts/Roboto-Regular.ttf"
+    },
+    "openstax_biology_2e": {
+      "spdx": "LicenseRef-OpenStax-Biology-2e",
+      "text_spdx": "CC-BY-NC-SA-4.0",
+      "scope": "2026 publisher PDF: textbook content CC BY-NC-SA 4.0; retain in-book attribution, figure credits and trademark notices.",
+      "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "path": "tests/render_corpus/licenses/CC-BY-NC-SA-4.0.txt",
+      "notice": "tests/render_corpus/books/openstax-biology-2e.NOTICE.md"
+    },
+    "hefferon_toc": {
+      "spdx": "CC-BY-SA-3.0-US",
+      "url": "https://hefferon.net/source.html",
+      "path": "tests/render_corpus/licenses/CC-BY-SA-3.0-US.html",
+      "notice": "tests/render_corpus/books/hefferon-toc.NOTICE.md"
+    },
+    "hamiltonian": {
+      "spdx": "LicenseRef-Toby-Bartels-Irrevocable-Permission",
+      "scope": "Toby Bartels explicitly grants irrevocable permission to reuse, modify and redistribute his work; this fixture relies on that affirmative grant.",
+      "url": "https://tobybartels.name/copyright/",
+      "notice": "tests/render_corpus/books/hamiltonian.NOTICE.md"
+    },
+    "right_to_privacy": {
+      "spdx": "LicenseRef-Public-Domain-US-1890",
+      "scope": "Opening two pages of Warren and Brandeis, The Right to Privacy, Harvard Law Review (1890); public domain in the United States.",
+      "notice": "tests/render_corpus/pdfs/right_to_privacy_first_two_pages.NOTICE.md"
+    },
+    "obp0526": {
+      "spdx": "LicenseRef-OBP-0526",
+      "text_spdx": "CC-BY-NC-4.0",
+      "scope": "Book text: CC BY-NC 4.0; images and embedded fonts have separate rights. See retained notice and in-book credits.",
+      "url": "https://creativecommons.org/licenses/by-nc/4.0/",
+      "path": "tests/render_corpus/licenses/CC-BY-NC-4.0.txt",
+      "notice": "tests/render_corpus/books/obp.0526.NOTICE.md"
+    }
+  },
+  "cases": [
+    {
+      "id": "blank",
+      "suite": "smoke",
+      "path": "tests/render_corpus/pdfs/blank.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project"
+      ],
+      "coverage": [
+        "blank",
+        "background"
+      ],
+      "note": "Intentionally blank one-page baseline."
+    },
+    {
+      "id": "rectangles",
+      "suite": "smoke",
+      "path": "tests/render_corpus/pdfs/rectangles.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/rectangles.in",
+      "coverage": [
+        "paths",
+        "fill",
+        "stroke"
+      ]
+    },
+    {
+      "id": "clip_path",
+      "suite": "smoke",
+      "path": "tests/render_corpus/pdfs/clip_path.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/clip_path.in",
+      "coverage": [
+        "paths",
+        "clipping"
+      ]
+    },
+    {
+      "id": "hello_world",
+      "suite": "smoke",
+      "path": "tests/render_corpus/pdfs/hello_world.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/hello_world.in",
+      "coverage": [
+        "text",
+        "base14",
+        "missing-stream-length"
+      ],
+      "note": "Two Base14 fonts; native missing-Length recovery is intentional."
+    },
+    {
+      "id": "image_clipped",
+      "suite": "smoke",
+      "path": "tests/render_corpus/pdfs/image_clipped.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/image_clipped.in",
+      "coverage": [
+        "images",
+        "asciihex",
+        "clipping"
+      ],
+      "note": "Original 4x4 red/green pixel blocks."
+    },
+    {
+      "id": "dashed_lines",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/dashed_lines.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/dashed_lines.in",
+      "coverage": [
+        "paths",
+        "dash"
+      ]
+    },
+    {
+      "id": "rectangles_multi_pages",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/rectangles_multi_pages.pdf",
+      "page_count": 5,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/rectangles_multi_pages.in",
+      "coverage": [
+        "paths",
+        "page-tree",
+        "rotation"
+      ],
+      "note": "Render all five pages, including the page with /Rotate 90."
+    },
+    {
+      "id": "rectangles_double_flipped",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/rectangles_double_flipped.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/rectangles_double_flipped.in",
+      "coverage": [
+        "paths",
+        "transforms"
+      ]
+    },
+    {
+      "id": "rotated_text_90",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/rotated_text_90.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/rotated_text_90.in",
+      "coverage": [
+        "text",
+        "rotation",
+        "base14"
+      ]
+    },
+    {
+      "id": "cropped_text",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/cropped_text.pdf",
+      "page_count": 4,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/cropped_text.in",
+      "coverage": [
+        "text",
+        "cropbox",
+        "base14"
+      ],
+      "note": "Render all four pages, including reversed box coordinates."
+    },
+    {
+      "id": "font_matrix",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/font_matrix.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/font_matrix.in",
+      "coverage": [
+        "text",
+        "transforms",
+        "base14"
+      ]
+    },
+    {
+      "id": "rotated_image",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/rotated_image.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/rotated_image.in",
+      "coverage": [
+        "images",
+        "flate",
+        "transforms"
+      ],
+      "note": "Small uniform RGB image encoded inline."
+    },
+    {
+      "id": "form_object_with_image",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/form_object_with_image.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/form_object_with_image.in",
+      "coverage": [
+        "forms",
+        "images",
+        "flate"
+      ]
+    },
+    {
+      "id": "form_object_with_path",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/form_object_with_path.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/form_object_with_path.in",
+      "coverage": [
+        "forms",
+        "paths"
+      ]
+    },
+    {
+      "id": "pattern_fill",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/pattern_fill.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/pattern_fill.in",
+      "coverage": [
+        "tiling-patterns",
+        "paths",
+        "cmyk"
+      ]
+    },
+    {
+      "id": "pattern_fill_uncolored",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/pattern_fill_uncolored.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/pattern_fill_uncolored.in",
+      "coverage": [
+        "tiling-patterns",
+        "paths"
+      ]
+    },
+    {
+      "id": "pattern_stroke",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/pattern_stroke.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/pattern_stroke.in",
+      "coverage": [
+        "tiling-patterns",
+        "paths",
+        "cmyk"
+      ]
+    },
+    {
+      "id": "pattern_stroke_uncolored",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/pattern_stroke_uncolored.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/pattern_stroke_uncolored.in",
+      "coverage": [
+        "tiling-patterns",
+        "paths"
+      ]
+    },
+    {
+      "id": "alpha_composite",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/alpha_composite.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/pixel/alpha_composite.in",
+      "coverage": [
+        "transparency",
+        "blend-screen"
+      ]
+    },
+    {
+      "id": "smask_blend",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/smask_blend.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "background_bgra": "808080ff",
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/pixel/smask_blend.in",
+      "coverage": [
+        "transparency",
+        "soft-mask",
+        "forms",
+        "blend-screen"
+      ],
+      "note": "Gray backdrop makes Screen blending visible; the native case renders blank on opaque white."
+    },
+    {
+      "id": "radial_shading",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/radial_shading.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/pixel/radial_shading_point_at_center.in",
+      "coverage": [
+        "radial-shading",
+        "functions",
+        "large-transform"
+      ]
+    },
+    {
+      "id": "axial_shading",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/axial_shading.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/pixel/axial_shading_point_at_border_no_extend.in",
+      "coverage": [
+        "axial-shading",
+        "functions",
+        "no-extend"
+      ]
+    },
+    {
+      "id": "type3",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/type3.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/pixel/type3.in",
+      "coverage": [
+        "text",
+        "type3",
+        "inline-images",
+        "image-mask"
+      ]
+    },
+    {
+      "id": "text_color",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/text_color.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/text_color.in",
+      "coverage": [
+        "text",
+        "base14",
+        "text-fill-stroke"
+      ],
+      "note": "Filled and stroked text with distinct red/green colors."
+    },
+    {
+      "id": "annotation_markup_multiline_no_ap",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/annotation_markup_multiline_no_ap.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "flags": 1,
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/annotation_markup_multiline_no_ap.in",
+      "coverage": [
+        "annotations",
+        "generated-appearance"
+      ],
+      "note": "Static highlight/underline/squiggly/strikeout appearance generation; FPDF_ANNOT enabled."
+    },
+    {
+      "id": "stamp_appearance",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/stamp_appearance.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project"
+      ],
+      "flags": 1,
+      "coverage": [
+        "annotations",
+        "normal-appearance",
+        "forms"
+      ],
+      "note": "Original visible stamp with a normal appearance; FPDF_ANNOT enabled."
+    },
+    {
+      "id": "embedded_truetype",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/embedded_truetype.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project",
+        "roboto"
+      ],
+      "coverage": [
+        "text",
+        "embedded-truetype",
+        "winansi"
+      ],
+      "note": "Full unchanged Apache-2.0 Roboto font; ordinary Latin text at two sizes."
+    },
+    {
+      "id": "embedded_cid",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/embedded_cid.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project",
+        "roboto"
+      ],
+      "coverage": [
+        "text",
+        "embedded-cid",
+        "identity-h"
+      ],
+      "note": "Same licensed font, explicit glyph IDs and widths for Latin, Greek and Cyrillic."
+    },
+    {
+      "id": "jpeg_rgb",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/jpeg_rgb.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project"
+      ],
+      "coverage": [
+        "images",
+        "jpeg"
+      ],
+      "note": "Original four-color 32x32 grid; baseline JPEG."
+    },
+    {
+      "id": "jpx_rgb",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/jpx_rgb.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project"
+      ],
+      "coverage": [
+        "images",
+        "jpx"
+      ],
+      "note": "Original four-color 32x32 grid; lossless RGB JP2."
+    },
+    {
+      "id": "ccitt_g4",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/ccitt_g4.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project"
+      ],
+      "coverage": [
+        "images",
+        "ccitt-g4",
+        "bilevel"
+      ],
+      "note": "Original 32x32 checkerboard encoded as Group 4 fax."
+    },
+    {
+      "id": "jbig2_mmr",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/jbig2_mmr.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project"
+      ],
+      "coverage": [
+        "images",
+        "jbig2",
+        "bilevel"
+      ],
+      "note": "Original checkerboard in hand-framed PageInfo/immediate generic MMR/EndOfPage segments; no symbol dictionary."
+    },
+    {
+      "id": "encrypted_r2",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/encrypted_r2.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "password": "âge",
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/encrypted_hello_world_r2.pdf",
+      "coverage": [
+        "encryption",
+        "text",
+        "base14"
+      ],
+      "note": "Encrypted Hello World fixture; UTF-8 owner password from core/fpdfapi/parser/cpdf_security_handler_embeddertest.cpp."
+    },
+    {
+      "id": "encrypted_r3",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/encrypted_r3.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "password": "âge",
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/encrypted_hello_world_r3.pdf",
+      "coverage": [
+        "encryption",
+        "text",
+        "base14"
+      ],
+      "note": "Encrypted Hello World fixture; UTF-8 owner password from core/fpdfapi/parser/cpdf_security_handler_embeddertest.cpp."
+    },
+    {
+      "id": "encrypted_r5",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/encrypted_r5.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "password": "âge",
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/encrypted_hello_world_r5.pdf",
+      "coverage": [
+        "encryption",
+        "text",
+        "base14"
+      ],
+      "note": "Encrypted Hello World fixture; UTF-8 owner password from core/fpdfapi/parser/cpdf_security_handler_embeddertest.cpp."
+    },
+    {
+      "id": "encrypted_r6",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/encrypted_r6.pdf",
+      "page_count": 1,
+      "licenses": [
+        "pdfium"
+      ],
+      "password": "âge",
+      "source_url": "https://pdfium.googlesource.com/pdfium/+/f51279699cb59754d1f49aef10eb8e825fe56532/testing/resources/encrypted_hello_world_r6.pdf",
+      "coverage": [
+        "encryption",
+        "text",
+        "base14"
+      ],
+      "note": "Encrypted Hello World fixture; UTF-8 owner password from core/fpdfapi/parser/cpdf_security_handler_embeddertest.cpp."
+    },
+    {
+      "id": "obp_0526",
+      "groups": ["books"],
+      "suite": "real-world",
+      "path": "tests/render_corpus/books/obp.0526.pdf",
+      "page_count": 570,
+      "licenses": [
+        "obp0526"
+      ],
+      "source_url": "https://books.openbookpublishers.com/10.11647/obp.0526.pdf",
+      "download_url": "https://zenodo.org/records/20066878/files/3d5fc501-96c9-4ca9-bd9c-c458ef451002_book.pdf",
+      "publisher_url": "https://www.openbookpublishers.com/books/10.11647/OBP.0526",
+      "coverage": [
+        "real-world",
+        "long-document",
+        "text",
+        "embedded-cff",
+        "embedded-truetype",
+        "cid-fonts",
+        "type3",
+        "math",
+        "jpeg",
+        "soft-mask",
+        "icc",
+        "cmyk"
+      ],
+      "note": "David H. Silver, Beyond Popular Science (OBP, 2026). Unchanged publisher-listed archive copy; text CC BY-NC 4.0, separate image/font rights. Render all 570 pages; intentional blank pages are allowed."
+    },
+    {
+      "id": "openstax_biology_2e",
+      "groups": ["books"],
+      "suite": "real-world",
+      "path": "tests/render_corpus/books/openstax-biology-2e.pdf",
+      "page_count": 1475,
+      "licenses": ["openstax_biology_2e"],
+      "source_url": "https://assets.openstax.org/oscms-prodcms/media/documents/Biology-2e_-_WEB.pdf",
+      "download_url": "https://assets.openstax.org/oscms-prodcms/media/documents/Biology-2e_-_WEB.pdf",
+      "publisher_url": "https://openstax.org/details/books/biology-2e",
+      "coverage": ["real-world", "long-document", "text", "embedded-truetype", "jpeg", "soft-mask", "icc", "figures"],
+      "note": "OpenStax Biology 2e, Rice University, publisher PDF produced 2026-06-09. Unchanged 401298122-byte PDF exceeds GitHub's per-file limit: run scripts/fetch-render-textbooks.sh before check all. The downloaded edition's copyright page specifies CC BY-NC-SA 4.0."
+    },
+    {
+      "id": "hefferon_toc",
+      "groups": ["books"],
+      "suite": "real-world",
+      "path": "tests/render_corpus/books/hefferon-toc.pdf",
+      "page_count": 448,
+      "licenses": ["hefferon_toc"],
+      "source_url": "https://gitlab.com/jim.hefferon/toc/-/raw/ac8f5ba7dfaecf7f04605acd4e2ff6a886ebe620/src/00downloads/book.pdf",
+      "download_url": "https://gitlab.com/jim.hefferon/toc/-/raw/ac8f5ba7dfaecf7f04605acd4e2ff6a886ebe620/src/00downloads/book.pdf?inline=false",
+      "publisher_url": "https://hefferon.net/computation/",
+      "coverage": ["real-world", "long-document", "text", "math", "embedded-type1", "paths", "transparency", "figures"],
+      "note": "Jim Hefferon, Theory of Computation, second edition, PDF compiled 2026-06-30. Unchanged author PDF; CC BY-SA 3.0 US option from the author's license page."
+    },
+    {
+      "id": "hamiltonian",
+      "suite": "real-world",
+      "path": "tests/render_corpus/books/hamiltonian.pdf",
+      "page_count": 1,
+      "licenses": ["hamiltonian"],
+      "coverage": ["real-world", "jbig2", "image-mask", "bilevel", "scanned-math"],
+      "source_url": "https://tobybartels.name/notes/Hamiltonian.djvu",
+      "note": "Toby Bartels, Abstract Hamiltonian mechanics; used under the author's explicit irrevocable permission. User conversion with djvu2pdf2smol: DjVu JB2 reencoded as a 3400x4400 JBIG2 stencil, with OCR text retained. The supplied PDF is kept unchanged."
+    },
+    {
+      "id": "right_to_privacy",
+      "suite": "real-world",
+      "path": "tests/render_corpus/pdfs/right_to_privacy_first_two_pages.pdf",
+      "page_count": 2,
+      "licenses": ["right_to_privacy"],
+      "source_url": "https://commons.wikimedia.org/wiki/File:Right_to_Privacy.djvu",
+      "coverage": ["real-world", "jbig2", "image-mask", "bilevel", "scanned-text", "ocr"],
+      "note": "First two pages of Warren and Brandeis, The Right to Privacy (1890), from the user-supplied djvu2pdf2smol conversion. Encoded JBIG2 image streams and OCR text are preserved."
+    },
+    {
+      "id": "agg_blend_spans",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/agg_blend_spans.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project"
+      ],
+      "coverage": [
+        "paths",
+        "agg",
+        "transparency"
+      ],
+      "note": "Original curved translucent overlapping paths; variable-coverage ARGB span benchmark."
+    },
+    {
+      "id": "agg_dense_edges",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/agg_dense_edges.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project"
+      ],
+      "coverage": [
+        "paths",
+        "agg",
+        "transparency"
+      ],
+      "note": "Original dense self-intersecting subpaths alternating nonzero/even-odd fill; scanline sweep benchmark."
+    },
+    {
+      "id": "agg_opaque_narrow_spans",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/agg_opaque_narrow_spans.pdf",
+      "page_count": 1,
+      "licenses": ["project"],
+      "coverage": ["paths", "agg"],
+      "note": "Original 300 overlapping opaque slanted parallelograms, 4.1 points wide (about 17 pixels at 300 DPI); short-span SIMD dispatch regression workload."
+    },
+    {
+      "id": "agg_solid_spans",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/agg_solid_spans.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project"
+      ],
+      "coverage": [
+        "paths",
+        "agg",
+        "transparency"
+      ],
+      "note": "Original broad translucent parallelograms; constant-coverage span benchmark."
+    },
+    {
+      "id": "agg_transparent_spans",
+      "suite": "core",
+      "path": "tests/render_corpus/pdfs/agg_transparent_spans.pdf",
+      "page_count": 1,
+      "licenses": [
+        "project"
+      ],
+      "coverage": [
+        "paths",
+        "agg",
+        "transparency"
+      ],
+      "note": "Original curved translucent paths in an isolated transparency group; mixed destination alpha benchmark."
+    }
+  ]
+}

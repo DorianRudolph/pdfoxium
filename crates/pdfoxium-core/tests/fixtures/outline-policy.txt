@@ -1,0 +1,22 @@
+Original synthetic TrueType regression fonts (MIT, repository LICENSE).
+
+hint-optional.ttf and hint-reliant.ttf contain the same two glyphs, .notdef
+and A. A starts as a rectangle from (0,0) to (400,700), with a 700-unit
+advance and 1,000 units per em. Its embedded program is:
+
+    SVTCA[x]
+    PUSHB 2
+    SLOOP
+    PUSHB 1 2
+    PUSHW 12800
+    SHPIX
+
+This moves the two right-edge points by 200 pixels. At 1,000 ppem, mono
+hinting reconstructs the intended 600-unit width. Smooth hinting suppresses
+the horizontal shift; hinting at another ppem moves the points by the wrong
+fraction of an em. The ordinary font must ignore these instructions.
+
+The family names are Outline-Test and MingLiU-Test. Only the latter matches
+Skrifa's hint-reliant font detector. Neither contains any real MingLiU data.
+Both fixtures were built with fontTools FontBuilder/TTGlyphPen; they are
+checked in so normal Cargo tests need no font generator or external corpus.

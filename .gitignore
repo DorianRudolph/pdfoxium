@@ -1,0 +1,33 @@
+# Build/test output (including excluded codec crates).
+target
+debug
+*.rs.bk
+*.pdb
+rustc-ice-*.txt
+**/mutants.out*/
+
+# Generated reports, profiles, editor/OS caches and published video files.
+*.profraw
+*.profdata
+__pycache__/
+*.py[cod]
+.DS_Store
+*.mp4
+# Release tooling copies the single tracked license inventory into packages.
+/crates/*/THIRD_PARTY_LICENSES.md
+/third_party/*/THIRD_PARTY_LICENSES.md
+/tests/capi/results/
+/tests/render_corpus/reports/
+/benchmarks/results/
+/benchmarks/profiles/
+/.playwright-cli/
+/output/playwright/
+
+# Large external inputs are fetched explicitly by pdfoxium-diff.
+/tests/render_corpus/books/*.pdf
+!/tests/render_corpus/books/hamiltonian.pdf
+/tests/render_corpus/books/*.pdf.download-*
+/tests/render_corpus/external/
+
+# Native test oracles are fetched explicitly; license notices remain tracked.
+/vendor/pdfium/chromium-8100/*/libpdfium.*

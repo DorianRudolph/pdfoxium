@@ -1,0 +1,3308 @@
+{
+  "upstream": "pdfium-render 0.9.4",
+  "commit": "ea2961cb8ac777bb1a06dddb8efd272d34d74f18",
+  "excluded_Pdfium_methods": {
+    "bind_to_statically_linked_library": "Native-library binding/bootstrap; accepts or produces the raw PDFium binding interface.",
+    "bind_to_system_library": "Native-library binding/bootstrap; accepts or produces the raw PDFium binding interface.",
+    "bind_to_library": "Native-library binding/bootstrap; accepts or produces the raw PDFium binding interface.",
+    "pdfium_platform_library_name": "Native-library binding/bootstrap; accepts or produces the raw PDFium binding interface.",
+    "pdfium_platform_library_name_at_path": "Native-library binding/bootstrap; accepts or produces the raw PDFium binding interface.",
+    "new": "Native-library binding/bootstrap; accepts or produces the raw PDFium binding interface.",
+    "new_with_config": "Native-library binding/bootstrap; accepts or produces the raw PDFium binding interface."
+  },
+  "source_sha256": {
+    "pdf/action.rs": "57bb3b86f4224319458808069d1162c0490d8822b7f6dc916a0e86548d39ed33",
+    "pdf/appearance_mode.rs": "2a6f21e49621923ce558bef48e73c19ad02e91796c4eff4a05831df9824b35dd",
+    "pdf/bitmap.rs": "cd18186f44f14ca472b7459bb028b057780ba8542f07ab0e97ab0a41a3e1f76b",
+    "pdf/color.rs": "74993b79ece4334c197d122c8bf191ba4edc5177e014c365ece92eee94ee03f5",
+    "pdf/color_space.rs": "11034a78911673f9cb1f914d0358f64bf3893e23096708bb5a3d1861881c8412",
+    "pdf/destination.rs": "78430f964b9334da07d951360d4788501c8f4d384bcf41224b7ed90956d4a4d2",
+    "pdf/document/attachment.rs": "926b26dc2b67d72cc62ac4f9e9fa720c8211a94d85f5dc13a06f5f3c15b9168f",
+    "pdf/document/attachments.rs": "0cac477ccdfc85ef2c259493426b3976a155f1f7d7fdc996b7102c822c021c27",
+    "pdf/document/bookmark.rs": "7f9dd6e2b1d07168d5d5be954e036b1ab39b8ee8b55b22b0fb65a0a473c46756",
+    "pdf/document/bookmarks.rs": "a1de98c46c3451ba9af6173b4f3433613ccae3cbd7cbe15da67e9ab26724cfbf",
+    "pdf/document/catalog.rs": "ecfbb925e7af82eeed197022bd77b9e4eec357d06d0bb811b8144c2bc6e6c6d9",
+    "pdf/document/fonts.rs": "de5c6100072ffee2ba4c4e85e916d2fe61e243c81daf3116a4726a2c02baeea7",
+    "pdf/document/form.rs": "d29e6f0c9199a70d64444294d0c58acca8eb06279e8568e3e986e878d5864a5f",
+    "pdf/document/metadata.rs": "75f511ba889adf6cf06ee06469c30696573b4016ce3acdf673ac2353a4d15350",
+    "pdf/document/page/annotation/attachment_points.rs": "e150bd23cbd1f623a53a46b6370e10af24f186a77d1336d76ab77274d498b0b8",
+    "pdf/document/page/annotation/circle.rs": "086bf9eb1584a570971c166d941bf269eff33b8e32e9245198264f945ab7b380",
+    "pdf/document/page/annotation/free_text.rs": "0827322982a8783be13f60039ce93edbe12e1748bd83e2465d1c7644d12d8a57",
+    "pdf/document/page/annotation/highlight.rs": "2b5122ea181627c47becf45ce5bab9e320954a3b2b3604931da95a206ee43fb3",
+    "pdf/document/page/annotation/ink.rs": "56cd6bd833d6df1009685d60c04b927e2f11e577dcfdc2f625655a61623c7c2e",
+    "pdf/document/page/annotation/link.rs": "f0935bec210b8a9d4b916a7f50ee76b42829e362b1a71c470bf252908337ce9d",
+    "pdf/document/page/annotation/objects.rs": "ad1f5b5a35b137edb8b83642c26a27b3338800a2723d6e5e2e9bfb9b36f4c9aa",
+    "pdf/document/page/annotation/popup.rs": "48a096ca6be5046c836fcca5cf4ac3b76d31bdb7c013f7a8e5c3fae753317f48",
+    "pdf/document/page/annotation/redacted.rs": "6cb04ec009e4836f2c17cdd7cc8badcb14543084782ffcf4eca5cf47198f2aab",
+    "pdf/document/page/annotation/square.rs": "23760ba2e0ffe826b4a78925e9a44a888d637c59fb2f0308a23cf25b25bad9b3",
+    "pdf/document/page/annotation/squiggly.rs": "b252411153f1e7d90c5aa9dc8f14b2aa99b60ab609d47d02376fe152e17cdb99",
+    "pdf/document/page/annotation/stamp.rs": "ee4bc6901d77894f62c1fa741945862bd28089c609928ceff1724c347cb483e6",
+    "pdf/document/page/annotation/strikeout.rs": "ae90fdf24d374c0ab2dfe46043a6cd1b388fc0e11cebfe026a072c7641f1e900",
+    "pdf/document/page/annotation/text.rs": "15e061134b0648e0e32dd9e2302706a839fb15558f736887a475ab3d789fba1e",
+    "pdf/document/page/annotation/underline.rs": "203b8ac8725f0fdcf1cbad615632bcbab9b9e79350a1b83b0f9897a880a64537",
+    "pdf/document/page/annotation/unsupported.rs": "91c85d1676e67002725777a5a1175b84cfd232cee9fdeefd216b5ac2d1cf3825",
+    "pdf/document/page/annotation/variable_text.rs": "28f20dfb9da72c69f6235b962abe878c68d305591c084f9732f4140ae7a03e72",
+    "pdf/document/page/annotation/widget.rs": "0023cb86abdd160b6d825755e1c7643015a8f3ee881c37abe0722bcaf82ef1e7",
+    "pdf/document/page/annotation/xfa_widget.rs": "f5a596effadc069c62ff50e2f7a72de19c33e3d1b5be55d411a766de4bc71659",
+    "pdf/document/page/annotation.rs": "9b23e98e3df0eb3092b57afef6cc1ab412fc262824197db95347c53af73ad0e6",
+    "pdf/document/page/annotations.rs": "94204d6f6cd3431a5c41a3adf96b88285e132ca721d711448b650f22341d6452",
+    "pdf/document/page/boundaries.rs": "c3188aa31d4aacb03c77f89fd161e259e6cb9107081e6778edee8c7f393617de",
+    "pdf/document/page/field/button.rs": "34a1ac9055deebd9b19c6e0eb732668f19eee18ea1916e814f681128fc97dbc5",
+    "pdf/document/page/field/checkbox.rs": "9caec17f5d3052d6761ada8f07461ebce5859b4114360c06ef618e0ee436e2fc",
+    "pdf/document/page/field/combo.rs": "3a45b120f02268b71900acebc54429f044340b189ad62bed1fbadae27da2b2f8",
+    "pdf/document/page/field/list.rs": "13eb00b7a0be1f31ba42a98e6a2517c6131152dc10c607922e448530c86cc177",
+    "pdf/document/page/field/option.rs": "662f1a6dd8955a48180f5d9684634e102d204ed7c599f01c986d555dcc781b81",
+    "pdf/document/page/field/options.rs": "987ac0fdce81efa916bfddad15f8ee20b1237aaf6d6a8afd463881b48bab0b68",
+    "pdf/document/page/field/radio.rs": "3a90049c466a117a8e7374fbe5423ca7c85b75801a2a0873a3f15534b17ad65a",
+    "pdf/document/page/field/signature.rs": "6aee06d07beffd8ac510fc794b5d24ec2d0fdc0e17a84a5b396065c59a98ae68",
+    "pdf/document/page/field/text.rs": "c8ae85783f3a9393e7efa86f433a28136e2fc0bb2d7f2c91ba891a67f9917f88",
+    "pdf/document/page/field/unknown.rs": "5ce49f3d9e1cfdf5c75b89c0fe95a384f39dd2da8a691d59a6a96664b881d54e",
+    "pdf/document/page/field.rs": "69f1ac749de37a04e5d6fd49ce00f659fb2dcec98571e2f56e6b23b184095328",
+    "pdf/document/page/links.rs": "3414280f8d5f918334eb1fac54c6f332b263f68a8792c1d0894152168fbdbed6",
+    "pdf/document/page/object/content_mark.rs": "a10e119800a963cd272c86b222fd62c07fec84ada28bc288dd3a0aa61a8617f3",
+    "pdf/document/page/object/group.rs": "807f2e0097387dedf087f2ff5039291c55039ee14a97c32d5747b42802409630",
+    "pdf/document/page/object/image.rs": "3e5bc7e9e1daf3f67edb8e8cf99bd0777886a8d5d2c229fc3d55f7eae85218de",
+    "pdf/document/page/object/path.rs": "665daa156a7d28eaff6d9080ae1ec606edf3fe322dbeaae06ceb32cc02c6b7f9",
+    "pdf/document/page/object/shading.rs": "9a16e17cba9d26685a453eea66afd0179e604a4dfb6c400e7e7fac586332c12f",
+    "pdf/document/page/object/text.rs": "6f4f410d5cbfe5640604c0f43f2d7d5e6a8da59971bafc40829ac06987847ef2",
+    "pdf/document/page/object/unsupported.rs": "6e3fe9a03fffb8721552ff7fb2951c6268cee9ffe074fac53726a7197f31cc70",
+    "pdf/document/page/object/x_object_form.rs": "9859afd6e7282f21d73c32a601c45b09519c4b531bba671db286ee1e10e7a17a",
+    "pdf/document/page/object.rs": "f95d00ae529289d7709d1ab85f8f00ad714d510f69327d2b4ca27709262300ae",
+    "pdf/document/page/objects/common.rs": "4babc8b1b63963d67ea945d0b9d386d2d182d4fad038aa3d267c3302101d837b",
+    "pdf/document/page/objects.rs": "eb400b1c7ebeed3bd20ba0339bb9b9d19327361e9f8a0c7faba1fd1f7fa2c106",
+    "pdf/document/page/render_config.rs": "ab3906e1a8654e640f07c19efc7bd009f8f0ecc0c5df2cbee1b5f58388a60d67",
+    "pdf/document/page/size.rs": "2d9bb8fd2e76e92208939bc4f4106d8e25ed1c7a1bf6a2df3b2a4af8a2cd02a1",
+    "pdf/document/page/structure_tree.rs": "4633c94f82f500fd1db627a09eee9cbb1a2e6e20f471858b38aee36adb839d27",
+    "pdf/document/page/text/char.rs": "da8a73e74d30aa5fd07be6389146c8466b61ccf24567430e6437eb93521556f2",
+    "pdf/document/page/text/chars.rs": "4936f020332e80d2a2b19929f3ae5caabd0771980f238a02629fd463e6130697",
+    "pdf/document/page/text/search.rs": "a46f8f760d3c764bd6d822c388be4c056c8f844cc64944b16786f3d39a2dc74d",
+    "pdf/document/page/text/segment.rs": "60897a58552f4d262b854484752e35fb7c39246665e8515c7bd5060ee6e4b593",
+    "pdf/document/page/text/segments.rs": "b296241e8ee36b89e9c5eab0ceac83695140c673edd1389eb049566dfa65111b",
+    "pdf/document/page/text.rs": "5c8c9a0a8ea746b61e94412ce32da1bfbc99de399c832381e192f57bea47ffa2",
+    "pdf/document/page.rs": "daec4c99f59026c4a2f311e1e1892093e10c96d46c0712491e10982f6a1c63ec",
+    "pdf/document/pages.rs": "26b961d5e52bba551dabf0928132ae8994f4fc21411b7789b1ff8666224f4999",
+    "pdf/document/permissions.rs": "2f75f1728035f8451b7ff12c8368732cba80b77d3df9c90aa5093c4e56b73fad",
+    "pdf/document/signature.rs": "44c9772aacdcb8148933a41df7c3840ca76a2b1d5e4221cfb1c3c69de2e31cec",
+    "pdf/document/signatures.rs": "cb00b93904c3482b534cbb310263b3e969e88adf54cfcc5d035469583d85bf0a",
+    "pdf/document.rs": "ff2a0d4542611e70a9ca66412afbb0d1ffe998336972c0d26084913b3d2afb1c",
+    "pdf/font/glyph.rs": "5a7fe63747ba6cb8edea0cfd4ce5c821d824ae7606841109651c7607873f4a97",
+    "pdf/font/glyphs.rs": "2e5840149f41b95aba82bb7201fe42b6b118359665ebae71da59ad62fabacb37",
+    "pdf/font/provider.rs": "1e2af01e4ab23c79b0dc32c07167d00345882eb207ca6065cd474f3c8184d62b",
+    "pdf/font.rs": "600a5de03ff55ba5bc0c71284b96cf9317f5cc450afbd9916e65a707b749d51d",
+    "pdf/link.rs": "6d61d6c24bc5dd8eb40fea9b994592976a6b4d6fbf9c6a5789746ace70cfcf44",
+    "pdf/matrix.rs": "b31ed4bdfb0141d52b00fac782359bb5418558b6becd2db0fcb9fbfb91f843c9",
+    "pdf/path/clip_path.rs": "338ab28cfd5720883053b344ce0fde153c99a27338284c69ad272fc2583c802d",
+    "pdf/path/segment.rs": "8774523a4df2a187cb86265814964f653f824ad51941cdea8ccdc1e972ac72b2",
+    "pdf/path/segments.rs": "5cc131901b6b3c9f7e8b0c8f5fb0a7f27aa9ba95132f7db96ec634d5c4176b98",
+    "pdf/points.rs": "5137b6f4096af1991ef044ef9b93aed7ac8ddda97d6a97749b95083462443191",
+    "pdf/quad_points.rs": "d93442d4c53883c4d69dc952546ecf25cc9840f068cb9e986581810a2730d238",
+    "pdf/rect.rs": "a7fc68f5f0d8bf7dba1f6ebda9319ce2210625a3ba42bfb1ddb1c35a7d9a989d",
+    "pdfium.rs": "5b64f737c82037f00d43f998fd43a9a1a5026a9b19518e533c09b774d228cbc0"
+  },
+  "constants": {
+    "FPDF_OBJECT_UNKNOWN": "0",
+    "FPDF_OBJECT_BOOLEAN": "1",
+    "FPDF_OBJECT_NUMBER": "2",
+    "FPDF_OBJECT_STRING": "3",
+    "FPDF_OBJECT_NAME": "4",
+    "FPDF_OBJECT_ARRAY": "5",
+    "FPDF_OBJECT_DICTIONARY": "6",
+    "FPDF_OBJECT_STREAM": "7",
+    "FPDF_OBJECT_NULLOBJ": "8",
+    "FPDF_OBJECT_REFERENCE": "9",
+    "FPDF_POLICY_MACHINETIME_ACCESS": "0",
+    "FPDF_ERR_SUCCESS": "0",
+    "FPDF_ERR_UNKNOWN": "1",
+    "FPDF_ERR_FILE": "2",
+    "FPDF_ERR_FORMAT": "3",
+    "FPDF_ERR_PASSWORD": "4",
+    "FPDF_ERR_SECURITY": "5",
+    "FPDF_ERR_PAGE": "6",
+    "FPDF_ERR_XFALOAD": "7",
+    "FPDF_ERR_XFALAYOUT": "8",
+    "FPDF_ANNOT": "1",
+    "FPDF_LCD_TEXT": "2",
+    "FPDF_NO_NATIVETEXT": "4",
+    "FPDF_GRAYSCALE": "8",
+    "FPDF_DEBUG_INFO": "128",
+    "FPDF_NO_CATCH": "256",
+    "FPDF_RENDER_LIMITEDIMAGECACHE": "512",
+    "FPDF_RENDER_FORCEHALFTONE": "1024",
+    "FPDF_PRINTING": "2048",
+    "FPDF_RENDER_NO_SMOOTHTEXT": "4096",
+    "FPDF_RENDER_NO_SMOOTHIMAGE": "8192",
+    "FPDF_RENDER_NO_SMOOTHPATH": "16384",
+    "FPDF_REVERSE_BYTE_ORDER": "16",
+    "FPDF_CONVERT_FILL_TO_STROKE": "32",
+    "FPDFBitmap_Unknown": "0",
+    "FPDFBitmap_Gray": "1",
+    "FPDFBitmap_BGR": "2",
+    "FPDFBitmap_BGRx": "3",
+    "FPDFBitmap_BGRA": "4",
+    "FPDFBitmap_BGRA_Premul": "5",
+    "_STDINT_H": "1",
+    "_FEATURES_H": "1",
+    "_DEFAULT_SOURCE": "1",
+    "__GLIBC_USE_ISOC2Y": "0",
+    "__GLIBC_USE_ISOC23": "0",
+    "__USE_ISOC11": "1",
+    "__USE_ISOC99": "1",
+    "__USE_ISOC95": "1",
+    "__USE_POSIX_IMPLICITLY": "1",
+    "_POSIX_SOURCE": "1",
+    "_POSIX_C_SOURCE": "202405",
+    "__USE_POSIX": "1",
+    "__USE_POSIX2": "1",
+    "__USE_POSIX199309": "1",
+    "__USE_POSIX199506": "1",
+    "__USE_XOPEN2K": "1",
+    "__USE_XOPEN2K8": "1",
+    "_ATFILE_SOURCE": "1",
+    "__USE_XOPEN2K24": "1",
+    "__WORDSIZE": "64",
+    "__WORDSIZE_TIME64_COMPAT32": "1",
+    "__SYSCALL_WORDSIZE": "64",
+    "__TIMESIZE": "64",
+    "__USE_TIME_BITS64": "1",
+    "__USE_MISC": "1",
+    "__USE_ATFILE": "1",
+    "__USE_FORTIFY_LEVEL": "0",
+    "__GLIBC_USE_DEPRECATED_GETS": "0",
+    "__GLIBC_USE_DEPRECATED_SCANF": "0",
+    "__GLIBC_USE_C23_STRTOL": "0",
+    "_STDC_PREDEF_H": "1",
+    "__STDC_IEC_559__": "1",
+    "__STDC_IEC_60559_BFP__": "201404",
+    "__STDC_IEC_559_COMPLEX__": "1",
+    "__STDC_IEC_60559_COMPLEX__": "201404",
+    "__STDC_ISO_10646__": "201706",
+    "__GNU_LIBRARY__": "6",
+    "__GLIBC__": "2",
+    "__GLIBC_MINOR__": "43",
+    "_SYS_CDEFS_H": "1",
+    "__glibc_c99_flexarr_available": "1",
+    "__LDOUBLE_REDIRECTS_TO_FLOAT128_ABI": "0",
+    "__HAVE_GENERIC_SELECTION": "1",
+    "__GLIBC_USE_LIB_EXT2": "0",
+    "__GLIBC_USE_IEC_60559_BFP_EXT": "0",
+    "__GLIBC_USE_IEC_60559_BFP_EXT_C23": "0",
+    "__GLIBC_USE_IEC_60559_EXT": "0",
+    "__GLIBC_USE_IEC_60559_FUNCS_EXT": "0",
+    "__GLIBC_USE_IEC_60559_FUNCS_EXT_C23": "0",
+    "__GLIBC_USE_IEC_60559_TYPES_EXT": "0",
+    "_BITS_TYPES_H": "1",
+    "_BITS_TYPESIZES_H": "1",
+    "__OFF_T_MATCHES_OFF64_T": "1",
+    "__INO_T_MATCHES_INO64_T": "1",
+    "__RLIM_T_MATCHES_RLIM64_T": "1",
+    "__STATFS_MATCHES_STATFS64": "1",
+    "__KERNEL_OLD_TIMEVAL_MATCHES_TIMEVAL64": "1",
+    "__FD_SETSIZE": "1024",
+    "_BITS_TIME64_H": "1",
+    "_BITS_WCHAR_H": "1",
+    "_BITS_STDINT_INTN_H": "1",
+    "_BITS_STDINT_UINTN_H": "1",
+    "_BITS_STDINT_LEAST_H": "1",
+    "INT8_MIN": "-128",
+    "INT16_MIN": "-32768",
+    "INT32_MIN": "-2147483648",
+    "INT8_MAX": "127",
+    "INT16_MAX": "32767",
+    "INT32_MAX": "2147483647",
+    "UINT8_MAX": "255",
+    "UINT16_MAX": "65535",
+    "UINT32_MAX": "4294967295",
+    "INT_LEAST8_MIN": "-128",
+    "INT_LEAST16_MIN": "-32768",
+    "INT_LEAST32_MIN": "-2147483648",
+    "INT_LEAST8_MAX": "127",
+    "INT_LEAST16_MAX": "32767",
+    "INT_LEAST32_MAX": "2147483647",
+    "UINT_LEAST8_MAX": "255",
+    "UINT_LEAST16_MAX": "65535",
+    "UINT_LEAST32_MAX": "4294967295",
+    "INT_FAST8_MIN": "-128",
+    "INT_FAST16_MIN": "-9223372036854775808",
+    "INT_FAST32_MIN": "-9223372036854775808",
+    "INT_FAST8_MAX": "127",
+    "INT_FAST16_MAX": "9223372036854775807",
+    "INT_FAST32_MAX": "9223372036854775807",
+    "UINT_FAST8_MAX": "255",
+    "UINT_FAST16_MAX": "-1",
+    "UINT_FAST32_MAX": "-1",
+    "INTPTR_MIN": "-9223372036854775808",
+    "INTPTR_MAX": "9223372036854775807",
+    "UINTPTR_MAX": "-1",
+    "PTRDIFF_MIN": "-9223372036854775808",
+    "PTRDIFF_MAX": "9223372036854775807",
+    "SIG_ATOMIC_MIN": "-2147483648",
+    "SIG_ATOMIC_MAX": "2147483647",
+    "SIZE_MAX": "-1",
+    "WINT_MIN": "0",
+    "WINT_MAX": "4294967295",
+    "FPDF_RENDER_READY": "0",
+    "FPDF_RENDER_TOBECONTINUED": "1",
+    "FPDF_RENDER_DONE": "2",
+    "FPDF_RENDER_FAILED": "3",
+    "FPDF_COLORSPACE_UNKNOWN": "0",
+    "FPDF_COLORSPACE_DEVICEGRAY": "1",
+    "FPDF_COLORSPACE_DEVICERGB": "2",
+    "FPDF_COLORSPACE_DEVICECMYK": "3",
+    "FPDF_COLORSPACE_CALGRAY": "4",
+    "FPDF_COLORSPACE_CALRGB": "5",
+    "FPDF_COLORSPACE_LAB": "6",
+    "FPDF_COLORSPACE_ICCBASED": "7",
+    "FPDF_COLORSPACE_SEPARATION": "8",
+    "FPDF_COLORSPACE_DEVICEN": "9",
+    "FPDF_COLORSPACE_INDEXED": "10",
+    "FPDF_COLORSPACE_PATTERN": "11",
+    "FPDF_PAGEOBJ_UNKNOWN": "0",
+    "FPDF_PAGEOBJ_TEXT": "1",
+    "FPDF_PAGEOBJ_PATH": "2",
+    "FPDF_PAGEOBJ_IMAGE": "3",
+    "FPDF_PAGEOBJ_SHADING": "4",
+    "FPDF_PAGEOBJ_FORM": "5",
+    "FPDF_SEGMENT_UNKNOWN": "-1",
+    "FPDF_SEGMENT_LINETO": "0",
+    "FPDF_SEGMENT_BEZIERTO": "1",
+    "FPDF_SEGMENT_MOVETO": "2",
+    "FPDF_FILLMODE_NONE": "0",
+    "FPDF_FILLMODE_ALTERNATE": "1",
+    "FPDF_FILLMODE_WINDING": "2",
+    "FPDF_FONT_TYPE1": "1",
+    "FPDF_FONT_TRUETYPE": "2",
+    "FPDF_LINECAP_BUTT": "0",
+    "FPDF_LINECAP_ROUND": "1",
+    "FPDF_LINECAP_PROJECTING_SQUARE": "2",
+    "FPDF_LINEJOIN_MITER": "0",
+    "FPDF_LINEJOIN_ROUND": "1",
+    "FPDF_LINEJOIN_BEVEL": "2",
+    "FPDF_PRINTMODE_EMF": "0",
+    "FPDF_PRINTMODE_TEXTONLY": "1",
+    "FPDF_PRINTMODE_POSTSCRIPT2": "2",
+    "FPDF_PRINTMODE_POSTSCRIPT3": "3",
+    "FPDF_PRINTMODE_POSTSCRIPT2_PASSTHROUGH": "4",
+    "FPDF_PRINTMODE_POSTSCRIPT3_PASSTHROUGH": "5",
+    "FPDF_PRINTMODE_EMF_IMAGE_MASKS": "6",
+    "FPDF_PRINTMODE_POSTSCRIPT3_TYPE42": "7",
+    "FPDF_PRINTMODE_POSTSCRIPT3_TYPE42_PASSTHROUGH": "8",
+    "PDFACTION_UNSUPPORTED": "0",
+    "PDFACTION_GOTO": "1",
+    "PDFACTION_REMOTEGOTO": "2",
+    "PDFACTION_URI": "3",
+    "PDFACTION_LAUNCH": "4",
+    "PDFACTION_EMBEDDEDGOTO": "5",
+    "PDFDEST_VIEW_UNKNOWN_MODE": "0",
+    "PDFDEST_VIEW_XYZ": "1",
+    "PDFDEST_VIEW_FIT": "2",
+    "PDFDEST_VIEW_FITH": "3",
+    "PDFDEST_VIEW_FITV": "4",
+    "PDFDEST_VIEW_FITR": "5",
+    "PDFDEST_VIEW_FITB": "6",
+    "PDFDEST_VIEW_FITBH": "7",
+    "PDFDEST_VIEW_FITBV": "8",
+    "FLATTEN_FAIL": "0",
+    "FLATTEN_SUCCESS": "1",
+    "FLATTEN_NOTHINGTODO": "2",
+    "FLAT_NORMALDISPLAY": "0",
+    "FLAT_PRINT": "1",
+    "FORMTYPE_NONE": "0",
+    "FORMTYPE_ACRO_FORM": "1",
+    "FORMTYPE_XFA_FULL": "2",
+    "FORMTYPE_XFA_FOREGROUND": "3",
+    "FORMTYPE_COUNT": "4",
+    "JSPLATFORM_ALERT_BUTTON_OK": "0",
+    "JSPLATFORM_ALERT_BUTTON_OKCANCEL": "1",
+    "JSPLATFORM_ALERT_BUTTON_YESNO": "2",
+    "JSPLATFORM_ALERT_BUTTON_YESNOCANCEL": "3",
+    "JSPLATFORM_ALERT_BUTTON_DEFAULT": "0",
+    "JSPLATFORM_ALERT_ICON_ERROR": "0",
+    "JSPLATFORM_ALERT_ICON_WARNING": "1",
+    "JSPLATFORM_ALERT_ICON_QUESTION": "2",
+    "JSPLATFORM_ALERT_ICON_STATUS": "3",
+    "JSPLATFORM_ALERT_ICON_ASTERISK": "4",
+    "JSPLATFORM_ALERT_ICON_DEFAULT": "0",
+    "JSPLATFORM_ALERT_RETURN_OK": "1",
+    "JSPLATFORM_ALERT_RETURN_CANCEL": "2",
+    "JSPLATFORM_ALERT_RETURN_NO": "3",
+    "JSPLATFORM_ALERT_RETURN_YES": "4",
+    "JSPLATFORM_BEEP_ERROR": "0",
+    "JSPLATFORM_BEEP_WARNING": "1",
+    "JSPLATFORM_BEEP_QUESTION": "2",
+    "JSPLATFORM_BEEP_STATUS": "3",
+    "JSPLATFORM_BEEP_DEFAULT": "4",
+    "FXCT_ARROW": "0",
+    "FXCT_NESW": "1",
+    "FXCT_NWSE": "2",
+    "FXCT_VBEAM": "3",
+    "FXCT_HBEAM": "4",
+    "FXCT_HAND": "5",
+    "FXFA_PAGEVIEWEVENT_POSTADDED": "1",
+    "FXFA_PAGEVIEWEVENT_POSTREMOVED": "3",
+    "FXFA_MENU_COPY": "1",
+    "FXFA_MENU_CUT": "2",
+    "FXFA_MENU_SELECTALL": "4",
+    "FXFA_MENU_UNDO": "8",
+    "FXFA_MENU_REDO": "16",
+    "FXFA_MENU_PASTE": "32",
+    "FXFA_SAVEAS_XML": "1",
+    "FXFA_SAVEAS_XDP": "2",
+    "FPDFDOC_AACTION_WC": "16",
+    "FPDFDOC_AACTION_WS": "17",
+    "FPDFDOC_AACTION_DS": "18",
+    "FPDFDOC_AACTION_WP": "19",
+    "FPDFDOC_AACTION_DP": "20",
+    "FPDFPAGE_AACTION_OPEN": "0",
+    "FPDFPAGE_AACTION_CLOSE": "1",
+    "FPDF_FORMFIELD_UNKNOWN": "0",
+    "FPDF_FORMFIELD_PUSHBUTTON": "1",
+    "FPDF_FORMFIELD_CHECKBOX": "2",
+    "FPDF_FORMFIELD_RADIOBUTTON": "3",
+    "FPDF_FORMFIELD_COMBOBOX": "4",
+    "FPDF_FORMFIELD_LISTBOX": "5",
+    "FPDF_FORMFIELD_TEXTFIELD": "6",
+    "FPDF_FORMFIELD_SIGNATURE": "7",
+    "FPDF_FORMFIELD_XFA": "8",
+    "FPDF_FORMFIELD_XFA_CHECKBOX": "9",
+    "FPDF_FORMFIELD_XFA_COMBOBOX": "10",
+    "FPDF_FORMFIELD_XFA_IMAGEFIELD": "11",
+    "FPDF_FORMFIELD_XFA_LISTBOX": "12",
+    "FPDF_FORMFIELD_XFA_PUSHBUTTON": "13",
+    "FPDF_FORMFIELD_XFA_SIGNATURE": "14",
+    "FPDF_FORMFIELD_XFA_TEXTFIELD": "15",
+    "FPDF_FORMFIELD_COUNT": "16",
+    "FPDF_ANNOT_UNKNOWN": "0",
+    "FPDF_ANNOT_TEXT": "1",
+    "FPDF_ANNOT_LINK": "2",
+    "FPDF_ANNOT_FREETEXT": "3",
+    "FPDF_ANNOT_LINE": "4",
+    "FPDF_ANNOT_SQUARE": "5",
+    "FPDF_ANNOT_CIRCLE": "6",
+    "FPDF_ANNOT_POLYGON": "7",
+    "FPDF_ANNOT_POLYLINE": "8",
+    "FPDF_ANNOT_HIGHLIGHT": "9",
+    "FPDF_ANNOT_UNDERLINE": "10",
+    "FPDF_ANNOT_SQUIGGLY": "11",
+    "FPDF_ANNOT_STRIKEOUT": "12",
+    "FPDF_ANNOT_STAMP": "13",
+    "FPDF_ANNOT_CARET": "14",
+    "FPDF_ANNOT_INK": "15",
+    "FPDF_ANNOT_POPUP": "16",
+    "FPDF_ANNOT_FILEATTACHMENT": "17",
+    "FPDF_ANNOT_SOUND": "18",
+    "FPDF_ANNOT_MOVIE": "19",
+    "FPDF_ANNOT_WIDGET": "20",
+    "FPDF_ANNOT_SCREEN": "21",
+    "FPDF_ANNOT_PRINTERMARK": "22",
+    "FPDF_ANNOT_TRAPNET": "23",
+    "FPDF_ANNOT_WATERMARK": "24",
+    "FPDF_ANNOT_THREED": "25",
+    "FPDF_ANNOT_RICHMEDIA": "26",
+    "FPDF_ANNOT_XFAWIDGET": "27",
+    "FPDF_ANNOT_REDACT": "28",
+    "FPDF_ANNOT_FLAG_NONE": "0",
+    "FPDF_ANNOT_FLAG_INVISIBLE": "1",
+    "FPDF_ANNOT_FLAG_HIDDEN": "2",
+    "FPDF_ANNOT_FLAG_PRINT": "4",
+    "FPDF_ANNOT_FLAG_NOZOOM": "8",
+    "FPDF_ANNOT_FLAG_NOROTATE": "16",
+    "FPDF_ANNOT_FLAG_NOVIEW": "32",
+    "FPDF_ANNOT_FLAG_READONLY": "64",
+    "FPDF_ANNOT_FLAG_LOCKED": "128",
+    "FPDF_ANNOT_FLAG_TOGGLENOVIEW": "256",
+    "FPDF_ANNOT_APPEARANCEMODE_NORMAL": "0",
+    "FPDF_ANNOT_APPEARANCEMODE_ROLLOVER": "1",
+    "FPDF_ANNOT_APPEARANCEMODE_DOWN": "2",
+    "FPDF_ANNOT_APPEARANCEMODE_COUNT": "3",
+    "FPDF_FORMFLAG_NONE": "0",
+    "FPDF_FORMFLAG_READONLY": "1",
+    "FPDF_FORMFLAG_REQUIRED": "2",
+    "FPDF_FORMFLAG_NOEXPORT": "4",
+    "FPDF_FORMFLAG_TEXT_MULTILINE": "4096",
+    "FPDF_FORMFLAG_TEXT_PASSWORD": "8192",
+    "FPDF_FORMFLAG_CHOICE_COMBO": "131072",
+    "FPDF_FORMFLAG_CHOICE_EDIT": "262144",
+    "FPDF_FORMFLAG_CHOICE_MULTI_SELECT": "2097152",
+    "FPDF_ANNOT_AACTION_KEY_STROKE": "12",
+    "FPDF_ANNOT_AACTION_FORMAT": "13",
+    "FPDF_ANNOT_AACTION_VALIDATE": "14",
+    "FPDF_ANNOT_AACTION_CALCULATE": "15",
+    "PDF_LINEARIZATION_UNKNOWN": "-1",
+    "PDF_NOT_LINEARIZED": "0",
+    "PDF_LINEARIZED": "1",
+    "PDF_DATA_ERROR": "-1",
+    "PDF_DATA_NOTAVAIL": "0",
+    "PDF_DATA_AVAIL": "1",
+    "PDF_FORM_ERROR": "-1",
+    "PDF_FORM_NOTAVAIL": "0",
+    "PDF_FORM_AVAIL": "1",
+    "PDF_FORM_NOTEXIST": "2",
+    "FPDF_INCREMENTAL": "1",
+    "FPDF_NO_INCREMENTAL": "2",
+    "FPDF_REMOVE_SECURITY_DEPRECATED": "3",
+    "FPDF_REMOVE_SECURITY": "4",
+    "FPDF_SUBSET_NEW_FONTS": "8",
+    "FXFONT_ANSI_CHARSET": "0",
+    "FXFONT_DEFAULT_CHARSET": "1",
+    "FXFONT_SYMBOL_CHARSET": "2",
+    "FXFONT_SHIFTJIS_CHARSET": "128",
+    "FXFONT_HANGEUL_CHARSET": "129",
+    "FXFONT_GB2312_CHARSET": "134",
+    "FXFONT_CHINESEBIG5_CHARSET": "136",
+    "FXFONT_GREEK_CHARSET": "161",
+    "FXFONT_VIETNAMESE_CHARSET": "163",
+    "FXFONT_HEBREW_CHARSET": "177",
+    "FXFONT_ARABIC_CHARSET": "178",
+    "FXFONT_CYRILLIC_CHARSET": "204",
+    "FXFONT_THAI_CHARSET": "222",
+    "FXFONT_EASTERNEUROPEAN_CHARSET": "238",
+    "FXFONT_FF_FIXEDPITCH": "1",
+    "FXFONT_FF_ROMAN": "16",
+    "FXFONT_FF_SCRIPT": "64",
+    "FXFONT_FW_NORMAL": "400",
+    "FXFONT_FW_BOLD": "700",
+    "FPDF_MATCHCASE": "1",
+    "FPDF_MATCHWHOLEWORD": "2",
+    "FPDF_CONSECUTIVE": "4",
+    "_TIME_H": "1",
+    "_BITS_TIME_H": "1",
+    "CLOCK_REALTIME": "0",
+    "CLOCK_MONOTONIC": "1",
+    "CLOCK_PROCESS_CPUTIME_ID": "2",
+    "CLOCK_THREAD_CPUTIME_ID": "3",
+    "CLOCK_MONOTONIC_RAW": "4",
+    "CLOCK_REALTIME_COARSE": "5",
+    "CLOCK_MONOTONIC_COARSE": "6",
+    "CLOCK_BOOTTIME": "7",
+    "CLOCK_REALTIME_ALARM": "8",
+    "CLOCK_BOOTTIME_ALARM": "9",
+    "CLOCK_TAI": "11",
+    "TIMER_ABSTIME": "1",
+    "__clock_t_defined": "1",
+    "__time_t_defined": "1",
+    "__struct_tm_defined": "1",
+    "_STRUCT_TIMESPEC": "1",
+    "_BITS_ENDIAN_H": "1",
+    "__LITTLE_ENDIAN": "1234",
+    "__BIG_ENDIAN": "4321",
+    "__PDP_ENDIAN": "3412",
+    "_BITS_ENDIANNESS_H": "1",
+    "__BYTE_ORDER": "1234",
+    "__FLOAT_WORD_ORDER": "1234",
+    "__clockid_t_defined": "1",
+    "__timer_t_defined": "1",
+    "__itimerspec_defined": "1",
+    "_BITS_TYPES_LOCALE_T_H": "1",
+    "_BITS_TYPES___LOCALE_T_H": "1",
+    "TIME_UTC": "1",
+    "FPDF_UNSP_DOC_XFAFORM": "1",
+    "FPDF_UNSP_DOC_PORTABLECOLLECTION": "2",
+    "FPDF_UNSP_DOC_ATTACHMENT": "3",
+    "FPDF_UNSP_DOC_SECURITY": "4",
+    "FPDF_UNSP_DOC_SHAREDREVIEW": "5",
+    "FPDF_UNSP_DOC_SHAREDFORM_ACROBAT": "6",
+    "FPDF_UNSP_DOC_SHAREDFORM_FILESYSTEM": "7",
+    "FPDF_UNSP_DOC_SHAREDFORM_EMAIL": "8",
+    "FPDF_UNSP_ANNOT_3DANNOT": "11",
+    "FPDF_UNSP_ANNOT_MOVIE": "12",
+    "FPDF_UNSP_ANNOT_SOUND": "13",
+    "FPDF_UNSP_ANNOT_SCREEN_MEDIA": "14",
+    "FPDF_UNSP_ANNOT_SCREEN_RICHMEDIA": "15",
+    "FPDF_UNSP_ANNOT_ATTACHMENT": "16",
+    "FPDF_UNSP_ANNOT_SIG": "17",
+    "PAGEMODE_UNKNOWN": "-1",
+    "PAGEMODE_USENONE": "0",
+    "PAGEMODE_USEOUTLINES": "1",
+    "PAGEMODE_USETHUMBS": "2",
+    "PAGEMODE_FULLSCREEN": "3",
+    "PAGEMODE_USEOC": "4",
+    "PAGEMODE_USEATTACHMENTS": "5",
+    "FPDF_TEXT_RENDERMODE_FPDF_TEXTRENDERMODE_UNKNOWN": "-1",
+    "FPDF_TEXT_RENDERMODE_FPDF_TEXTRENDERMODE_FILL": "0",
+    "FPDF_TEXT_RENDERMODE_FPDF_TEXTRENDERMODE_STROKE": "1",
+    "FPDF_TEXT_RENDERMODE_FPDF_TEXTRENDERMODE_FILL_STROKE": "2",
+    "FPDF_TEXT_RENDERMODE_FPDF_TEXTRENDERMODE_INVISIBLE": "3",
+    "FPDF_TEXT_RENDERMODE_FPDF_TEXTRENDERMODE_FILL_CLIP": "4",
+    "FPDF_TEXT_RENDERMODE_FPDF_TEXTRENDERMODE_STROKE_CLIP": "5",
+    "FPDF_TEXT_RENDERMODE_FPDF_TEXTRENDERMODE_FILL_STROKE_CLIP": "6",
+    "FPDF_TEXT_RENDERMODE_FPDF_TEXTRENDERMODE_CLIP": "7",
+    "FPDF_TEXT_RENDERMODE_FPDF_TEXTRENDERMODE_LAST": "7",
+    "_FPDF_DUPLEXTYPE__DuplexUndefined": "0",
+    "_FPDF_DUPLEXTYPE__Simplex": "1",
+    "_FPDF_DUPLEXTYPE__DuplexFlipShortEdge": "2",
+    "_FPDF_DUPLEXTYPE__DuplexFlipLongEdge": "3",
+    "FPDF_RENDERER_TYPE_FPDF_RENDERERTYPE_AGG": "0",
+    "FPDF_RENDERER_TYPE_FPDF_RENDERERTYPE_SKIA": "1",
+    "FPDF_FONT_BACKEND_TYPE_FPDF_FONTBACKENDTYPE_FREETYPE": "0",
+    "FPDF_FONT_BACKEND_TYPE_FPDF_FONTBACKENDTYPE_FONTATIONS": "1",
+    "FPDF_FILEIDTYPE_FILEIDTYPE_PERMANENT": "0",
+    "FPDF_FILEIDTYPE_FILEIDTYPE_CHANGING": "1",
+    "FPDFANNOT_COLORTYPE_FPDFANNOT_COLORTYPE_Color": "0",
+    "FPDFANNOT_COLORTYPE_FPDFANNOT_COLORTYPE_InteriorColor": "1",
+    "FWL_EVENTFLAG_FWL_EVENTFLAG_ShiftKey": "1",
+    "FWL_EVENTFLAG_FWL_EVENTFLAG_ControlKey": "2",
+    "FWL_EVENTFLAG_FWL_EVENTFLAG_AltKey": "4",
+    "FWL_EVENTFLAG_FWL_EVENTFLAG_MetaKey": "8",
+    "FWL_EVENTFLAG_FWL_EVENTFLAG_KeyPad": "16",
+    "FWL_EVENTFLAG_FWL_EVENTFLAG_AutoRepeat": "32",
+    "FWL_EVENTFLAG_FWL_EVENTFLAG_LeftButtonDown": "64",
+    "FWL_EVENTFLAG_FWL_EVENTFLAG_MiddleButtonDown": "128",
+    "FWL_EVENTFLAG_FWL_EVENTFLAG_RightButtonDown": "256",
+    "FWL_VKEYCODE_FWL_VKEY_Back": "8",
+    "FWL_VKEYCODE_FWL_VKEY_Tab": "9",
+    "FWL_VKEYCODE_FWL_VKEY_NewLine": "10",
+    "FWL_VKEYCODE_FWL_VKEY_Clear": "12",
+    "FWL_VKEYCODE_FWL_VKEY_Return": "13",
+    "FWL_VKEYCODE_FWL_VKEY_Shift": "16",
+    "FWL_VKEYCODE_FWL_VKEY_Control": "17",
+    "FWL_VKEYCODE_FWL_VKEY_Menu": "18",
+    "FWL_VKEYCODE_FWL_VKEY_Pause": "19",
+    "FWL_VKEYCODE_FWL_VKEY_Capital": "20",
+    "FWL_VKEYCODE_FWL_VKEY_Kana": "21",
+    "FWL_VKEYCODE_FWL_VKEY_Hangul": "21",
+    "FWL_VKEYCODE_FWL_VKEY_Junja": "23",
+    "FWL_VKEYCODE_FWL_VKEY_Final": "24",
+    "FWL_VKEYCODE_FWL_VKEY_Hanja": "25",
+    "FWL_VKEYCODE_FWL_VKEY_Kanji": "25",
+    "FWL_VKEYCODE_FWL_VKEY_Escape": "27",
+    "FWL_VKEYCODE_FWL_VKEY_Convert": "28",
+    "FWL_VKEYCODE_FWL_VKEY_NonConvert": "29",
+    "FWL_VKEYCODE_FWL_VKEY_Accept": "30",
+    "FWL_VKEYCODE_FWL_VKEY_ModeChange": "31",
+    "FWL_VKEYCODE_FWL_VKEY_Space": "32",
+    "FWL_VKEYCODE_FWL_VKEY_Prior": "33",
+    "FWL_VKEYCODE_FWL_VKEY_Next": "34",
+    "FWL_VKEYCODE_FWL_VKEY_End": "35",
+    "FWL_VKEYCODE_FWL_VKEY_Home": "36",
+    "FWL_VKEYCODE_FWL_VKEY_Left": "37",
+    "FWL_VKEYCODE_FWL_VKEY_Up": "38",
+    "FWL_VKEYCODE_FWL_VKEY_Right": "39",
+    "FWL_VKEYCODE_FWL_VKEY_Down": "40",
+    "FWL_VKEYCODE_FWL_VKEY_Select": "41",
+    "FWL_VKEYCODE_FWL_VKEY_Print": "42",
+    "FWL_VKEYCODE_FWL_VKEY_Execute": "43",
+    "FWL_VKEYCODE_FWL_VKEY_Snapshot": "44",
+    "FWL_VKEYCODE_FWL_VKEY_Insert": "45",
+    "FWL_VKEYCODE_FWL_VKEY_Delete": "46",
+    "FWL_VKEYCODE_FWL_VKEY_Help": "47",
+    "FWL_VKEYCODE_FWL_VKEY_0": "48",
+    "FWL_VKEYCODE_FWL_VKEY_1": "49",
+    "FWL_VKEYCODE_FWL_VKEY_2": "50",
+    "FWL_VKEYCODE_FWL_VKEY_3": "51",
+    "FWL_VKEYCODE_FWL_VKEY_4": "52",
+    "FWL_VKEYCODE_FWL_VKEY_5": "53",
+    "FWL_VKEYCODE_FWL_VKEY_6": "54",
+    "FWL_VKEYCODE_FWL_VKEY_7": "55",
+    "FWL_VKEYCODE_FWL_VKEY_8": "56",
+    "FWL_VKEYCODE_FWL_VKEY_9": "57",
+    "FWL_VKEYCODE_FWL_VKEY_A": "65",
+    "FWL_VKEYCODE_FWL_VKEY_B": "66",
+    "FWL_VKEYCODE_FWL_VKEY_C": "67",
+    "FWL_VKEYCODE_FWL_VKEY_D": "68",
+    "FWL_VKEYCODE_FWL_VKEY_E": "69",
+    "FWL_VKEYCODE_FWL_VKEY_F": "70",
+    "FWL_VKEYCODE_FWL_VKEY_G": "71",
+    "FWL_VKEYCODE_FWL_VKEY_H": "72",
+    "FWL_VKEYCODE_FWL_VKEY_I": "73",
+    "FWL_VKEYCODE_FWL_VKEY_J": "74",
+    "FWL_VKEYCODE_FWL_VKEY_K": "75",
+    "FWL_VKEYCODE_FWL_VKEY_L": "76",
+    "FWL_VKEYCODE_FWL_VKEY_M": "77",
+    "FWL_VKEYCODE_FWL_VKEY_N": "78",
+    "FWL_VKEYCODE_FWL_VKEY_O": "79",
+    "FWL_VKEYCODE_FWL_VKEY_P": "80",
+    "FWL_VKEYCODE_FWL_VKEY_Q": "81",
+    "FWL_VKEYCODE_FWL_VKEY_R": "82",
+    "FWL_VKEYCODE_FWL_VKEY_S": "83",
+    "FWL_VKEYCODE_FWL_VKEY_T": "84",
+    "FWL_VKEYCODE_FWL_VKEY_U": "85",
+    "FWL_VKEYCODE_FWL_VKEY_V": "86",
+    "FWL_VKEYCODE_FWL_VKEY_W": "87",
+    "FWL_VKEYCODE_FWL_VKEY_X": "88",
+    "FWL_VKEYCODE_FWL_VKEY_Y": "89",
+    "FWL_VKEYCODE_FWL_VKEY_Z": "90",
+    "FWL_VKEYCODE_FWL_VKEY_LWin": "91",
+    "FWL_VKEYCODE_FWL_VKEY_Command": "91",
+    "FWL_VKEYCODE_FWL_VKEY_RWin": "92",
+    "FWL_VKEYCODE_FWL_VKEY_Apps": "93",
+    "FWL_VKEYCODE_FWL_VKEY_Sleep": "95",
+    "FWL_VKEYCODE_FWL_VKEY_NumPad0": "96",
+    "FWL_VKEYCODE_FWL_VKEY_NumPad1": "97",
+    "FWL_VKEYCODE_FWL_VKEY_NumPad2": "98",
+    "FWL_VKEYCODE_FWL_VKEY_NumPad3": "99",
+    "FWL_VKEYCODE_FWL_VKEY_NumPad4": "100",
+    "FWL_VKEYCODE_FWL_VKEY_NumPad5": "101",
+    "FWL_VKEYCODE_FWL_VKEY_NumPad6": "102",
+    "FWL_VKEYCODE_FWL_VKEY_NumPad7": "103",
+    "FWL_VKEYCODE_FWL_VKEY_NumPad8": "104",
+    "FWL_VKEYCODE_FWL_VKEY_NumPad9": "105",
+    "FWL_VKEYCODE_FWL_VKEY_Multiply": "106",
+    "FWL_VKEYCODE_FWL_VKEY_Add": "107",
+    "FWL_VKEYCODE_FWL_VKEY_Separator": "108",
+    "FWL_VKEYCODE_FWL_VKEY_Subtract": "109",
+    "FWL_VKEYCODE_FWL_VKEY_Decimal": "110",
+    "FWL_VKEYCODE_FWL_VKEY_Divide": "111",
+    "FWL_VKEYCODE_FWL_VKEY_F1": "112",
+    "FWL_VKEYCODE_FWL_VKEY_F2": "113",
+    "FWL_VKEYCODE_FWL_VKEY_F3": "114",
+    "FWL_VKEYCODE_FWL_VKEY_F4": "115",
+    "FWL_VKEYCODE_FWL_VKEY_F5": "116",
+    "FWL_VKEYCODE_FWL_VKEY_F6": "117",
+    "FWL_VKEYCODE_FWL_VKEY_F7": "118",
+    "FWL_VKEYCODE_FWL_VKEY_F8": "119",
+    "FWL_VKEYCODE_FWL_VKEY_F9": "120",
+    "FWL_VKEYCODE_FWL_VKEY_F10": "121",
+    "FWL_VKEYCODE_FWL_VKEY_F11": "122",
+    "FWL_VKEYCODE_FWL_VKEY_F12": "123",
+    "FWL_VKEYCODE_FWL_VKEY_F13": "124",
+    "FWL_VKEYCODE_FWL_VKEY_F14": "125",
+    "FWL_VKEYCODE_FWL_VKEY_F15": "126",
+    "FWL_VKEYCODE_FWL_VKEY_F16": "127",
+    "FWL_VKEYCODE_FWL_VKEY_F17": "128",
+    "FWL_VKEYCODE_FWL_VKEY_F18": "129",
+    "FWL_VKEYCODE_FWL_VKEY_F19": "130",
+    "FWL_VKEYCODE_FWL_VKEY_F20": "131",
+    "FWL_VKEYCODE_FWL_VKEY_F21": "132",
+    "FWL_VKEYCODE_FWL_VKEY_F22": "133",
+    "FWL_VKEYCODE_FWL_VKEY_F23": "134",
+    "FWL_VKEYCODE_FWL_VKEY_F24": "135",
+    "FWL_VKEYCODE_FWL_VKEY_NunLock": "144",
+    "FWL_VKEYCODE_FWL_VKEY_Scroll": "145",
+    "FWL_VKEYCODE_FWL_VKEY_LShift": "160",
+    "FWL_VKEYCODE_FWL_VKEY_RShift": "161",
+    "FWL_VKEYCODE_FWL_VKEY_LControl": "162",
+    "FWL_VKEYCODE_FWL_VKEY_RControl": "163",
+    "FWL_VKEYCODE_FWL_VKEY_LMenu": "164",
+    "FWL_VKEYCODE_FWL_VKEY_RMenu": "165",
+    "FWL_VKEYCODE_FWL_VKEY_BROWSER_Back": "166",
+    "FWL_VKEYCODE_FWL_VKEY_BROWSER_Forward": "167",
+    "FWL_VKEYCODE_FWL_VKEY_BROWSER_Refresh": "168",
+    "FWL_VKEYCODE_FWL_VKEY_BROWSER_Stop": "169",
+    "FWL_VKEYCODE_FWL_VKEY_BROWSER_Search": "170",
+    "FWL_VKEYCODE_FWL_VKEY_BROWSER_Favorites": "171",
+    "FWL_VKEYCODE_FWL_VKEY_BROWSER_Home": "172",
+    "FWL_VKEYCODE_FWL_VKEY_VOLUME_Mute": "173",
+    "FWL_VKEYCODE_FWL_VKEY_VOLUME_Down": "174",
+    "FWL_VKEYCODE_FWL_VKEY_VOLUME_Up": "175",
+    "FWL_VKEYCODE_FWL_VKEY_MEDIA_NEXT_Track": "176",
+    "FWL_VKEYCODE_FWL_VKEY_MEDIA_PREV_Track": "177",
+    "FWL_VKEYCODE_FWL_VKEY_MEDIA_Stop": "178",
+    "FWL_VKEYCODE_FWL_VKEY_MEDIA_PLAY_Pause": "179",
+    "FWL_VKEYCODE_FWL_VKEY_MEDIA_LAUNCH_Mail": "180",
+    "FWL_VKEYCODE_FWL_VKEY_MEDIA_LAUNCH_MEDIA_Select": "181",
+    "FWL_VKEYCODE_FWL_VKEY_MEDIA_LAUNCH_APP1": "182",
+    "FWL_VKEYCODE_FWL_VKEY_MEDIA_LAUNCH_APP2": "183",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_1": "186",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_Plus": "187",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_Comma": "188",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_Minus": "189",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_Period": "190",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_2": "191",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_3": "192",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_4": "219",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_5": "220",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_6": "221",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_7": "222",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_8": "223",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_102": "226",
+    "FWL_VKEYCODE_FWL_VKEY_ProcessKey": "229",
+    "FWL_VKEYCODE_FWL_VKEY_Packet": "231",
+    "FWL_VKEYCODE_FWL_VKEY_Attn": "246",
+    "FWL_VKEYCODE_FWL_VKEY_Crsel": "247",
+    "FWL_VKEYCODE_FWL_VKEY_Exsel": "248",
+    "FWL_VKEYCODE_FWL_VKEY_Ereof": "249",
+    "FWL_VKEYCODE_FWL_VKEY_Play": "250",
+    "FWL_VKEYCODE_FWL_VKEY_Zoom": "251",
+    "FWL_VKEYCODE_FWL_VKEY_NoName": "252",
+    "FWL_VKEYCODE_FWL_VKEY_PA1": "253",
+    "FWL_VKEYCODE_FWL_VKEY_OEM_Clear": "254",
+    "FWL_VKEYCODE_FWL_VKEY_Unknown": "0"
+  },
+  "types": {
+    "PdfActionType": {
+      "source": "pdf/action.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "GoToDestinationInSameDocument": "=1",
+        "GoToDestinationInRemoteDocument": "=2",
+        "GoToDestinationInEmbeddedDocument": "=5",
+        "Launch": "=4",
+        "Uri": "=3",
+        "Unsupported": "=0"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialOrd",
+        "PartialEq"
+      ]
+    },
+    "PdfAction": {
+      "source": "pdf/action.rs",
+      "kind": "enum",
+      "methods": {
+        "action_type": "pub fn action_type(&self) -> PdfActionType",
+        "is_supported": "pub fn is_supported(&self) -> bool",
+        "is_unsupported": "pub fn is_unsupported(&self) -> bool",
+        "as_local_destination_action": "pub fn as_local_destination_action(&self) -> Option<&PdfActionLocalDestination<'_>>",
+        "as_local_destination_action_mut": "pub fn as_local_destination_action_mut(\n        &mut self,\n    ) -> Option<&mut PdfActionLocalDestination<'a>>",
+        "as_remote_destination_action": "pub fn as_remote_destination_action(&self) -> Option<&PdfActionRemoteDestination<'_>>",
+        "as_remote_destination_action_mut": "pub fn as_remote_destination_action_mut(\n        &mut self,\n    ) -> Option<&mut PdfActionRemoteDestination<'a>>",
+        "as_embedded_destination_action": "pub fn as_embedded_destination_action(&self) -> Option<&PdfActionEmbeddedDestination<'_>>",
+        "as_embedded_destination_action_mut": "pub fn as_embedded_destination_action_mut(\n        &mut self,\n    ) -> Option<&mut PdfActionEmbeddedDestination<'a>>",
+        "as_launch_action": "pub fn as_launch_action(&self) -> Option<&PdfActionLaunch<'_>>",
+        "as_launch_action_mut": "pub fn as_launch_action_mut(&mut self) -> Option<&mut PdfActionLaunch<'a>>",
+        "as_uri_action": "pub fn as_uri_action(&self) -> Option<&PdfActionUri<'_>>",
+        "as_uri_action_mut": "pub fn as_uri_action_mut(&mut self) -> Option<&mut PdfActionUri<'a>>"
+      },
+      "variants": {
+        "LocalDestination": "(PdfActionLocalDestination<'a>)",
+        "RemoteDestination": "(PdfActionRemoteDestination<'a>)",
+        "EmbeddedDestination": "(PdfActionEmbeddedDestination<'a>)",
+        "Launch": "(PdfActionLaunch<'a>)",
+        "Uri": "(PdfActionUri<'a>)",
+        "Unsupported": "(PdfActionUnsupported<'a>)"
+      },
+      "derives": []
+    },
+    "PdfActionCommon": {
+      "source": "pdf/action.rs",
+      "kind": "trait",
+      "methods": {},
+      "trait_methods": {}
+    },
+    "PdfAppearanceMode": {
+      "source": "pdf/appearance_mode.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Normal": "=0",
+        "RollOver": "=1",
+        "Down": "=2"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "Pixels": {
+      "source": "pdf/bitmap.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfBitmapFormat": {
+      "source": "pdf/bitmap.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Gray": "=1",
+        "BGR": "=2",
+        "BGRx": "=3",
+        "BGRA": "=4"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfBitmap": {
+      "source": "pdf/bitmap.rs",
+      "kind": "struct",
+      "methods": {
+        "empty": "pub fn empty(\n        width: Pixels,\n        height: Pixels,\n        format: PdfBitmapFormat,\n    ) -> Result<PdfBitmap<'a>, PdfiumError>",
+        "from_bytes": "pub fn from_bytes(\n        width: Pixels,\n        height: Pixels,\n        format: PdfBitmapFormat,\n        buffer: &'a mut [u8],\n    ) -> Result<PdfBitmap<'a>, PdfiumError>",
+        "width": "pub fn width(&self) -> Pixels",
+        "height": "pub fn height(&self) -> Pixels",
+        "format": "pub fn format(&self) -> Result<PdfBitmapFormat, PdfiumError>",
+        "as_raw_bytes": "pub fn as_raw_bytes(&self) -> Vec<u8>",
+        "as_rgba_bytes": "pub fn as_rgba_bytes(&self) -> Vec<u8>",
+        "as_image": "pub fn as_image(&self) -> Result<DynamicImage, PdfiumError>",
+        "as_array": "pub fn as_array(&self) -> Uint8Array",
+        "as_image_data": "pub fn as_image_data(&self) -> Result<ImageData, JsValue>",
+        "bytes_required_for_size": "pub fn bytes_required_for_size(width: Pixels, height: Pixels) -> usize",
+        "bytes_required_for_size_and_format": "pub fn bytes_required_for_size_and_format(\n        width: Pixels,\n        height: Pixels,\n        format: PdfBitmapFormat,\n    ) -> usize"
+      },
+      "derives": []
+    },
+    "PdfColor": {
+      "source": "pdf/color.rs",
+      "kind": "struct",
+      "methods": {
+        "new": "pub const fn new(red: u8, green: u8, blue: u8, alpha: u8) -> Self",
+        "from_hex": "pub fn from_hex(hex: &str) -> Result<Self, PdfiumError>",
+        "mix": "pub const fn mix(a: &PdfColor, b: &PdfColor) -> Self",
+        "mix_with": "pub const fn mix_with(&self, other: &PdfColor) -> Self",
+        "with_alpha": "pub const fn with_alpha(&self, alpha: u8) -> Self",
+        "alpha": "pub fn alpha(&self) -> u8",
+        "red": "pub fn red(&self) -> u8",
+        "green": "pub fn green(&self) -> u8",
+        "blue": "pub fn blue(&self) -> u8",
+        "to_hex": "pub fn to_hex(&self) -> String",
+        "to_hex_with_alpha": "pub fn to_hex_with_alpha(&self) -> String"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone"
+      ]
+    },
+    "PdfColorSpace": {
+      "source": "pdf/color_space.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Unknown": "=0",
+        "DeviceGray": "=1",
+        "DeviceRGB": "=2",
+        "DeviceCMYK": "=3",
+        "CalibratedCIEGray": "=4",
+        "CalibratedCIERGB": "=5",
+        "CalibratedCIELab": "=6",
+        "CalibratedICCProfile": "=7",
+        "Separation": "=8",
+        "DeviceN": "=9",
+        "Indexed": "=10",
+        "Pattern": "=11"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfDestinationViewSettings": {
+      "source": "pdf/destination.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Unknown": "=0",
+        "SpecificCoordinatesAndZoom": "(Option<PdfPoints>,Option<PdfPoints>,Option<f32>)",
+        "FitPageToWindow": "=2",
+        "FitPageHorizontallyToWindow": "(Option<PdfPoints>)",
+        "FitPageVerticallyToWindow": "(Option<PdfPoints>)",
+        "FitPageToRectangle": "(PdfRect)",
+        "FitBoundsToWindow": "=6",
+        "FitBoundsHorizontallyToWindow": "(Option<PdfPoints>)",
+        "FitBoundsVerticallyToWindow": "(Option<PdfPoints>)"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone"
+      ]
+    },
+    "PdfDestination": {
+      "source": "pdf/destination.rs",
+      "kind": "struct",
+      "methods": {
+        "page_index": "pub fn page_index(&self) -> Result<PdfPageIndex, PdfiumError>",
+        "view_settings": "pub fn view_settings(&self) -> Result<PdfDestinationViewSettings, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfAttachment": {
+      "source": "pdf/document/attachment.rs",
+      "kind": "struct",
+      "methods": {
+        "name": "pub fn name(&self) -> String",
+        "len": "pub fn len(&self) -> usize",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "save_to_bytes": "pub fn save_to_bytes(&self) -> Result<Vec<u8>, PdfiumError>",
+        "save_to_writer": "pub fn save_to_writer<W: Write>(&self, writer: &mut W) -> Result<(), PdfiumError>",
+        "save_to_file": "pub fn save_to_file(&self, path: &(impl AsRef<Path> + ?Sized)) -> Result<(), PdfiumError>",
+        "save_to_blob": "pub fn save_to_blob(&self) -> Result<Blob, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfAttachmentIndex": {
+      "source": "pdf/document/attachments.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfAttachments": {
+      "source": "pdf/document/attachments.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfAttachmentIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfAttachmentIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfAttachmentIndex>",
+        "get": "pub fn get(&self, index: PdfAttachmentIndex) -> Result<PdfAttachment<'a>, PdfiumError>",
+        "create_attachment_from_bytes": "pub fn create_attachment_from_bytes(\n        &mut self,\n        name: &str,\n        bytes: &[u8],\n    ) -> Result<PdfAttachment<'_>, PdfiumError>",
+        "create_attachment_from_file": "pub fn create_attachment_from_file(\n        &mut self,\n        name: &str,\n        path: &(impl AsRef<Path> + ?Sized),\n    ) -> Result<PdfAttachment<'_>, PdfiumError>",
+        "create_attachment_from_reader": "pub fn create_attachment_from_reader<R: Read>(\n        &mut self,\n        name: &str,\n        mut reader: R,\n    ) -> Result<PdfAttachment<'_>, PdfiumError>",
+        "create_attachment_from_fetch": "pub async fn create_attachment_from_fetch(\n        &'a mut self,\n        name: &str,\n        url: impl ToString,\n    ) -> Result<PdfAttachment<'a>, PdfiumError>",
+        "create_attachment_from_blob": "pub async fn create_attachment_from_blob(\n        &'a mut self,\n        name: &str,\n        blob: Blob,\n    ) -> Result<PdfAttachment<'a>, PdfiumError>",
+        "delete_at_index": "pub fn delete_at_index(&mut self, index: PdfAttachmentIndex) -> Result<(), PdfiumError>",
+        "iter": "pub fn iter(&self) -> PdfAttachmentsIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfAttachmentsIterator": {
+      "source": "pdf/document/attachments.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfBookmark": {
+      "source": "pdf/document/bookmark.rs",
+      "kind": "struct",
+      "methods": {
+        "title": "pub fn title(&self) -> Option<String>",
+        "action": "pub fn action(&self) -> Option<PdfAction<'a>>",
+        "destination": "pub fn destination(&self) -> Option<PdfDestination<'a>>",
+        "parent": "pub fn parent(&self) -> Option<PdfBookmark<'a>>",
+        "children_len": "pub fn children_len(&self) -> usize",
+        "first_child": "pub fn first_child(&self) -> Option<PdfBookmark<'a>>",
+        "next_sibling": "pub fn next_sibling(&self) -> Option<PdfBookmark<'a>>",
+        "iter_siblings": "pub fn iter_siblings(&self) -> PdfBookmarksIterator<'a>",
+        "iter_direct_children": "pub fn iter_direct_children(&self) -> PdfBookmarksIterator<'a>",
+        "iter_all_descendants": "pub fn iter_all_descendants(&self) -> PdfBookmarksIterator<'a>"
+      },
+      "derives": [
+        "Clone"
+      ]
+    },
+    "PdfBookmarks": {
+      "source": "pdf/document/bookmarks.rs",
+      "kind": "struct",
+      "methods": {
+        "root": "pub fn root(&self) -> Option<PdfBookmark<'_>>",
+        "find_first_by_title": "pub fn find_first_by_title(&self, title: &str) -> Result<PdfBookmark<'_>, PdfiumError>",
+        "find_all_by_title": "pub fn find_all_by_title(&self, title: &str) -> Vec<PdfBookmark<'_>>",
+        "iter": "pub fn iter(&self) -> PdfBookmarksIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfBookmarksIterator": {
+      "source": "pdf/document/bookmarks.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfCatalog": {
+      "source": "pdf/document/catalog.rs",
+      "kind": "struct",
+      "methods": {
+        "is_tagged": "pub fn is_tagged(&self) -> bool",
+        "get_language": "pub fn get_language(&self) -> Result<String, PdfiumError>",
+        "set_language": "pub fn set_language(&mut self, language: impl ToString) -> Result<(), PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfFontBuiltin": {
+      "source": "pdf/document/fonts.rs",
+      "kind": "enum",
+      "methods": {
+        "to_pdf_font_name": "pub fn to_pdf_font_name(&self) -> &str"
+      },
+      "variants": {
+        "TimesRoman": "=0",
+        "TimesBold": "=1",
+        "TimesItalic": "=2",
+        "TimesBoldItalic": "=3",
+        "Helvetica": "=4",
+        "HelveticaBold": "=5",
+        "HelveticaOblique": "=6",
+        "HelveticaBoldOblique": "=7",
+        "Courier": "=8",
+        "CourierBold": "=9",
+        "CourierOblique": "=10",
+        "CourierBoldOblique": "=11",
+        "Symbol": "=12",
+        "ZapfDingbats": "=13"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfFontToken": {
+      "source": "pdf/document/fonts.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "Eq",
+        "Hash",
+        "PartialEq"
+      ]
+    },
+    "ToPdfFontToken": {
+      "source": "pdf/document/fonts.rs",
+      "kind": "trait",
+      "methods": {},
+      "trait_methods": {
+        "token": "fn token(&self) -> PdfFontToken"
+      }
+    },
+    "PdfFonts": {
+      "source": "pdf/document/fonts.rs",
+      "kind": "struct",
+      "methods": {
+        "new_built_in": "pub fn new_built_in(&mut self, font: PdfFontBuiltin) -> PdfFontToken",
+        "times_roman": "pub fn times_roman(&mut self) -> PdfFontToken",
+        "times_bold": "pub fn times_bold(&mut self) -> PdfFontToken",
+        "times_italic": "pub fn times_italic(&mut self) -> PdfFontToken",
+        "times_bold_italic": "pub fn times_bold_italic(&mut self) -> PdfFontToken",
+        "helvetica": "pub fn helvetica(&mut self) -> PdfFontToken",
+        "helvetica_bold": "pub fn helvetica_bold(&mut self) -> PdfFontToken",
+        "helvetica_oblique": "pub fn helvetica_oblique(&mut self) -> PdfFontToken",
+        "helvetica_bold_oblique": "pub fn helvetica_bold_oblique(&mut self) -> PdfFontToken",
+        "courier": "pub fn courier(&mut self) -> PdfFontToken",
+        "courier_bold": "pub fn courier_bold(&mut self) -> PdfFontToken",
+        "courier_oblique": "pub fn courier_oblique(&mut self) -> PdfFontToken",
+        "courier_bold_oblique": "pub fn courier_bold_oblique(&mut self) -> PdfFontToken",
+        "symbol": "pub fn symbol(&mut self) -> PdfFontToken",
+        "zapf_dingbats": "pub fn zapf_dingbats(&mut self) -> PdfFontToken",
+        "load_type1_from_file": "pub fn load_type1_from_file(\n        &mut self,\n        path: &(impl AsRef<Path> + ?Sized),\n        is_cid_font: bool,\n    ) -> Result<PdfFontToken, PdfiumError>",
+        "load_type1_from_reader": "pub fn load_type1_from_reader(\n        &mut self,\n        mut reader: impl Read,\n        is_cid_font: bool,\n    ) -> Result<PdfFontToken, PdfiumError>",
+        "load_type1_from_fetch": "pub async fn load_type1_from_fetch(\n        &mut self,\n        url: impl ToString,\n        is_cid_font: bool,\n    ) -> Result<PdfFontToken, PdfiumError>",
+        "load_type1_from_blob": "pub async fn load_type1_from_blob(\n        &mut self,\n        blob: Blob,\n        is_cid_font: bool,\n    ) -> Result<PdfFontToken, PdfiumError>",
+        "load_type1_from_bytes": "pub fn load_type1_from_bytes(\n        &mut self,\n        font_data: &[u8],\n        is_cid_font: bool,\n    ) -> Result<PdfFontToken, PdfiumError>",
+        "load_true_type_from_file": "pub fn load_true_type_from_file(\n        &mut self,\n        path: &(impl AsRef<Path> + ?Sized),\n        is_cid_font: bool,\n    ) -> Result<PdfFontToken, PdfiumError>",
+        "load_true_type_from_reader": "pub fn load_true_type_from_reader(\n        &mut self,\n        mut reader: impl Read,\n        is_cid_font: bool,\n    ) -> Result<PdfFontToken, PdfiumError>",
+        "load_true_type_from_fetch": "pub async fn load_true_type_from_fetch(\n        &mut self,\n        url: impl ToString,\n        is_cid_font: bool,\n    ) -> Result<PdfFontToken, PdfiumError>",
+        "load_true_type_from_blob": "pub async fn load_true_type_from_blob(\n        &mut self,\n        blob: Blob,\n        is_cid_font: bool,\n    ) -> Result<PdfFontToken, PdfiumError>",
+        "load_true_type_from_bytes": "pub fn load_true_type_from_bytes(\n        &mut self,\n        font_data: &[u8],\n        is_cid_font: bool,\n    ) -> Result<PdfFontToken, PdfiumError>",
+        "get": "pub fn get(&self, token: PdfFontToken) -> Option<&PdfFont<'_>>"
+      },
+      "derives": []
+    },
+    "PdfFormType": {
+      "source": "pdf/document/form.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "None": "=0",
+        "Acrobat": "=1",
+        "XfaFull": "=2",
+        "XfaForeground": "=3"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfForm": {
+      "source": "pdf/document/form.rs",
+      "kind": "struct",
+      "methods": {
+        "form_type": "pub fn form_type(&self) -> PdfFormType",
+        "field_values": "pub fn field_values(&self, pages: &'a PdfPages<'a>) -> HashMap<String, Option<String>>"
+      },
+      "derives": []
+    },
+    "PdfDocumentMetadataTagType": {
+      "source": "pdf/document/metadata.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Title": "=0",
+        "Author": "=1",
+        "Subject": "=2",
+        "Keywords": "=3",
+        "Creator": "=4",
+        "Producer": "=5",
+        "CreationDate": "=6",
+        "ModificationDate": "=7"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialEq"
+      ]
+    },
+    "PdfDocumentMetadataTag": {
+      "source": "pdf/document/metadata.rs",
+      "kind": "struct",
+      "methods": {
+        "tag_type": "pub fn tag_type(&self) -> PdfDocumentMetadataTagType",
+        "value": "pub fn value(&self) -> &str"
+      },
+      "derives": [
+        "Debug",
+        "Clone",
+        "PartialEq"
+      ]
+    },
+    "PdfMetadata": {
+      "source": "pdf/document/metadata.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> usize",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "get": "pub fn get(&self, tag: PdfDocumentMetadataTagType) -> Option<PdfDocumentMetadataTag>",
+        "iter": "pub fn iter(&self) -> Iter<'_, PdfDocumentMetadataTag>"
+      },
+      "derives": []
+    },
+    "PdfPageAnnotationAttachmentPointIndex": {
+      "source": "pdf/document/page/annotation/attachment_points.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfPageAnnotationAttachmentPoints": {
+      "source": "pdf/document/page/annotation/attachment_points.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfPageAnnotationAttachmentPointIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfPageAnnotationAttachmentPointIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfPageAnnotationAttachmentPointIndex>",
+        "get": "pub fn get(\n        &self,\n        index: PdfPageAnnotationAttachmentPointIndex,\n    ) -> Result<PdfQuadPoints, PdfiumError>",
+        "first": "pub fn first(&self) -> Result<PdfQuadPoints, PdfiumError>",
+        "last": "pub fn last(&self) -> Result<PdfQuadPoints, PdfiumError>",
+        "create_attachment_point_at_end": "pub fn create_attachment_point_at_end(\n        &mut self,\n        attachment_point: PdfQuadPoints,\n    ) -> Result<(), PdfiumError>",
+        "set_attachment_point_at_index": "pub fn set_attachment_point_at_index(\n        &mut self,\n        index: PdfPageAnnotationAttachmentPointIndex,\n        attachment_point: PdfQuadPoints,\n    ) -> Result<(), PdfiumError>",
+        "iter": "pub fn iter(&self) -> PdfPageAnnotationAttachmentPointsIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfPageAnnotationAttachmentPointsIterator": {
+      "source": "pdf/document/page/annotation/attachment_points.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageCircleAnnotation": {
+      "source": "pdf/document/page/annotation/circle.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageFreeTextAnnotation": {
+      "source": "pdf/document/page/annotation/free_text.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageHighlightAnnotation": {
+      "source": "pdf/document/page/annotation/highlight.rs",
+      "kind": "struct",
+      "methods": {
+        "attachment_points_mut": "pub fn attachment_points_mut(&mut self) -> &mut PdfPageAnnotationAttachmentPoints<'a>"
+      },
+      "derives": []
+    },
+    "PdfPageInkAnnotation": {
+      "source": "pdf/document/page/annotation/ink.rs",
+      "kind": "struct",
+      "methods": {
+        "objects_mut": "pub fn objects_mut(&mut self) -> &mut PdfPageAnnotationObjects<'a>"
+      },
+      "derives": []
+    },
+    "PdfPageLinkAnnotation": {
+      "source": "pdf/document/page/annotation/link.rs",
+      "kind": "struct",
+      "methods": {
+        "link": "pub fn link(&self) -> Result<PdfLink<'_>, PdfiumError>",
+        "set_link": "pub fn set_link(&mut self, uri: &str) -> Result<(), PdfiumError>",
+        "attachment_points_mut": "pub fn attachment_points_mut(&mut self) -> &mut PdfPageAnnotationAttachmentPoints<'a>"
+      },
+      "derives": []
+    },
+    "PdfPageAnnotationObjects": {
+      "source": "pdf/document/page/annotation/objects.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPagePopupAnnotation": {
+      "source": "pdf/document/page/annotation/popup.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageRedactedAnnotation": {
+      "source": "pdf/document/page/annotation/redacted.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageSquareAnnotation": {
+      "source": "pdf/document/page/annotation/square.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageSquigglyAnnotation": {
+      "source": "pdf/document/page/annotation/squiggly.rs",
+      "kind": "struct",
+      "methods": {
+        "attachment_points_mut": "pub fn attachment_points_mut(&mut self) -> &mut PdfPageAnnotationAttachmentPoints<'a>"
+      },
+      "derives": []
+    },
+    "PdfPageStampAnnotation": {
+      "source": "pdf/document/page/annotation/stamp.rs",
+      "kind": "struct",
+      "methods": {
+        "objects_mut": "pub fn objects_mut(&mut self) -> &mut PdfPageAnnotationObjects<'a>"
+      },
+      "derives": []
+    },
+    "PdfPageStrikeoutAnnotation": {
+      "source": "pdf/document/page/annotation/strikeout.rs",
+      "kind": "struct",
+      "methods": {
+        "attachment_points_mut": "pub fn attachment_points_mut(&mut self) -> &mut PdfPageAnnotationAttachmentPoints<'a>"
+      },
+      "derives": []
+    },
+    "PdfPageTextAnnotation": {
+      "source": "pdf/document/page/annotation/text.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageUnderlineAnnotation": {
+      "source": "pdf/document/page/annotation/underline.rs",
+      "kind": "struct",
+      "methods": {
+        "attachment_points_mut": "pub fn attachment_points_mut(&mut self) -> &mut PdfPageAnnotationAttachmentPoints<'a>"
+      },
+      "derives": []
+    },
+    "PdfPageUnsupportedAnnotation": {
+      "source": "pdf/document/page/annotation/unsupported.rs",
+      "kind": "struct",
+      "methods": {
+        "get_type": "pub fn get_type(&self) -> PdfPageAnnotationType"
+      },
+      "derives": []
+    },
+    "PdfPageAnnotationVariableTextJustification": {
+      "source": "pdf/document/page/annotation/variable_text.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "LeftJustified": "=0",
+        "Centered": "=1",
+        "RightJustified": "=2"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfPageAnnotationVariableText": {
+      "source": "pdf/document/page/annotation/variable_text.rs",
+      "kind": "trait",
+      "methods": {},
+      "trait_methods": {
+        "font_size": "fn font_size(&self, form: &PdfForm) -> Result<PdfPoints, PdfiumError>",
+        "is_font_auto_sized": "fn is_font_auto_sized(&self, form: &PdfForm) -> bool",
+        "font_color": "fn font_color(&self, form: &PdfForm) -> Result<PdfColor, PdfiumError>",
+        "set_font_color": "fn set_font_color(&mut self, form: &PdfForm, color: PdfColor) -> Result<(), PdfiumError>",
+        "justification": "fn justification(&self) -> Result<PdfPageAnnotationVariableTextJustification, PdfiumError>",
+        "rich_text": "fn rich_text(&self) -> Option<String>"
+      }
+    },
+    "PdfPageWidgetAnnotation": {
+      "source": "pdf/document/page/annotation/widget.rs",
+      "kind": "struct",
+      "methods": {
+        "form_field": "pub fn form_field(&self) -> Option<&PdfFormField<'_>>",
+        "form_field_mut": "pub fn form_field_mut(&mut self) -> Option<&mut PdfFormField<'a>>"
+      },
+      "derives": []
+    },
+    "PdfPageXfaWidgetAnnotation": {
+      "source": "pdf/document/page/annotation/xfa_widget.rs",
+      "kind": "struct",
+      "methods": {
+        "form_field": "pub fn form_field(&self) -> Option<&PdfFormField<'_>>",
+        "form_field_mut": "pub fn form_field_mut(&mut self) -> Option<&mut PdfFormField<'a>>"
+      },
+      "derives": []
+    },
+    "PdfPageAnnotationType": {
+      "source": "pdf/document/page/annotation.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Unknown": "=0",
+        "Text": "=1",
+        "Link": "=2",
+        "FreeText": "=3",
+        "Line": "=4",
+        "Square": "=5",
+        "Circle": "=6",
+        "Polygon": "=7",
+        "Polyline": "=8",
+        "Highlight": "=9",
+        "Underline": "=10",
+        "Squiggly": "=11",
+        "Strikeout": "=12",
+        "Stamp": "=13",
+        "Caret": "=14",
+        "Ink": "=15",
+        "Popup": "=16",
+        "FileAttachment": "=17",
+        "Sound": "=18",
+        "Movie": "=19",
+        "Widget": "=20",
+        "Screen": "=21",
+        "PrinterMark": "=22",
+        "TrapNet": "=23",
+        "Watermark": "=24",
+        "ThreeD": "=25",
+        "RichMedia": "=26",
+        "XfaWidget": "=27",
+        "Redacted": "=28"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialOrd",
+        "PartialEq"
+      ]
+    },
+    "PdfPageAnnotation": {
+      "source": "pdf/document/page/annotation.rs",
+      "kind": "enum",
+      "methods": {
+        "annotation_type": "pub fn annotation_type(&self) -> PdfPageAnnotationType",
+        "is_supported": "pub fn is_supported(&self) -> bool",
+        "is_unsupported": "pub fn is_unsupported(&self) -> bool",
+        "as_circle_annotation": "pub fn as_circle_annotation(&self) -> Option<&PdfPageCircleAnnotation<'_>>",
+        "as_circle_annotation_mut": "pub fn as_circle_annotation_mut(&mut self) -> Option<&mut PdfPageCircleAnnotation<'a>>",
+        "as_free_text_annotation": "pub fn as_free_text_annotation(&self) -> Option<&PdfPageFreeTextAnnotation<'_>>",
+        "as_free_text_annotation_mut": "pub fn as_free_text_annotation_mut(&mut self) -> Option<&mut PdfPageFreeTextAnnotation<'a>>",
+        "as_highlight_annotation": "pub fn as_highlight_annotation(&self) -> Option<&PdfPageHighlightAnnotation<'_>>",
+        "as_highlight_annotation_mut": "pub fn as_highlight_annotation_mut(&mut self) -> Option<&mut PdfPageHighlightAnnotation<'a>>",
+        "as_ink_annotation": "pub fn as_ink_annotation(&self) -> Option<&PdfPageInkAnnotation<'_>>",
+        "as_ink_annotation_mut": "pub fn as_ink_annotation_mut(&mut self) -> Option<&mut PdfPageInkAnnotation<'a>>",
+        "as_link_annotation": "pub fn as_link_annotation(&self) -> Option<&PdfPageLinkAnnotation<'_>>",
+        "as_link_annotation_mut": "pub fn as_link_annotation_mut(&mut self) -> Option<&mut PdfPageLinkAnnotation<'a>>",
+        "as_popup_annotation": "pub fn as_popup_annotation(&self) -> Option<&PdfPagePopupAnnotation<'_>>",
+        "as_popup_annotation_mut": "pub fn as_popup_annotation_mut(&mut self) -> Option<&mut PdfPagePopupAnnotation<'a>>",
+        "as_square_annotation": "pub fn as_square_annotation(&self) -> Option<&PdfPageSquareAnnotation<'_>>",
+        "as_square_annotation_mut": "pub fn as_square_annotation_mut(&mut self) -> Option<&mut PdfPageSquareAnnotation<'a>>",
+        "as_squiggly_annotation": "pub fn as_squiggly_annotation(&self) -> Option<&PdfPageSquigglyAnnotation<'_>>",
+        "as_squiggly_annotation_mut": "pub fn as_squiggly_annotation_mut(&mut self) -> Option<&mut PdfPageSquigglyAnnotation<'a>>",
+        "as_stamp_annotation": "pub fn as_stamp_annotation(&self) -> Option<&PdfPageStampAnnotation<'_>>",
+        "as_stamp_annotation_mut": "pub fn as_stamp_annotation_mut(&mut self) -> Option<&mut PdfPageStampAnnotation<'a>>",
+        "as_strikeout_annotation": "pub fn as_strikeout_annotation(&self) -> Option<&PdfPageStrikeoutAnnotation<'_>>",
+        "as_strikeout_annotation_mut": "pub fn as_strikeout_annotation_mut(&mut self) -> Option<&mut PdfPageStrikeoutAnnotation<'a>>",
+        "as_text_annotation": "pub fn as_text_annotation(&self) -> Option<&PdfPageTextAnnotation<'_>>",
+        "as_text_annotation_mut": "pub fn as_text_annotation_mut(&mut self) -> Option<&mut PdfPageTextAnnotation<'a>>",
+        "as_underline_annotation": "pub fn as_underline_annotation(&self) -> Option<&PdfPageUnderlineAnnotation<'_>>",
+        "as_underline_annotation_mut": "pub fn as_underline_annotation_mut(&mut self) -> Option<&mut PdfPageUnderlineAnnotation<'a>>",
+        "as_widget_annotation": "pub fn as_widget_annotation(&self) -> Option<&PdfPageWidgetAnnotation<'_>>",
+        "as_widget_annotation_mut": "pub fn as_widget_annotation_mut(&mut self) -> Option<&mut PdfPageWidgetAnnotation<'a>>",
+        "as_xfa_widget_annotation": "pub fn as_xfa_widget_annotation(&self) -> Option<&PdfPageXfaWidgetAnnotation<'_>>",
+        "as_xfa_widget_annotation_mut": "pub fn as_xfa_widget_annotation_mut(&mut self) -> Option<&mut PdfPageXfaWidgetAnnotation<'a>>",
+        "as_redacted_annotation": "pub fn as_redacted_annotation(&self) -> Option<&PdfPageRedactedAnnotation<'_>>",
+        "as_redacted_annotation_mut": "pub fn as_redacted_annotation_mut(&mut self) -> Option<&mut PdfPageRedactedAnnotation<'a>>",
+        "as_form_field": "pub fn as_form_field(&self) -> Option<&PdfFormField<'_>>",
+        "as_form_field_mut": "pub fn as_form_field_mut(&mut self) -> Option<&mut PdfFormField<'a>>"
+      },
+      "variants": {
+        "Circle": "(PdfPageCircleAnnotation<'a>)",
+        "FreeText": "(PdfPageFreeTextAnnotation<'a>)",
+        "Highlight": "(PdfPageHighlightAnnotation<'a>)",
+        "Ink": "(PdfPageInkAnnotation<'a>)",
+        "Link": "(PdfPageLinkAnnotation<'a>)",
+        "Popup": "(PdfPagePopupAnnotation<'a>)",
+        "Square": "(PdfPageSquareAnnotation<'a>)",
+        "Squiggly": "(PdfPageSquigglyAnnotation<'a>)",
+        "Stamp": "(PdfPageStampAnnotation<'a>)",
+        "Strikeout": "(PdfPageStrikeoutAnnotation<'a>)",
+        "Text": "(PdfPageTextAnnotation<'a>)",
+        "Underline": "(PdfPageUnderlineAnnotation<'a>)",
+        "Widget": "(PdfPageWidgetAnnotation<'a>)",
+        "XfaWidget": "(PdfPageXfaWidgetAnnotation<'a>)",
+        "Redacted": "(PdfPageRedactedAnnotation<'a>)",
+        "Unsupported": "(PdfPageUnsupportedAnnotation<'a>)"
+      },
+      "derives": []
+    },
+    "PdfPageAnnotationCommon": {
+      "source": "pdf/document/page/annotation.rs",
+      "kind": "trait",
+      "methods": {},
+      "trait_methods": {
+        "name": "fn name(&self) -> Option<String>",
+        "is_markup_annotation": "fn is_markup_annotation(&self) -> bool",
+        "has_attachment_points": "fn has_attachment_points(&self) -> bool",
+        "bounds": "fn bounds(&self) -> Result<PdfRect, PdfiumError>",
+        "set_bounds": "fn set_bounds(&mut self, bounds: PdfRect) -> Result<(), PdfiumError>",
+        "set_position": "fn set_position(&mut self, x: PdfPoints, y: PdfPoints) -> Result<(), PdfiumError>",
+        "set_width": "fn set_width(&mut self, width: PdfPoints) -> Result<(), PdfiumError>",
+        "set_height": "fn set_height(&mut self, width: PdfPoints) -> Result<(), PdfiumError>",
+        "contents": "fn contents(&self) -> Option<String>",
+        "set_contents": "fn set_contents(&mut self, contents: &str) -> Result<(), PdfiumError>",
+        "creator": "fn creator(&self) -> Option<String>",
+        "set_creator": "fn set_creator(&mut self, creator: &str) -> Result<(), PdfiumError>",
+        "creation_date": "fn creation_date(&self) -> Option<String>",
+        "set_creation_date": "fn set_creation_date(&mut self, date: DateTime<Utc>) -> Result<(), PdfiumError>",
+        "modification_date": "fn modification_date(&self) -> Option<String>",
+        "set_modification_date": "fn set_modification_date(&mut self, date: DateTime<Utc>) -> Result<(), PdfiumError>",
+        "fill_color": "fn fill_color(&self) -> Result<PdfColor, PdfiumError>",
+        "set_fill_color": "fn set_fill_color(&mut self, fill_color: PdfColor) -> Result<(), PdfiumError>",
+        "stroke_color": "fn stroke_color(&self) -> Result<PdfColor, PdfiumError>",
+        "set_stroke_color": "fn set_stroke_color(&mut self, stroke_color: PdfColor) -> Result<(), PdfiumError>",
+        "is_invisible_if_unsupported": "fn is_invisible_if_unsupported(&self) -> bool",
+        "set_is_invisible_if_unsupported": "fn set_is_invisible_if_unsupported(&mut self, is_invisible: bool) -> Result<(), PdfiumError>",
+        "is_hidden": "fn is_hidden(&self) -> bool",
+        "set_is_hidden": "fn set_is_hidden(&mut self, is_hidden: bool) -> Result<(), PdfiumError>",
+        "is_printed": "fn is_printed(&self) -> bool",
+        "set_is_printed": "fn set_is_printed(&mut self, is_printed: bool) -> Result<(), PdfiumError>",
+        "is_zoomable": "fn is_zoomable(&self) -> bool",
+        "set_is_zoomable": "fn set_is_zoomable(&mut self, is_zoomable: bool) -> Result<(), PdfiumError>",
+        "is_rotatable": "fn is_rotatable(&self) -> bool",
+        "set_is_rotatable": "fn set_is_rotatable(&mut self, is_rotatable: bool) -> Result<(), PdfiumError>",
+        "is_printable_but_not_viewable": "fn is_printable_but_not_viewable(&self) -> bool",
+        "set_is_printable_but_not_viewable": "fn set_is_printable_but_not_viewable(\n        &mut self,\n        is_printable_but_not_viewable: bool,\n    ) -> Result<(), PdfiumError>",
+        "is_read_only": "fn is_read_only(&self) -> bool",
+        "set_is_read_only": "fn set_is_read_only(&mut self, is_read_only: bool) -> Result<(), PdfiumError>",
+        "is_locked": "fn is_locked(&self) -> bool",
+        "set_is_locked": "fn set_is_locked(&mut self, is_locked: bool) -> Result<(), PdfiumError>",
+        "is_editable": "fn is_editable(&self) -> bool",
+        "set_is_editable": "fn set_is_editable(&mut self, is_editable: bool) -> Result<(), PdfiumError>",
+        "objects": "fn objects(&self) -> &PdfPageAnnotationObjects<'_>",
+        "attachment_points": "fn attachment_points(&self) -> &PdfPageAnnotationAttachmentPoints<'_>"
+      }
+    },
+    "PdfPageAnnotationIndex": {
+      "source": "pdf/document/page/annotations.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfPageAnnotations": {
+      "source": "pdf/document/page/annotations.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfPageAnnotationIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfPageAnnotationIndex>",
+        "get": "pub fn get(&self, index: PdfPageAnnotationIndex) -> Result<PdfPageAnnotation<'a>, PdfiumError>",
+        "first": "pub fn first(&self) -> Result<PdfPageAnnotation<'a>, PdfiumError>",
+        "last": "pub fn last(&self) -> Result<PdfPageAnnotation<'a>, PdfiumError>",
+        "iter": "pub fn iter(&self) -> PdfPageAnnotationsIterator<'_>",
+        "create_free_text_annotation": "pub fn create_free_text_annotation(\n        &mut self,\n        text: &str,\n    ) -> Result<PdfPageFreeTextAnnotation<'a>, PdfiumError>",
+        "create_highlight_annotation": "pub fn create_highlight_annotation(\n        &mut self,\n    ) -> Result<PdfPageHighlightAnnotation<'a>, PdfiumError>",
+        "create_ink_annotation": "pub fn create_ink_annotation(&mut self) -> Result<PdfPageInkAnnotation<'a>, PdfiumError>",
+        "create_link_annotation": "pub fn create_link_annotation(\n        &mut self,\n        uri: &str,\n    ) -> Result<PdfPageLinkAnnotation<'a>, PdfiumError>",
+        "create_popup_annotation": "pub fn create_popup_annotation(&mut self) -> Result<PdfPagePopupAnnotation<'a>, PdfiumError>",
+        "create_square_annotation": "pub fn create_square_annotation(&mut self) -> Result<PdfPageSquareAnnotation<'a>, PdfiumError>",
+        "create_squiggly_annotation": "pub fn create_squiggly_annotation(\n        &mut self,\n    ) -> Result<PdfPageSquigglyAnnotation<'a>, PdfiumError>",
+        "create_stamp_annotation": "pub fn create_stamp_annotation(&mut self) -> Result<PdfPageStampAnnotation<'a>, PdfiumError>",
+        "create_strikeout_annotation": "pub fn create_strikeout_annotation(\n        &mut self,\n    ) -> Result<PdfPageStrikeoutAnnotation<'a>, PdfiumError>",
+        "create_text_annotation": "pub fn create_text_annotation(\n        &mut self,\n        text: &str,\n    ) -> Result<PdfPageTextAnnotation<'a>, PdfiumError>",
+        "create_underline_annotation": "pub fn create_underline_annotation(\n        &mut self,\n    ) -> Result<PdfPageUnderlineAnnotation<'a>, PdfiumError>",
+        "create_squiggly_annotation_under_object": "pub fn create_squiggly_annotation_under_object(\n        &mut self,\n        object: &PdfPageObject,\n        color: PdfColor,\n        contents: Option<&str>,\n    ) -> Result<PdfPageSquigglyAnnotation<'a>, PdfiumError>",
+        "create_underline_annotation_under_object": "pub fn create_underline_annotation_under_object(\n        &mut self,\n        object: &PdfPageObject,\n        color: PdfColor,\n        contents: Option<&str>,\n    ) -> Result<PdfPageUnderlineAnnotation<'a>, PdfiumError>",
+        "create_strikeout_annotation_through_object": "pub fn create_strikeout_annotation_through_object(\n        &mut self,\n        object: &PdfPageObject,\n        color: PdfColor,\n        contents: Option<&str>,\n    ) -> Result<PdfPageStrikeoutAnnotation<'a>, PdfiumError>",
+        "create_highlight_annotation_over_object": "pub fn create_highlight_annotation_over_object(\n        &mut self,\n        object: &PdfPageObject,\n        color: PdfColor,\n        contents: Option<&str>,\n    ) -> Result<PdfPageHighlightAnnotation<'a>, PdfiumError>",
+        "delete_annotation": "pub fn delete_annotation(\n        &mut self,\n        annotation: PdfPageAnnotation<'a>,\n    ) -> Result<(), PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfPageAnnotationsIterator": {
+      "source": "pdf/document/page/annotations.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageBoundaryBoxType": {
+      "source": "pdf/document/page/boundaries.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Media": "=0",
+        "Art": "=1",
+        "Bleed": "=2",
+        "Trim": "=3",
+        "Crop": "=4",
+        "Bounding": "=5"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialEq"
+      ]
+    },
+    "PdfPageBoundaryBox": {
+      "source": "pdf/document/page/boundaries.rs",
+      "kind": "struct",
+      "methods": {},
+      "public_fields": [
+        [
+          "box_type",
+          "PdfPageBoundaryBoxType"
+        ],
+        [
+          "bounds",
+          "PdfRect"
+        ]
+      ],
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialEq"
+      ]
+    },
+    "PdfPageBoundaries": {
+      "source": "pdf/document/page/boundaries.rs",
+      "kind": "struct",
+      "methods": {
+        "get": "pub fn get(&self, boundary: PdfPageBoundaryBoxType) -> Result<PdfPageBoundaryBox, PdfiumError>",
+        "set": "pub fn set(\n        &mut self,\n        box_type: PdfPageBoundaryBoxType,\n        rect: PdfRect,\n    ) -> Result<(), PdfiumError>",
+        "media": "pub fn media(&self) -> Result<PdfPageBoundaryBox, PdfiumError>",
+        "set_media": "pub fn set_media(&mut self, rect: PdfRect) -> Result<(), PdfiumError>",
+        "art": "pub fn art(&self) -> Result<PdfPageBoundaryBox, PdfiumError>",
+        "set_art": "pub fn set_art(&mut self, rect: PdfRect) -> Result<(), PdfiumError>",
+        "bleed": "pub fn bleed(&self) -> Result<PdfPageBoundaryBox, PdfiumError>",
+        "set_bleed": "pub fn set_bleed(&mut self, rect: PdfRect) -> Result<(), PdfiumError>",
+        "trim": "pub fn trim(&self) -> Result<PdfPageBoundaryBox, PdfiumError>",
+        "set_trim": "pub fn set_trim(&mut self, rect: PdfRect) -> Result<(), PdfiumError>",
+        "crop": "pub fn crop(&self) -> Result<PdfPageBoundaryBox, PdfiumError>",
+        "set_crop": "pub fn set_crop(&mut self, rect: PdfRect) -> Result<(), PdfiumError>",
+        "bounding": "pub fn bounding(&self) -> Result<PdfPageBoundaryBox, PdfiumError>",
+        "iter": "pub fn iter(&'a self) -> PageBoundaryIterator<'a>"
+      },
+      "derives": []
+    },
+    "PageBoundaryIterator": {
+      "source": "pdf/document/page/boundaries.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfFormPushButtonField": {
+      "source": "pdf/document/page/field/button.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfFormCheckboxField": {
+      "source": "pdf/document/page/field/checkbox.rs",
+      "kind": "struct",
+      "methods": {
+        "index_in_group": "pub fn index_in_group(&self) -> u32",
+        "group_value": "pub fn group_value(&self) -> Option<String>",
+        "is_checked": "pub fn is_checked(&self) -> Result<bool, PdfiumError>",
+        "set_checked": "pub fn set_checked(&mut self, is_checked: bool) -> Result<(), PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfFormComboBoxField": {
+      "source": "pdf/document/page/field/combo.rs",
+      "kind": "struct",
+      "methods": {
+        "options": "pub fn options(&self) -> &PdfFormFieldOptions<'_>",
+        "value": "pub fn value(&self) -> Option<String>",
+        "has_editable_text_box": "pub fn has_editable_text_box(&self) -> bool",
+        "set_has_editable_text_box": "pub fn set_has_editable_text_box(\n        &mut self,\n        has_editable_text_box: bool,\n    ) -> Result<(), PdfiumError>",
+        "is_sorted": "pub fn is_sorted(&self) -> bool",
+        "set_is_sorted": "pub fn set_is_sorted(&mut self, is_sorted: bool) -> Result<(), PdfiumError>",
+        "is_multiselect": "pub fn is_multiselect(&self) -> bool",
+        "set_is_multiselect": "pub fn set_is_multiselect(&mut self, is_multiselect: bool) -> Result<(), PdfiumError>",
+        "is_spell_checked": "pub fn is_spell_checked(&self) -> bool",
+        "set_is_spell_checked": "pub fn set_is_spell_checked(&mut self, is_spell_checked: bool) -> Result<(), PdfiumError>",
+        "is_commit_on_selection_change": "pub fn is_commit_on_selection_change(&self) -> bool",
+        "set_is_commit_on_selection_change": "pub fn set_is_commit_on_selection_change(\n        &mut self,\n        is_commit_on_selection_change: bool,\n    ) -> Result<(), PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfFormListBoxField": {
+      "source": "pdf/document/page/field/list.rs",
+      "kind": "struct",
+      "methods": {
+        "options": "pub fn options(&self) -> &PdfFormFieldOptions<'_>",
+        "value": "pub fn value(&self) -> Option<String>",
+        "is_sorted": "pub fn is_sorted(&self) -> bool",
+        "set_is_sorted": "pub fn set_is_sorted(&mut self, is_sorted: bool) -> Result<(), PdfiumError>",
+        "is_multiselect": "pub fn is_multiselect(&self) -> bool",
+        "set_is_multiselect": "pub fn set_is_multiselect(&mut self, is_multiselect: bool) -> Result<(), PdfiumError>",
+        "is_commit_on_selection_change": "pub fn is_commit_on_selection_change(&self) -> bool",
+        "set_is_commit_on_selection_change": "pub fn set_is_commit_on_selection_change(\n        &mut self,\n        is_commit_on_selection_change: bool,\n    ) -> Result<(), PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfFormFieldOption": {
+      "source": "pdf/document/page/field/option.rs",
+      "kind": "struct",
+      "methods": {
+        "index": "pub fn index(&self) -> PdfFormFieldOptionIndex",
+        "is_set": "pub fn is_set(&self) -> bool",
+        "label": "pub fn label(&self) -> Option<&String>"
+      },
+      "derives": []
+    },
+    "PdfFormFieldOptionIndex": {
+      "source": "pdf/document/page/field/options.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfFormFieldOptions": {
+      "source": "pdf/document/page/field/options.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfFormFieldOptionIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfFormFieldOptionIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfFormFieldOptionIndex>",
+        "get": "pub fn get(&self, index: PdfFormFieldOptionIndex) -> Result<PdfFormFieldOption, PdfiumError>",
+        "iter": "pub fn iter(&self) -> PdfFormFieldOptionsIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfFormFieldOptionsIterator": {
+      "source": "pdf/document/page/field/options.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfFormRadioButtonField": {
+      "source": "pdf/document/page/field/radio.rs",
+      "kind": "struct",
+      "methods": {
+        "index_in_group": "pub fn index_in_group(&self) -> u32",
+        "group_value": "pub fn group_value(&self) -> Option<String>",
+        "is_checked": "pub fn is_checked(&self) -> Result<bool, PdfiumError>",
+        "set_checked": "pub fn set_checked(&mut self) -> Result<(), PdfiumError>",
+        "is_group_selection_required": "pub fn is_group_selection_required(&self) -> bool",
+        "set_is_group_selection_required": "pub fn set_is_group_selection_required(\n        &mut self,\n        is_group_selection_required: bool,\n    ) -> Result<(), PdfiumError>",
+        "is_group_in_unison": "pub fn is_group_in_unison(&self) -> bool",
+        "set_is_group_in_unison": "pub fn set_is_group_in_unison(&mut self, is_group_in_unison: bool) -> Result<(), PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfFormSignatureField": {
+      "source": "pdf/document/page/field/signature.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfFormTextField": {
+      "source": "pdf/document/page/field/text.rs",
+      "kind": "struct",
+      "methods": {
+        "value": "pub fn value(&self) -> Option<String>",
+        "set_value": "pub fn set_value(&mut self, value: &str) -> Result<(), PdfiumError>",
+        "is_multiline": "pub fn is_multiline(&self) -> bool",
+        "set_is_multiline": "pub fn set_is_multiline(&self, is_multiline: bool) -> Result<(), PdfiumError>",
+        "is_password": "pub fn is_password(&self) -> bool",
+        "set_is_password": "pub fn set_is_password(&self, is_password: bool) -> Result<(), PdfiumError>",
+        "is_file_select": "pub fn is_file_select(&self) -> bool",
+        "set_is_file_select": "pub fn set_is_file_select(&mut self, is_file_select: bool) -> Result<(), PdfiumError>",
+        "is_spell_checked": "pub fn is_spell_checked(&self) -> bool",
+        "set_is_spell_checked": "pub fn set_is_spell_checked(&mut self, is_spell_checked: bool) -> Result<(), PdfiumError>",
+        "is_scrollable": "pub fn is_scrollable(&self) -> bool",
+        "set_is_scrollable": "pub fn set_is_scrollable(&mut self, is_scrollable: bool) -> Result<(), PdfiumError>",
+        "is_combed": "pub fn is_combed(&self) -> bool",
+        "is_rich_text": "pub fn is_rich_text(&self) -> bool",
+        "set_is_rich_text": "pub fn set_is_rich_text(&mut self, is_rich_text: bool) -> Result<(), PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfFormUnknownField": {
+      "source": "pdf/document/page/field/unknown.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfFormFieldType": {
+      "source": "pdf/document/page/field.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Unknown": "=0",
+        "PushButton": "=1",
+        "Checkbox": "=2",
+        "RadioButton": "=3",
+        "ComboBox": "=4",
+        "ListBox": "=5",
+        "Text": "=6",
+        "Signature": "=7"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialOrd",
+        "PartialEq"
+      ]
+    },
+    "PdfFormField": {
+      "source": "pdf/document/page/field.rs",
+      "kind": "enum",
+      "methods": {
+        "field_type": "pub fn field_type(&self) -> PdfFormFieldType",
+        "as_push_button_field": "pub fn as_push_button_field(&self) -> Option<&PdfFormPushButtonField<'_>>",
+        "as_checkbox_field": "pub fn as_checkbox_field(&self) -> Option<&PdfFormCheckboxField<'_>>",
+        "as_checkbox_field_mut": "pub fn as_checkbox_field_mut(&mut self) -> Option<&mut PdfFormCheckboxField<'a>>",
+        "as_radio_button_field": "pub fn as_radio_button_field(&self) -> Option<&PdfFormRadioButtonField<'_>>",
+        "as_radio_button_field_mut": "pub fn as_radio_button_field_mut(&mut self) -> Option<&mut PdfFormRadioButtonField<'a>>",
+        "as_combo_box_field": "pub fn as_combo_box_field(&self) -> Option<&PdfFormComboBoxField<'_>>",
+        "as_list_box_field": "pub fn as_list_box_field(&self) -> Option<&PdfFormListBoxField<'_>>",
+        "as_signature_field": "pub fn as_signature_field(&self) -> Option<&PdfFormSignatureField<'_>>",
+        "as_text_field": "pub fn as_text_field(&self) -> Option<&PdfFormTextField<'_>>",
+        "as_text_field_mut": "pub fn as_text_field_mut(&mut self) -> Option<&mut PdfFormTextField<'a>>",
+        "as_unknown_field": "pub fn as_unknown_field(&self) -> Option<&PdfFormUnknownField<'_>>"
+      },
+      "variants": {
+        "PushButton": "(PdfFormPushButtonField<'a>)",
+        "Checkbox": "(PdfFormCheckboxField<'a>)",
+        "RadioButton": "(PdfFormRadioButtonField<'a>)",
+        "ComboBox": "(PdfFormComboBoxField<'a>)",
+        "ListBox": "(PdfFormListBoxField<'a>)",
+        "Signature": "(PdfFormSignatureField<'a>)",
+        "Text": "(PdfFormTextField<'a>)",
+        "Unknown": "(PdfFormUnknownField<'a>)"
+      },
+      "derives": []
+    },
+    "PdfFormFieldCommon": {
+      "source": "pdf/document/page/field.rs",
+      "kind": "trait",
+      "methods": {},
+      "trait_methods": {
+        "name": "fn name(&self) -> Option<String>",
+        "appearance_stream": "fn appearance_stream(&self) -> Option<String>",
+        "appearance_mode_value": "fn appearance_mode_value(&self, appearance_mode: PdfAppearanceMode) -> Option<String>",
+        "is_read_only": "fn is_read_only(&self) -> bool",
+        "set_is_read_only": "fn set_is_read_only(&mut self, is_read_only: bool) -> Result<(), PdfiumError>",
+        "is_required": "fn is_required(&self) -> bool",
+        "set_is_required": "fn set_is_required(&mut self, is_required: bool) -> Result<(), PdfiumError>",
+        "is_exported_on_submit": "fn is_exported_on_submit(&self) -> bool",
+        "set_is_exported_on_submit": "fn set_is_exported_on_submit(&mut self, is_exported: bool) -> Result<(), PdfiumError>"
+      }
+    },
+    "PdfPageLinkIndex": {
+      "source": "pdf/document/page/links.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfPageLinks": {
+      "source": "pdf/document/page/links.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfPageLinkIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfPageLinkIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfPageLinkIndex>",
+        "get": "pub fn get(&'a self, index: PdfPageLinkIndex) -> Result<PdfLink<'a>, PdfiumError>",
+        "first": "pub fn first(&'a self) -> Result<PdfLink<'a>, PdfiumError>",
+        "last": "pub fn last(&'a self) -> Result<PdfLink<'a>, PdfiumError>",
+        "link_at_point": "pub fn link_at_point(&self, x: PdfPoints, y: PdfPoints) -> Option<PdfLink<'_>>",
+        "iter": "pub fn iter(&self) -> PdfPageLinksIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfPageLinksIterator": {
+      "source": "pdf/document/page/links.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageObjectMark": {
+      "source": "pdf/document/page/object/content_mark.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageGroupObject": {
+      "source": "pdf/document/page/object/group.rs",
+      "kind": "struct",
+      "methods": {
+        "empty": "pub fn empty(page: &'a PdfPage) -> Self",
+        "new": "pub fn new<F>(page: &'a PdfPage, predicate: F) -> Result<Self, PdfiumError>\n    where\n        F: FnMut(&PdfPageObject) -> bool,",
+        "from_vec": "pub fn from_vec(\n        page: &PdfPage<'a>,\n        mut objects: Vec<PdfPageObject<'a>>,\n    ) -> Result<Self, PdfiumError>",
+        "from_slice": "pub fn from_slice(\n        page: &PdfPage<'a>,\n        objects: &mut [PdfPageObject<'a>],\n    ) -> Result<Self, PdfiumError>",
+        "len": "pub fn len(&self) -> usize",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "contains": "pub fn contains(&self, object: &PdfPageObject) -> bool",
+        "push": "pub fn push(&mut self, object: &mut PdfPageObject<'a>) -> Result<(), PdfiumError>",
+        "append": "pub fn append(&mut self, objects: &mut [PdfPageObject<'a>]) -> Result<(), PdfiumError>",
+        "remove_objects_from_page": "pub fn remove_objects_from_page(mut self) -> Result<(), PdfiumError>",
+        "get": "pub fn get(&self, index: PdfPageObjectIndex) -> Result<PdfPageObject<'_>, PdfiumError>",
+        "retain": "pub fn retain<F>(&mut self, f: F)\n    where\n        F: Fn(&PdfPageObject) -> bool,",
+        "move_to_page": "pub fn move_to_page(mut self, page: &mut PdfPage) -> Result<(), PdfiumError>",
+        "move_to_annotation": "pub fn move_to_annotation(\n        mut self,\n        annotation: &mut PdfPageAnnotation,\n    ) -> Result<(), PdfiumError>",
+        "copy_to_page": "pub fn copy_to_page(\n        &mut self,\n        page: &mut PdfPage<'a>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "copy_into_x_object_form_object": "pub fn copy_into_x_object_form_object(\n        &mut self,\n        destination: &mut PdfDocument<'a>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "iter": "pub fn iter(&'a self) -> PdfPageGroupObjectIterator<'a>",
+        "text": "pub fn text(&self) -> String",
+        "text_separated": "pub fn text_separated(&self, separator: &str) -> String",
+        "has_transparency": "pub fn has_transparency(&self) -> bool",
+        "bounds": "pub fn bounds(&self) -> Result<PdfRect, PdfiumError>",
+        "set_blend_mode": "pub fn set_blend_mode(\n        &mut self,\n        blend_mode: PdfPageObjectBlendMode,\n    ) -> Result<(), PdfiumError>",
+        "set_fill_color": "pub fn set_fill_color(&mut self, fill_color: PdfColor) -> Result<(), PdfiumError>",
+        "set_stroke_color": "pub fn set_stroke_color(&mut self, stroke_color: PdfColor) -> Result<(), PdfiumError>",
+        "set_stroke_width": "pub fn set_stroke_width(&mut self, stroke_width: PdfPoints) -> Result<(), PdfiumError>",
+        "set_line_join": "pub fn set_line_join(&mut self, line_join: PdfPageObjectLineJoin) -> Result<(), PdfiumError>",
+        "set_line_cap": "pub fn set_line_cap(&mut self, line_cap: PdfPageObjectLineCap) -> Result<(), PdfiumError>",
+        "set_fill_and_stroke_mode": "pub fn set_fill_and_stroke_mode(\n        &mut self,\n        fill_mode: PdfPathFillMode,\n        do_stroke: bool,\n    ) -> Result<(), PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfPageGroupObjectIterator": {
+      "source": "pdf/document/page/object/group.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageImageObject": {
+      "source": "pdf/document/page/object/image.rs",
+      "kind": "struct",
+      "methods": {
+        "new": "pub fn new(document: &PdfDocument<'a>) -> Result<Self, PdfiumError>",
+        "new_from_jpeg_file": "pub fn new_from_jpeg_file(\n        document: &PdfDocument<'a>,\n        path: &(impl AsRef<Path> + ?Sized),\n    ) -> Result<Self, PdfiumError>",
+        "new_from_jpeg_reader": "pub fn new_from_jpeg_reader<R: Read + Seek>(\n        document: &PdfDocument<'a>,\n        reader: R,\n    ) -> Result<Self, PdfiumError>",
+        "new_with_width": "pub fn new_with_width(\n        document: &PdfDocument<'a>,\n        image: &DynamicImage,\n        width: PdfPoints,\n    ) -> Result<Self, PdfiumError>",
+        "new_with_height": "pub fn new_with_height(\n        document: &'a PdfDocument<'a>,\n        image: &DynamicImage,\n        height: PdfPoints,\n    ) -> Result<Self, PdfiumError>",
+        "new_with_size": "pub fn new_with_size(\n        document: &PdfDocument<'a>,\n        image: &DynamicImage,\n        width: PdfPoints,\n        height: PdfPoints,\n    ) -> Result<Self, PdfiumError>",
+        "get_raw_bitmap": "pub fn get_raw_bitmap(&self) -> Result<PdfBitmap<'_>, PdfiumError>",
+        "get_raw_image": "pub fn get_raw_image(&self) -> Result<DynamicImage, PdfiumError>",
+        "get_processed_bitmap": "pub fn get_processed_bitmap(\n        &self,\n        document: &PdfDocument,\n    ) -> Result<PdfBitmap<'_>, PdfiumError>",
+        "get_processed_image": "pub fn get_processed_image(&self, document: &PdfDocument) -> Result<DynamicImage, PdfiumError>",
+        "get_processed_bitmap_with_width": "pub fn get_processed_bitmap_with_width(\n        &self,\n        document: &PdfDocument,\n        width: Pixels,\n    ) -> Result<PdfBitmap<'_>, PdfiumError>",
+        "get_processed_image_with_width": "pub fn get_processed_image_with_width(\n        &self,\n        document: &PdfDocument,\n        width: Pixels,\n    ) -> Result<DynamicImage, PdfiumError>",
+        "get_processed_bitmap_with_height": "pub fn get_processed_bitmap_with_height(\n        &self,\n        document: &PdfDocument,\n        height: Pixels,\n    ) -> Result<PdfBitmap<'_>, PdfiumError>",
+        "get_processed_image_with_height": "pub fn get_processed_image_with_height(\n        &self,\n        document: &PdfDocument,\n        height: Pixels,\n    ) -> Result<DynamicImage, PdfiumError>",
+        "get_processed_bitmap_with_size": "pub fn get_processed_bitmap_with_size(\n        &self,\n        document: &PdfDocument,\n        width: Pixels,\n        height: Pixels,\n    ) -> Result<PdfBitmap<'_>, PdfiumError>",
+        "get_processed_image_with_size": "pub fn get_processed_image_with_size(\n        &self,\n        document: &PdfDocument,\n        width: Pixels,\n        height: Pixels,\n    ) -> Result<DynamicImage, PdfiumError>",
+        "get_raw_image_data": "pub fn get_raw_image_data(&self) -> Result<Vec<u8>, PdfiumError>",
+        "width": "pub fn width(&self) -> Result<Pixels, PdfiumError>",
+        "height": "pub fn height(&self) -> Result<Pixels, PdfiumError>",
+        "set_image": "pub fn set_image(&mut self, image: &DynamicImage) -> Result<(), PdfiumError>",
+        "set_bitmap": "pub fn set_bitmap(&mut self, bitmap: &PdfBitmap) -> Result<(), PdfiumError>",
+        "horizontal_dpi": "pub fn horizontal_dpi(&self) -> Result<f32, PdfiumError>",
+        "vertical_dpi": "pub fn vertical_dpi(&self) -> Result<f32, PdfiumError>",
+        "bits_per_pixel": "pub fn bits_per_pixel(&self) -> Result<u8, PdfiumError>",
+        "color_space": "pub fn color_space(&self) -> Result<PdfColorSpace, PdfiumError>",
+        "filters": "pub fn filters(&self) -> PdfPageImageObjectFilters<'_>"
+      },
+      "derives": []
+    },
+    "PdfPageImageObjectFilterIndex": {
+      "source": "pdf/document/page/object/image.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfPageImageObjectFilters": {
+      "source": "pdf/document/page/object/image.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> usize",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfPageImageObjectFilterIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfPageImageObjectFilterIndex>",
+        "get": "pub fn get(\n        &self,\n        index: PdfPageImageObjectFilterIndex,\n    ) -> Result<PdfPageImageObjectFilter, PdfiumError>",
+        "iter": "pub fn iter(&self) -> PdfPageImageObjectFiltersIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfPageImageObjectFilter": {
+      "source": "pdf/document/page/object/image.rs",
+      "kind": "struct",
+      "methods": {
+        "name": "pub fn name(&self) -> &str"
+      },
+      "derives": []
+    },
+    "PdfPageImageObjectFiltersIterator": {
+      "source": "pdf/document/page/object/image.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPathFillMode": {
+      "source": "pdf/document/page/object/path.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "None": "=0",
+        "EvenOdd": "=1",
+        "Winding": "=2"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfPagePathObject": {
+      "source": "pdf/document/page/object/path.rs",
+      "kind": "struct",
+      "methods": {
+        "new": "pub fn new(\n        document: &PdfDocument<'a>,\n        x: PdfPoints,\n        y: PdfPoints,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<Self, PdfiumError>",
+        "new_line": "pub fn new_line(\n        document: &PdfDocument<'a>,\n        x1: PdfPoints,\n        y1: PdfPoints,\n        x2: PdfPoints,\n        y2: PdfPoints,\n        stroke_color: PdfColor,\n        stroke_width: PdfPoints,\n    ) -> Result<Self, PdfiumError>",
+        "new_bezier": "pub fn new_bezier(\n        document: &PdfDocument<'a>,\n        x1: PdfPoints,\n        y1: PdfPoints,\n        x2: PdfPoints,\n        y2: PdfPoints,\n        control1_x: PdfPoints,\n        control1_y: PdfPoints,\n        control2_x: PdfPoints,\n        control2_y: PdfPoints,\n        stroke_color: PdfColor,\n        stroke_width: PdfPoints,\n    ) -> Result<Self, PdfiumError>",
+        "new_rect": "pub fn new_rect(\n        document: &PdfDocument<'a>,\n        rect: PdfRect,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<Self, PdfiumError>",
+        "new_circle": "pub fn new_circle(\n        document: &PdfDocument<'a>,\n        rect: PdfRect,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<Self, PdfiumError>",
+        "new_circle_at": "pub fn new_circle_at(\n        document: &PdfDocument<'a>,\n        center_x: PdfPoints,\n        center_y: PdfPoints,\n        radius: PdfPoints,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<Self, PdfiumError>",
+        "new_ellipse": "pub fn new_ellipse(\n        document: &PdfDocument<'a>,\n        rect: PdfRect,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<Self, PdfiumError>",
+        "new_ellipse_at": "pub fn new_ellipse_at(\n        document: &PdfDocument<'a>,\n        center_x: PdfPoints,\n        center_y: PdfPoints,\n        x_radius: PdfPoints,\n        y_radius: PdfPoints,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<Self, PdfiumError>",
+        "move_to": "pub fn move_to(&mut self, x: PdfPoints, y: PdfPoints) -> Result<(), PdfiumError>",
+        "line_to": "pub fn line_to(&mut self, x: PdfPoints, y: PdfPoints) -> Result<(), PdfiumError>",
+        "bezier_to": "pub fn bezier_to(\n        &mut self,\n        x: PdfPoints,\n        y: PdfPoints,\n        control1_x: PdfPoints,\n        control1_y: PdfPoints,\n        control2_x: PdfPoints,\n        control2_y: PdfPoints,\n    ) -> Result<(), PdfiumError>",
+        "rect_to": "pub fn rect_to(&mut self, x: PdfPoints, y: PdfPoints) -> Result<(), PdfiumError>",
+        "ellipse_to": "pub fn ellipse_to(&mut self, x: PdfPoints, y: PdfPoints) -> Result<(), PdfiumError>",
+        "circle_to": "pub fn circle_to(&mut self, x: PdfPoints, y: PdfPoints) -> Result<(), PdfiumError>",
+        "close_path": "pub fn close_path(&mut self) -> Result<(), PdfiumError>",
+        "fill_mode": "pub fn fill_mode(&self) -> Result<PdfPathFillMode, PdfiumError>",
+        "is_stroked": "pub fn is_stroked(&self) -> Result<bool, PdfiumError>",
+        "set_fill_and_stroke_mode": "pub fn set_fill_and_stroke_mode(\n        &mut self,\n        fill_mode: PdfPathFillMode,\n        do_stroke: bool,\n    ) -> Result<(), PdfiumError>",
+        "segments": "pub fn segments(&self) -> PdfPagePathObjectSegments<'_>"
+      },
+      "derives": []
+    },
+    "PdfPagePathObjectSegments": {
+      "source": "pdf/document/page/object/path.rs",
+      "kind": "struct",
+      "methods": {
+        "transform": "pub fn transform(&self, matrix: PdfMatrix) -> PdfPagePathObjectSegments<'a>",
+        "raw": "pub fn raw(&self) -> PdfPagePathObjectSegments<'a>"
+      },
+      "derives": []
+    },
+    "PdfPageShadingObject": {
+      "source": "pdf/document/page/object/shading.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageTextRenderMode": {
+      "source": "pdf/document/page/object/text.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Unknown": "=-1",
+        "FilledUnstroked": "=0",
+        "StrokedUnfilled": "=1",
+        "FilledThenStroked": "=2",
+        "Invisible": "=3",
+        "FilledUnstrokedClipping": "=4",
+        "StrokedUnfilledClipping": "=5",
+        "FilledThenStrokedClipping": "=6",
+        "InvisibleClipping": "=7"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialOrd",
+        "PartialEq"
+      ]
+    },
+    "PdfPageTextObject": {
+      "source": "pdf/document/page/object/text.rs",
+      "kind": "struct",
+      "methods": {
+        "new": "pub fn new(\n        document: &PdfDocument<'a>,\n        text: impl ToString,\n        font: impl ToPdfFontToken,\n        font_size: PdfPoints,\n    ) -> Result<Self, PdfiumError>",
+        "render_mode": "pub fn render_mode(&self) -> PdfPageTextRenderMode",
+        "is_visible": "pub fn is_visible(&self) -> bool",
+        "scaled_font_size": "pub fn scaled_font_size(&self) -> PdfPoints",
+        "unscaled_font_size": "pub fn unscaled_font_size(&self) -> PdfPoints",
+        "set_unscaled_font_size": "pub fn set_unscaled_font_size(&self, points: PdfPoints) -> Result<(), PdfiumError>",
+        "font": "pub fn font(&self) -> PdfFont<'_>",
+        "text": "pub fn text(&self) -> String",
+        "set_text": "pub fn set_text(&mut self, text: impl ToString) -> Result<(), PdfiumError>",
+        "set_render_mode": "pub fn set_render_mode(\n        &mut self,\n        render_mode: PdfPageTextRenderMode,\n    ) -> Result<(), PdfiumError>",
+        "chars": "pub fn chars(&self, text: &'a PdfPageText<'a>) -> Result<PdfPageTextChars<'a>, PdfiumError>",
+        "has_descenders": "pub fn has_descenders(&self, text: &PdfPageText) -> Result<bool, PdfiumError>",
+        "descent": "pub fn descent(&self, text: &PdfPageText) -> Result<PdfPoints, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfPageUnsupportedObject": {
+      "source": "pdf/document/page/object/unsupported.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageXObjectFormObject": {
+      "source": "pdf/document/page/object/x_object_form.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfPageObjectIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfPageObjectIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfPageObjectIndex>",
+        "get": "pub fn get(&self, index: PdfPageObjectIndex) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "first": "pub fn first(&self) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "last": "pub fn last(&self) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "iter": "pub fn iter(&'a self) -> PdfPageObjectsIterator<'a>"
+      },
+      "derives": []
+    },
+    "PdfPageObjectType": {
+      "source": "pdf/document/page/object.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Unsupported": "=0",
+        "Text": "=1",
+        "Path": "=2",
+        "Image": "=3",
+        "Shading": "=4",
+        "XObjectForm": "=5"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialOrd",
+        "PartialEq",
+        "Eq",
+        "Hash"
+      ]
+    },
+    "PdfPageObjectBlendMode": {
+      "source": "pdf/document/page/object.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Normal": "=0",
+        "Multiply": "=1",
+        "Screen": "=2",
+        "Overlay": "=3",
+        "Darken": "=4",
+        "Lighten": "=5",
+        "ColorDodge": "=6",
+        "ColorBurn": "=7",
+        "HardLight": "=8",
+        "SoftLight": "=9",
+        "Difference": "=10",
+        "Exclusion": "=11",
+        "HSLColor": "=12",
+        "HSLHue": "=13",
+        "HSLLuminosity": "=14",
+        "HSLSaturation": "=15"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialEq"
+      ]
+    },
+    "PdfPageObjectLineJoin": {
+      "source": "pdf/document/page/object.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Miter": "=0",
+        "Round": "=1",
+        "Bevel": "=2"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialEq"
+      ]
+    },
+    "PdfPageObjectLineCap": {
+      "source": "pdf/document/page/object.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Butt": "=0",
+        "Round": "=1",
+        "Square": "=2"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialEq"
+      ]
+    },
+    "PdfPageObject": {
+      "source": "pdf/document/page/object.rs",
+      "kind": "enum",
+      "methods": {
+        "object_type": "pub fn object_type(&self) -> PdfPageObjectType",
+        "is_supported": "pub fn is_supported(&self) -> bool",
+        "is_unsupported": "pub fn is_unsupported(&self) -> bool",
+        "as_text_object": "pub fn as_text_object(&self) -> Option<&PdfPageTextObject<'_>>",
+        "as_text_object_mut": "pub fn as_text_object_mut(&mut self) -> Option<&mut PdfPageTextObject<'a>>",
+        "as_path_object": "pub fn as_path_object(&self) -> Option<&PdfPagePathObject<'_>>",
+        "as_path_object_mut": "pub fn as_path_object_mut(&mut self) -> Option<&mut PdfPagePathObject<'a>>",
+        "as_image_object": "pub fn as_image_object(&self) -> Option<&PdfPageImageObject<'_>>",
+        "as_image_object_mut": "pub fn as_image_object_mut(&mut self) -> Option<&mut PdfPageImageObject<'a>>",
+        "as_shading_object": "pub fn as_shading_object(&self) -> Option<&PdfPageShadingObject<'_>>",
+        "as_shading_object_mut": "pub fn as_shading_object_mut(&mut self) -> Option<&mut PdfPageShadingObject<'a>>",
+        "as_x_object_form_object": "pub fn as_x_object_form_object(&self) -> Option<&PdfPageXObjectFormObject<'_>>",
+        "as_x_object_form_object_mut": "pub fn as_x_object_form_object_mut(&mut self) -> Option<&mut PdfPageXObjectFormObject<'a>>",
+        "get_clip_path": "pub fn get_clip_path(&self) -> Option<PdfClipPath<'_>>",
+        "set_active": "pub fn set_active(&mut self) -> Result<(), PdfiumError>",
+        "is_active": "pub fn is_active(&self) -> Result<bool, PdfiumError>",
+        "set_inactive": "pub fn set_inactive(&mut self) -> Result<(), PdfiumError>",
+        "is_inactive": "pub fn is_inactive(&self) -> Result<bool, PdfiumError>"
+      },
+      "variants": {
+        "Text": "(PdfPageTextObject<'a>)",
+        "Path": "(PdfPagePathObject<'a>)",
+        "Image": "(PdfPageImageObject<'a>)",
+        "Shading": "(PdfPageShadingObject<'a>)",
+        "XObjectForm": "(PdfPageXObjectFormObject<'a>)",
+        "Unsupported": "(PdfPageUnsupportedObject<'a>)"
+      },
+      "derives": []
+    },
+    "PdfPageObjectCommon": {
+      "source": "pdf/document/page/object.rs",
+      "kind": "trait",
+      "methods": {},
+      "trait_methods": {
+        "has_transparency": "fn has_transparency(&self) -> bool",
+        "bounds": "fn bounds(&self) -> Result<PdfQuadPoints, PdfiumError>",
+        "width": "fn width(&self) -> Result<PdfPoints, PdfiumError>",
+        "height": "fn height(&self) -> Result<PdfPoints, PdfiumError>",
+        "is_inside_rect": "fn is_inside_rect(&self, rect: &PdfRect) -> bool",
+        "does_overlap_rect": "fn does_overlap_rect(&self, rect: &PdfRect) -> bool",
+        "transform_from": "fn transform_from(&mut self, other: &PdfPageObject) -> Result<(), PdfiumError>",
+        "set_blend_mode": "fn set_blend_mode(&mut self, blend_mode: PdfPageObjectBlendMode) -> Result<(), PdfiumError>",
+        "fill_color": "fn fill_color(&self) -> Result<PdfColor, PdfiumError>",
+        "set_fill_color": "fn set_fill_color(&mut self, fill_color: PdfColor) -> Result<(), PdfiumError>",
+        "stroke_color": "fn stroke_color(&self) -> Result<PdfColor, PdfiumError>",
+        "set_stroke_color": "fn set_stroke_color(&mut self, stroke_color: PdfColor) -> Result<(), PdfiumError>",
+        "stroke_width": "fn stroke_width(&self) -> Result<PdfPoints, PdfiumError>",
+        "set_stroke_width": "fn set_stroke_width(&mut self, stroke_width: PdfPoints) -> Result<(), PdfiumError>",
+        "line_join": "fn line_join(&self) -> Result<PdfPageObjectLineJoin, PdfiumError>",
+        "set_line_join": "fn set_line_join(&mut self, line_join: PdfPageObjectLineJoin) -> Result<(), PdfiumError>",
+        "line_cap": "fn line_cap(&self) -> Result<PdfPageObjectLineCap, PdfiumError>",
+        "set_line_cap": "fn set_line_cap(&mut self, line_cap: PdfPageObjectLineCap) -> Result<(), PdfiumError>",
+        "dash_phase": "fn dash_phase(&self) -> Result<PdfPoints, PdfiumError>",
+        "set_dash_phase": "fn set_dash_phase(&mut self, dash_phase: PdfPoints) -> Result<(), PdfiumError>",
+        "dash_array": "fn dash_array(&self) -> Result<Vec<PdfPoints>, PdfiumError>",
+        "set_dash_array": "fn set_dash_array(&mut self, array: &[PdfPoints], phase: PdfPoints) -> Result<(), PdfiumError>",
+        "copy_to_page": "fn copy_to_page<'b>(\n        &mut self,\n        page: &mut PdfPage<'b>,\n    ) -> Result<PdfPageObject<'b>, PdfiumError>",
+        "move_to_page": "fn move_to_page(&mut self, page: &mut PdfPage) -> Result<(), PdfiumError>",
+        "move_to_annotation": "fn move_to_annotation(&mut self, annotation: &mut PdfPageAnnotation)\n        -> Result<(), PdfiumError>"
+      }
+    },
+    "PdfPageObjectIndex": {
+      "source": "pdf/document/page/objects/common.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfPageObjectsCommon": {
+      "source": "pdf/document/page/objects/common.rs",
+      "kind": "trait",
+      "methods": {},
+      "trait_methods": {
+        "len": "fn len(&self) -> PdfPageObjectIndex",
+        "is_empty": "fn is_empty(&self) -> bool",
+        "as_range": "fn as_range(&self) -> Range<PdfPageObjectIndex>",
+        "as_range_inclusive": "fn as_range_inclusive(&self) -> RangeInclusive<PdfPageObjectIndex>",
+        "get": "fn get(&self, index: PdfPageObjectIndex) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "first": "fn first(&self) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "last": "fn last(&self) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "iter": "fn iter(&'a self) -> PdfPageObjectsIterator<'a>",
+        "bounds": "fn bounds(&'a self) -> PdfRect",
+        "add_object": "fn add_object(&mut self, object: PdfPageObject<'a>) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "add_text_object": "fn add_text_object(\n        &mut self,\n        object: PdfPageTextObject<'a>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "create_text_object": "fn create_text_object(\n        &mut self,\n        x: PdfPoints,\n        y: PdfPoints,\n        text: impl ToString,\n        font: impl ToPdfFontToken,\n        font_size: PdfPoints,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "add_path_object": "fn add_path_object(\n        &mut self,\n        object: PdfPagePathObject<'a>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "add_x_object_form_object": "fn add_x_object_form_object(\n        &mut self,\n        object: PdfPageXObjectFormObject<'a>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "create_path_object_line": "fn create_path_object_line(\n        &mut self,\n        x1: PdfPoints,\n        y1: PdfPoints,\n        x2: PdfPoints,\n        y2: PdfPoints,\n        stroke_color: PdfColor,\n        stroke_width: PdfPoints,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "create_path_object_bezier": "fn create_path_object_bezier(\n        &mut self,\n        x1: PdfPoints,\n        y1: PdfPoints,\n        x2: PdfPoints,\n        y2: PdfPoints,\n        control1_x: PdfPoints,\n        control1_y: PdfPoints,\n        control2_x: PdfPoints,\n        control2_y: PdfPoints,\n        stroke_color: PdfColor,\n        stroke_width: PdfPoints,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "create_path_object_rect": "fn create_path_object_rect(\n        &mut self,\n        rect: PdfRect,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "create_path_object_circle": "fn create_path_object_circle(\n        &mut self,\n        rect: PdfRect,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "create_path_object_circle_at": "fn create_path_object_circle_at(\n        &mut self,\n        center_x: PdfPoints,\n        center_y: PdfPoints,\n        radius: PdfPoints,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "create_path_object_ellipse": "fn create_path_object_ellipse(\n        &mut self,\n        rect: PdfRect,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "create_path_object_ellipse_at": "fn create_path_object_ellipse_at(\n        &mut self,\n        center_x: PdfPoints,\n        center_y: PdfPoints,\n        x_radius: PdfPoints,\n        y_radius: PdfPoints,\n        stroke_color: Option<PdfColor>,\n        stroke_width: Option<PdfPoints>,\n        fill_color: Option<PdfColor>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "add_image_object": "fn add_image_object(\n        &mut self,\n        object: PdfPageImageObject<'a>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "create_image_object": "fn create_image_object(\n        &mut self,\n        x: PdfPoints,\n        y: PdfPoints,\n        image: &DynamicImage,\n        width: Option<PdfPoints>,\n        height: Option<PdfPoints>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "remove_object": "fn remove_object(\n        &mut self,\n        object: PdfPageObject<'a>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "remove_object_at_index": "fn remove_object_at_index(\n        &mut self,\n        index: PdfPageObjectIndex,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>"
+      }
+    },
+    "PdfPageObjectsIterator": {
+      "source": "pdf/document/page/objects/common.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageObjects": {
+      "source": "pdf/document/page/objects.rs",
+      "kind": "struct",
+      "methods": {
+        "create_group": "pub fn create_group<F>(&'a self, predicate: F) -> Result<PdfPageGroupObject<'a>, PdfiumError>\n    where\n        F: Fn(&PdfPageObject) -> bool,",
+        "create_empty_group": "pub fn create_empty_group(&self) -> PdfPageGroupObject<'a>",
+        "copy_into_x_object_form_object": "pub fn copy_into_x_object_form_object(\n        &self,\n        destination: &mut PdfDocument<'a>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>",
+        "insert_object_at_index": "pub fn insert_object_at_index(\n        &mut self,\n        index: PdfPageObjectIndex,\n        mut object: PdfPageObject<'a>,\n    ) -> Result<PdfPageObject<'a>, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfRenderConfig": {
+      "source": "pdf/document/page/render_config.rs",
+      "kind": "struct",
+      "methods": {
+        "new": "pub fn new() -> Self",
+        "thumbnail": "pub fn thumbnail(self, size: Pixels) -> Self",
+        "set_fixed_size_to_bitmap": "pub fn set_fixed_size_to_bitmap(self, bitmap: &PdfBitmap) -> Self",
+        "set_fixed_size": "pub fn set_fixed_size(self, width: Pixels, height: Pixels) -> Self",
+        "set_fixed_width": "pub fn set_fixed_width(mut self, width: Pixels) -> Self",
+        "set_fixed_height": "pub fn set_fixed_height(mut self, height: Pixels) -> Self",
+        "set_target_size": "pub fn set_target_size(self, width: Pixels, height: Pixels) -> Self",
+        "set_target_width": "pub fn set_target_width(mut self, width: Pixels) -> Self",
+        "set_target_height": "pub fn set_target_height(mut self, height: Pixels) -> Self",
+        "scale_page_to_bitmap": "pub fn scale_page_to_bitmap(self, bitmap: &PdfBitmap) -> Self",
+        "scale_page_to_display_size": "pub fn scale_page_to_display_size(mut self, width: Pixels, height: Pixels) -> Self",
+        "scale_page_by_factor": "pub fn scale_page_by_factor(self, scale: f32) -> Self",
+        "scale_page_width_by_factor": "pub fn scale_page_width_by_factor(mut self, scale: f32) -> Self",
+        "scale_page_height_by_factor": "pub fn scale_page_height_by_factor(mut self, scale: f32) -> Self",
+        "set_maximum_width": "pub fn set_maximum_width(mut self, width: Pixels) -> Self",
+        "set_maximum_height": "pub fn set_maximum_height(mut self, height: Pixels) -> Self",
+        "rotate": "pub fn rotate(self, rotation: PdfPageRenderRotation, do_rotate_constraints: bool) -> Self",
+        "rotate_if_portrait": "pub fn rotate_if_portrait(\n        mut self,\n        rotation: PdfPageRenderRotation,\n        do_rotate_constraints: bool,\n    ) -> Self",
+        "rotate_if_landscape": "pub fn rotate_if_landscape(\n        mut self,\n        rotation: PdfPageRenderRotation,\n        do_rotate_constraints: bool,\n    ) -> Self",
+        "set_format": "pub fn set_format(mut self, format: PdfBitmapFormat) -> Self",
+        "clear_before_rendering": "pub fn clear_before_rendering(mut self, do_clear: bool) -> Self",
+        "set_clear_color": "pub fn set_clear_color(mut self, color: PdfColor) -> Self",
+        "render_form_data": "pub fn render_form_data(mut self, do_render: bool) -> Self",
+        "render_annotations": "pub fn render_annotations(mut self, do_render: bool) -> Self",
+        "use_lcd_text_rendering": "pub fn use_lcd_text_rendering(mut self, do_set_flag: bool) -> Self",
+        "disable_native_text_rendering": "pub fn disable_native_text_rendering(mut self, do_set_flag: bool) -> Self",
+        "use_grayscale_rendering": "pub fn use_grayscale_rendering(mut self, do_set_flag: bool) -> Self",
+        "limit_render_image_cache_size": "pub fn limit_render_image_cache_size(mut self, do_set_flag: bool) -> Self",
+        "force_half_tone": "pub fn force_half_tone(mut self, do_set_flag: bool) -> Self",
+        "use_print_quality": "pub fn use_print_quality(mut self, do_set_flag: bool) -> Self",
+        "set_text_smoothing": "pub fn set_text_smoothing(mut self, do_set_flag: bool) -> Self",
+        "set_image_smoothing": "pub fn set_image_smoothing(mut self, do_set_flag: bool) -> Self",
+        "set_path_smoothing": "pub fn set_path_smoothing(mut self, do_set_flag: bool) -> Self",
+        "set_reverse_byte_order": "pub fn set_reverse_byte_order(mut self, do_set_flag: bool) -> Self",
+        "render_fills_as_strokes": "pub fn render_fills_as_strokes(mut self, do_set_flag: bool) -> Self",
+        "highlight_all_form_fields": "pub fn highlight_all_form_fields(self, color: PdfColor) -> Self",
+        "highlight_button_form_fields": "pub fn highlight_button_form_fields(self, color: PdfColor) -> Self",
+        "highlight_checkbox_form_fields": "pub fn highlight_checkbox_form_fields(self, color: PdfColor) -> Self",
+        "highlight_radio_button_form_fields": "pub fn highlight_radio_button_form_fields(self, color: PdfColor) -> Self",
+        "highlight_combobox_form_fields": "pub fn highlight_combobox_form_fields(self, color: PdfColor) -> Self",
+        "highlight_listbox_form_fields": "pub fn highlight_listbox_form_fields(self, color: PdfColor) -> Self",
+        "highlight_text_form_fields": "pub fn highlight_text_form_fields(self, color: PdfColor) -> Self",
+        "highlight_signature_form_fields": "pub fn highlight_signature_form_fields(self, color: PdfColor) -> Self",
+        "highlight_form_fields_of_type": "pub fn highlight_form_fields_of_type(\n        mut self,\n        form_field_type: PdfFormFieldType,\n        color: PdfColor,\n    ) -> Self",
+        "clip": "pub fn clip(mut self, left: Pixels, top: Pixels, right: Pixels, bottom: Pixels) -> Self",
+        "set_origin": "pub fn set_origin(mut self, left: Pixels, top: Pixels) -> Self"
+      },
+      "derives": []
+    },
+    "PdfPagePaperStandardSize": {
+      "source": "pdf/document/page/size.rs",
+      "kind": "enum",
+      "methods": {
+        "from_mm_dimensions": "pub fn from_mm_dimensions(width: u32, height: u32) -> Option<PdfPagePaperStandardSize>",
+        "width": "pub fn width(&self) -> PdfPoints",
+        "height": "pub fn height(&self) -> PdfPoints"
+      },
+      "variants": {
+        "USLetterAnsiA": "=0",
+        "USHalfLetter": "=1",
+        "USGovernmentLetter": "=2",
+        "USLegal": "=3",
+        "USJuniorLegal": "=4",
+        "USGovernmentLegal": "=5",
+        "USLedgerTabloidAnsiB": "=6",
+        "A0x4": "=7",
+        "A0x2": "=8",
+        "A0": "=9",
+        "A1": "=10",
+        "A2": "=11",
+        "A3": "=12",
+        "A4": "=13",
+        "A4R": "=14",
+        "A5": "=15",
+        "A6": "=16",
+        "A7": "=17",
+        "A8": "=18",
+        "A9": "=19",
+        "A10": "=20",
+        "B0": "=21",
+        "B1": "=22",
+        "B2": "=23",
+        "B3": "=24",
+        "B4": "=25",
+        "B5": "=26",
+        "B6": "=27",
+        "B7": "=28",
+        "B8": "=29",
+        "B9": "=30",
+        "B10": "=31",
+        "C0": "=32",
+        "C1": "=33",
+        "C2": "=34",
+        "C3": "=35",
+        "C4": "=36",
+        "C5": "=37",
+        "C6": "=38",
+        "C7": "=39",
+        "C8": "=40",
+        "C9": "=41",
+        "C10": "=42",
+        "AnsiBPlus": "=43",
+        "AnsiC": "=44",
+        "AnsiD": "=45",
+        "AnsiE": "=46",
+        "ArchA": "=47",
+        "ArchB": "=48",
+        "ArchC": "=49",
+        "ArchD": "=50",
+        "ArchE": "=51"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialEq"
+      ]
+    },
+    "PdfPagePaperSize": {
+      "source": "pdf/document/page/size.rs",
+      "kind": "enum",
+      "methods": {
+        "from_points": "pub fn from_points(width: PdfPoints, height: PdfPoints) -> Self",
+        "from_inches": "pub fn from_inches(width: f32, height: f32) -> Self",
+        "from_cm": "pub fn from_cm(width: f32, height: f32) -> Self",
+        "from_mm": "pub fn from_mm(width: f32, height: f32) -> Self",
+        "new_portrait": "pub fn new_portrait(size: PdfPagePaperStandardSize) -> Self",
+        "new_landscape": "pub fn new_landscape(size: PdfPagePaperStandardSize) -> Self",
+        "new_custom": "pub fn new_custom(width: PdfPoints, height: PdfPoints) -> Self",
+        "a4": "pub fn a4() -> Self",
+        "a4r": "pub fn a4r() -> Self",
+        "a3": "pub fn a3() -> Self",
+        "rotate": "pub fn rotate(self) -> Self",
+        "landscape": "pub fn landscape(&self) -> Self",
+        "portrait": "pub fn portrait(&self) -> Self",
+        "width": "pub fn width(&self) -> PdfPoints",
+        "height": "pub fn height(&self) -> PdfPoints",
+        "as_rect": "pub fn as_rect(&self) -> PdfRect"
+      },
+      "variants": {
+        "Portrait": "(PdfPagePaperStandardSize)",
+        "Landscape": "(PdfPagePaperStandardSize)",
+        "Custom": "(PdfPoints,PdfPoints)"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialEq"
+      ]
+    },
+    "PdfPageStructureTree": {
+      "source": "pdf/document/page/structure_tree.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageTextChar": {
+      "source": "pdf/document/page/text/char.rs",
+      "kind": "struct",
+      "methods": {
+        "index": "pub fn index(&self) -> PdfPageTextCharIndex",
+        "unicode_value": "pub fn unicode_value(&self) -> u32",
+        "unicode_char": "pub fn unicode_char(&self) -> Option<char>",
+        "unicode_string": "pub fn unicode_string(&self) -> Option<String>",
+        "scaled_font_size": "pub fn scaled_font_size(&self) -> PdfPoints",
+        "unscaled_font_size": "pub fn unscaled_font_size(&self) -> PdfPoints",
+        "font_name": "pub fn font_name(&self) -> String",
+        "font_weight": "pub fn font_weight(&self) -> Option<PdfFontWeight>",
+        "font_is_fixed_pitch": "pub fn font_is_fixed_pitch(&self) -> bool",
+        "font_is_proportional_pitch": "pub fn font_is_proportional_pitch(&self) -> bool",
+        "font_is_serif": "pub fn font_is_serif(&self) -> bool",
+        "font_is_sans_serif": "pub fn font_is_sans_serif(&self) -> bool",
+        "font_is_symbolic": "pub fn font_is_symbolic(&self) -> bool",
+        "font_is_non_symbolic": "pub fn font_is_non_symbolic(&self) -> bool",
+        "font_is_cursive": "pub fn font_is_cursive(&self) -> bool",
+        "font_is_italic": "pub fn font_is_italic(&self) -> bool",
+        "font_is_all_caps": "pub fn font_is_all_caps(&self) -> bool",
+        "font_is_small_caps": "pub fn font_is_small_caps(&self) -> bool",
+        "font_is_bold_reenforced": "pub fn font_is_bold_reenforced(&self) -> bool",
+        "text_object": "pub fn text_object(&self) -> Result<PdfPageTextObject<'_>, PdfiumError>",
+        "render_mode": "pub fn render_mode(&self) -> Result<PdfPageTextRenderMode, PdfiumError>",
+        "fill_color": "pub fn fill_color(&self) -> Result<PdfColor, PdfiumError>",
+        "stroke_color": "pub fn stroke_color(&self) -> Result<PdfColor, PdfiumError>",
+        "angle_degrees": "pub fn angle_degrees(&self) -> Result<f32, PdfiumError>",
+        "angle_radians": "pub fn angle_radians(&self) -> Result<f32, PdfiumError>",
+        "tight_bounds": "pub fn tight_bounds(&self) -> Result<PdfRect, PdfiumError>",
+        "loose_bounds": "pub fn loose_bounds(&self) -> Result<PdfRect, PdfiumError>",
+        "origin": "pub fn origin(&self) -> Result<(PdfPoints, PdfPoints), PdfiumError>",
+        "origin_x": "pub fn origin_x(&self) -> Result<PdfPoints, PdfiumError>",
+        "origin_y": "pub fn origin_y(&self) -> Result<PdfPoints, PdfiumError>",
+        "has_descender": "pub fn has_descender(&self) -> bool",
+        "is_generated": "pub fn is_generated(&self) -> Result<bool, PdfiumError>",
+        "is_hyphen": "pub fn is_hyphen(&self) -> Result<bool, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfPageTextCharIndex": {
+      "source": "pdf/document/page/text/chars.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfPageTextChars": {
+      "source": "pdf/document/page/text/chars.rs",
+      "kind": "struct",
+      "methods": {
+        "first_char_index": "pub fn first_char_index(&self) -> Option<PdfPageTextCharIndex>",
+        "len": "pub fn len(&self) -> PdfPageTextCharIndex",
+        "last_char_index": "pub fn last_char_index(&self) -> Option<PdfPageTextCharIndex>",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "get": "pub fn get<'b>(\n        &'b self,\n        index: PdfPageTextCharIndex,\n    ) -> Result<PdfPageTextChar<'a>, PdfiumError>",
+        "first": "pub fn first(&self) -> Result<PdfPageTextChar<'a>, PdfiumError>",
+        "last": "pub fn last(&self) -> Result<PdfPageTextChar<'a>, PdfiumError>",
+        "get_char_at_point": "pub fn get_char_at_point(&self, x: PdfPoints, y: PdfPoints) -> Option<PdfPageTextChar<'_>>",
+        "get_char_near_point": "pub fn get_char_near_point(\n        &self,\n        x: PdfPoints,\n        tolerance_x: PdfPoints,\n        y: PdfPoints,\n        tolerance_y: PdfPoints,\n    ) -> Option<PdfPageTextChar<'_>>",
+        "iter": "pub fn iter(&self) -> PdfPageTextCharsIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfPageTextCharsIterator": {
+      "source": "pdf/document/page/text/chars.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfSearchOptions": {
+      "source": "pdf/document/page/text/search.rs",
+      "kind": "struct",
+      "methods": {
+        "new": "pub fn new() -> Self",
+        "match_case": "pub fn match_case(mut self, do_match_case: bool) -> Self",
+        "match_whole_word": "pub fn match_whole_word(mut self, do_match_whole_word: bool) -> Self"
+      },
+      "derives": [
+        "Debug",
+        "Clone",
+        "Copy",
+        "PartialEq",
+        "Eq"
+      ]
+    },
+    "PdfSearchDirection": {
+      "source": "pdf/document/page/text/search.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "SearchForward": "=0",
+        "SearchBackward": "=1"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq",
+        "PartialOrd"
+      ]
+    },
+    "PdfPageTextSearch": {
+      "source": "pdf/document/page/text/search.rs",
+      "kind": "struct",
+      "methods": {
+        "find_next": "pub fn find_next(&self) -> Option<PdfPageTextSegments<'_>>",
+        "find_previous": "pub fn find_previous(&self) -> Option<PdfPageTextSegments<'_>>",
+        "get_next_result": "pub fn get_next_result(\n        &self,\n        direction: PdfSearchDirection,\n    ) -> Option<PdfPageTextSegments<'_>>",
+        "iter": "pub fn iter(&self, direction: PdfSearchDirection) -> PdfPageTextSearchIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfPageTextSearchIterator": {
+      "source": "pdf/document/page/text/search.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageTextSegment": {
+      "source": "pdf/document/page/text/segment.rs",
+      "kind": "struct",
+      "methods": {
+        "bounds": "pub fn bounds(&self) -> PdfRect",
+        "width": "pub fn width(&self) -> PdfPoints",
+        "height": "pub fn height(&self) -> PdfPoints",
+        "is_inside_rect": "pub fn is_inside_rect(&self, rect: &PdfRect) -> bool",
+        "does_overlap_rect": "pub fn does_overlap_rect(&self, rect: &PdfRect) -> bool",
+        "text": "pub fn text(&self) -> String",
+        "chars": "pub fn chars<'b>(&'b self) -> Result<PdfPageTextChars<'a>, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfPageTextSegmentIndex": {
+      "source": "pdf/document/page/text/segments.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfPageTextSegments": {
+      "source": "pdf/document/page/text/segments.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfPageTextSegmentIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfPageTextSegmentIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfPageTextSegmentIndex>",
+        "get": "pub fn get<'b>(\n        &'b self,\n        index: PdfPageTextSegmentIndex,\n    ) -> Result<PdfPageTextSegment<'a>, PdfiumError>",
+        "first": "pub fn first(&self) -> Result<PdfPageTextSegment<'a>, PdfiumError>",
+        "last": "pub fn last(&self) -> Result<PdfPageTextSegment<'a>, PdfiumError>",
+        "iter": "pub fn iter(&self) -> PdfPageTextSegmentsIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfPageTextSegmentsIterator": {
+      "source": "pdf/document/page/text/segments.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPageText": {
+      "source": "pdf/document/page/text.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> i32",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "segments": "pub fn segments(&self) -> PdfPageTextSegments<'_>",
+        "segments_subset": "pub fn segments_subset(\n        &self,\n        start: PdfPageTextCharIndex,\n        count: PdfPageTextCharIndex,\n    ) -> PdfPageTextSegments<'_>",
+        "chars": "pub fn chars(&self) -> PdfPageTextChars<'_>",
+        "chars_for_object": "pub fn chars_for_object(\n        &self,\n        object: &PdfPageTextObject,\n    ) -> Result<PdfPageTextChars<'_>, PdfiumError>",
+        "chars_for_annotation": "pub fn chars_for_annotation(\n        &self,\n        annotation: &PdfPageAnnotation,\n    ) -> Result<PdfPageTextChars<'_>, PdfiumError>",
+        "chars_inside_rect": "pub fn chars_inside_rect<'b>(\n        &'b self,\n        rect: PdfRect,\n    ) -> Result<PdfPageTextChars<'a>, PdfiumError>",
+        "all": "pub fn all(&self) -> String",
+        "inside_rect": "pub fn inside_rect(&self, rect: PdfRect) -> String",
+        "for_object": "pub fn for_object(&self, object: &PdfPageTextObject) -> String",
+        "for_annotation": "pub fn for_annotation(&self, annotation: &PdfPageAnnotation) -> Result<String, PdfiumError>",
+        "search": "pub fn search(\n        &self,\n        text: &str,\n        options: &PdfSearchOptions,\n    ) -> Result<PdfPageTextSearch<'_>, PdfiumError>",
+        "search_from": "pub fn search_from(\n        &self,\n        text: &str,\n        options: &PdfSearchOptions,\n        index: PdfPageTextCharIndex,\n    ) -> Result<PdfPageTextSearch<'_>, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfPageOrientation": {
+      "source": "pdf/document/page.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Portrait": "=0",
+        "Landscape": "=1"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfPageRenderRotation": {
+      "source": "pdf/document/page.rs",
+      "kind": "enum",
+      "methods": {
+        "as_degrees": "pub const fn as_degrees(&self) -> f32",
+        "as_radians": "pub const fn as_radians(&self) -> f32"
+      },
+      "variants": {
+        "None": "=0",
+        "Degrees90": "=1",
+        "Degrees180": "=2",
+        "Degrees270": "=3"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfPageContentRegenerationStrategy": {
+      "source": "pdf/document/page.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "AutomaticOnEveryChange": "=0",
+        "AutomaticOnDrop": "=1",
+        "Manual": "=2"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfPage": {
+      "source": "pdf/document/page.rs",
+      "kind": "struct",
+      "methods": {
+        "label": "pub fn label(&self) -> Option<&str>",
+        "width": "pub fn width(&self) -> PdfPoints",
+        "height": "pub fn height(&self) -> PdfPoints",
+        "page_size": "pub fn page_size(&self) -> PdfRect",
+        "orientation": "pub fn orientation(&self) -> PdfPageOrientation",
+        "is_portrait": "pub fn is_portrait(&self) -> bool",
+        "is_landscape": "pub fn is_landscape(&self) -> bool",
+        "rotation": "pub fn rotation(&self) -> Result<PdfPageRenderRotation, PdfiumError>",
+        "set_rotation": "pub fn set_rotation(&mut self, rotation: PdfPageRenderRotation)",
+        "has_transparency": "pub fn has_transparency(&self) -> bool",
+        "paper_size": "pub fn paper_size(&self) -> PdfPagePaperSize",
+        "has_embedded_thumbnail": "pub fn has_embedded_thumbnail(&self) -> bool",
+        "embedded_thumbnail": "pub fn embedded_thumbnail(&self) -> Result<PdfBitmap<'_>, PdfiumError>",
+        "text": "pub fn text(&self) -> Result<PdfPageText<'_>, PdfiumError>",
+        "annotations": "pub fn annotations(&self) -> &PdfPageAnnotations<'_>",
+        "annotations_mut": "pub fn annotations_mut(&mut self) -> &mut PdfPageAnnotations<'a>",
+        "boundaries": "pub fn boundaries(&self) -> &PdfPageBoundaries<'_>",
+        "boundaries_mut": "pub fn boundaries_mut(&mut self) -> &mut PdfPageBoundaries<'a>",
+        "links": "pub fn links(&self) -> &PdfPageLinks<'_>",
+        "links_mut": "pub fn links_mut(&mut self) -> &mut PdfPageLinks<'a>",
+        "objects": "pub fn objects(&self) -> &PdfPageObjects<'_>",
+        "objects_mut": "pub fn objects_mut(&mut self) -> &mut PdfPageObjects<'a>",
+        "structure_tree": "pub fn structure_tree(&self) -> &PdfPageStructureTree<'_>",
+        "fonts": "pub fn fonts(&self) -> Vec<PdfFont<'_>>",
+        "pixels_to_points": "pub fn pixels_to_points(\n        &self,\n        x: Pixels,\n        y: Pixels,\n        config: &PdfRenderConfig,\n    ) -> Result<(PdfPoints, PdfPoints), PdfiumError>",
+        "points_to_pixels": "pub fn points_to_pixels(\n        &self,\n        x: PdfPoints,\n        y: PdfPoints,\n        config: &PdfRenderConfig,\n    ) -> Result<(Pixels, Pixels), PdfiumError>",
+        "render": "pub fn render(\n        &self,\n        width: Pixels,\n        height: Pixels,\n        rotation: Option<PdfPageRenderRotation>,\n    ) -> Result<PdfBitmap<'_>, PdfiumError>",
+        "render_with_config": "pub fn render_with_config(\n        &self,\n        config: &PdfRenderConfig,\n    ) -> Result<PdfBitmap<'_>, PdfiumError>",
+        "render_into_bitmap": "pub fn render_into_bitmap(\n        &self,\n        bitmap: &mut PdfBitmap,\n        width: Pixels,\n        height: Pixels,\n        rotation: Option<PdfPageRenderRotation>,\n    ) -> Result<(), PdfiumError>",
+        "render_into_bitmap_with_config": "pub fn render_into_bitmap_with_config(\n        &self,\n        bitmap: &mut PdfBitmap,\n        config: &PdfRenderConfig,\n    ) -> Result<(), PdfiumError>",
+        "transform_with_clip": "pub fn transform_with_clip(\n        &mut self,\n        a: PdfMatrixValue,\n        b: PdfMatrixValue,\n        c: PdfMatrixValue,\n        d: PdfMatrixValue,\n        e: PdfMatrixValue,\n        f: PdfMatrixValue,\n        clip: PdfRect,\n    ) -> Result<(), PdfiumError>",
+        "apply_matrix_with_clip": "pub fn apply_matrix_with_clip(\n        &mut self,\n        matrix: PdfMatrix,\n        clip: PdfRect,\n    ) -> Result<(), PdfiumError>",
+        "flatten": "pub fn flatten(&mut self) -> Result<(), PdfiumError>",
+        "delete": "pub fn delete(self) -> Result<(), PdfiumError>",
+        "content_regeneration_strategy": "pub fn content_regeneration_strategy(&self) -> PdfPageContentRegenerationStrategy",
+        "set_content_regeneration_strategy": "pub fn set_content_regeneration_strategy(\n        &mut self,\n        strategy: PdfPageContentRegenerationStrategy,\n    )",
+        "regenerate_content": "pub fn regenerate_content(&mut self) -> Result<(), PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfPageIndex": {
+      "source": "pdf/document/pages.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfPageMode": {
+      "source": "pdf/document/pages.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "UnsetOrUnknown": "=-1",
+        "None": "=0",
+        "ShowDocumentOutline": "=1",
+        "ShowPageThumbnails": "=2",
+        "Fullscreen": "=3",
+        "ShowContentGroupPanel": "=4",
+        "ShowAttachmentsPanel": "=5"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone"
+      ]
+    },
+    "PdfPages": {
+      "source": "pdf/document/pages.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfPageIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfPageIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfPageIndex>",
+        "get": "pub fn get(&self, index: PdfPageIndex) -> Result<PdfPage<'a>, PdfiumError>",
+        "page_size": "pub fn page_size(&self, index: PdfPageIndex) -> Result<PdfRect, PdfiumError>",
+        "page_sizes": "pub fn page_sizes(&self) -> Result<Vec<PdfRect>, PdfiumError>",
+        "first": "pub fn first(&self) -> Result<PdfPage<'a>, PdfiumError>",
+        "last": "pub fn last(&self) -> Result<PdfPage<'a>, PdfiumError>",
+        "create_page_at_start": "pub fn create_page_at_start(\n        &mut self,\n        size: PdfPagePaperSize,\n    ) -> Result<PdfPage<'a>, PdfiumError>",
+        "create_page_at_end": "pub fn create_page_at_end(\n        &mut self,\n        size: PdfPagePaperSize,\n    ) -> Result<PdfPage<'a>, PdfiumError>",
+        "create_page_at_index": "pub fn create_page_at_index(\n        &mut self,\n        size: PdfPagePaperSize,\n        index: PdfPageIndex,\n    ) -> Result<PdfPage<'a>, PdfiumError>",
+        "copy_page_from_document": "pub fn copy_page_from_document(\n        &mut self,\n        source: &PdfDocument,\n        source_page_index: PdfPageIndex,\n        destination_page_index: PdfPageIndex,\n    ) -> Result<(), PdfiumError>",
+        "copy_pages_from_document": "pub fn copy_pages_from_document(\n        &mut self,\n        source: &PdfDocument,\n        pages: &str,\n        destination_page_index: PdfPageIndex,\n    ) -> Result<(), PdfiumError>",
+        "copy_page_range_from_document": "pub fn copy_page_range_from_document(\n        &mut self,\n        source: &PdfDocument,\n        source_page_range: RangeInclusive<PdfPageIndex>,\n        destination_page_index: PdfPageIndex,\n    ) -> Result<(), PdfiumError>",
+        "append": "pub fn append(&mut self, document: &PdfDocument) -> Result<(), PdfiumError>",
+        "tile_into_new_document": "pub fn tile_into_new_document(\n        &self,\n        rows_per_page: u8,\n        columns_per_row: u8,\n        size: PdfPagePaperSize,\n    ) -> Result<PdfDocument<'_>, PdfiumError>",
+        "page_mode": "pub fn page_mode(&self) -> PdfPageMode",
+        "watermark": "pub fn watermark<F>(&self, watermarker: F) -> Result<(), PdfiumError>\n    where\n        F: Fn(\n            &mut PdfPageGroupObject<'a>,\n            PdfPageIndex,\n            PdfPoints,\n            PdfPoints,\n        ) -> Result<(), PdfiumError>,",
+        "iter": "pub fn iter(&self) -> PdfPagesIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfPagesIterator": {
+      "source": "pdf/document/pages.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfSecurityHandlerRevision": {
+      "source": "pdf/document/permissions.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Unprotected": "=0",
+        "Revision2": "=1",
+        "Revision3": "=2",
+        "Revision4": "=3"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfPermissions": {
+      "source": "pdf/document/permissions.rs",
+      "kind": "struct",
+      "methods": {
+        "security_handler_revision": "pub fn security_handler_revision(&self) -> Result<PdfSecurityHandlerRevision, PdfiumError>",
+        "can_print_high_quality": "pub fn can_print_high_quality(&self) -> Result<bool, PdfiumError>",
+        "can_print_only_low_quality": "pub fn can_print_only_low_quality(&self) -> Result<bool, PdfiumError>",
+        "can_assemble_document": "pub fn can_assemble_document(&self) -> Result<bool, PdfiumError>",
+        "can_modify_document_content": "pub fn can_modify_document_content(&self) -> Result<bool, PdfiumError>",
+        "can_extract_text_and_graphics": "pub fn can_extract_text_and_graphics(&self) -> Result<bool, PdfiumError>",
+        "can_fill_existing_interactive_form_fields": "pub fn can_fill_existing_interactive_form_fields(&self) -> Result<bool, PdfiumError>",
+        "can_create_new_interactive_form_fields": "pub fn can_create_new_interactive_form_fields(&self) -> Result<bool, PdfiumError>",
+        "can_add_or_modify_text_annotations": "pub fn can_add_or_modify_text_annotations(&self) -> Result<bool, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfSignatureModificationDetectionPermission": {
+      "source": "pdf/document/signature.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Mdp1": "=0",
+        "Mdp2": "=1",
+        "Mdp3": "=2"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfSignature": {
+      "source": "pdf/document/signature.rs",
+      "kind": "struct",
+      "methods": {
+        "bytes": "pub fn bytes(&self) -> Vec<u8>",
+        "reason": "pub fn reason(&self) -> Option<String>",
+        "signing_date": "pub fn signing_date(&self) -> Option<String>",
+        "modification_detection_permission": "pub fn modification_detection_permission(\n        &self,\n    ) -> Result<PdfSignatureModificationDetectionPermission, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfSignatureIndex": {
+      "source": "pdf/document/signatures.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfSignatures": {
+      "source": "pdf/document/signatures.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfSignatureIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfSignatureIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfSignatureIndex>",
+        "get": "pub fn get(&self, index: PdfSignatureIndex) -> Result<PdfSignature<'a>, PdfiumError>",
+        "iter": "pub fn iter(&self) -> PdfSignaturesIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfSignaturesIterator": {
+      "source": "pdf/document/signatures.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfDocumentVersion": {
+      "source": "pdf/document.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Unset": "=0",
+        "Pdf1_0": "=1",
+        "Pdf1_1": "=2",
+        "Pdf1_2": "=3",
+        "Pdf1_3": "=4",
+        "Pdf1_4": "=5",
+        "Pdf1_5": "=6",
+        "Pdf1_6": "=7",
+        "Pdf1_7": "=8",
+        "Pdf2_0": "=9",
+        "Other": "(i32)"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialEq"
+      ]
+    },
+    "PdfDocument": {
+      "source": "pdf/document.rs",
+      "kind": "struct",
+      "methods": {
+        "version": "pub fn version(&self) -> PdfDocumentVersion",
+        "set_version": "pub fn set_version(&mut self, version: PdfDocumentVersion)",
+        "attachments": "pub fn attachments(&self) -> &PdfAttachments<'_>",
+        "attachments_mut": "pub fn attachments_mut(&mut self) -> &mut PdfAttachments<'a>",
+        "bookmarks": "pub fn bookmarks(&self) -> &PdfBookmarks<'_>",
+        "catalog": "pub fn catalog(&self) -> &PdfCatalog<'_>",
+        "catalog_mut": "pub fn catalog_mut(&mut self) -> &mut PdfCatalog<'a>",
+        "form": "pub fn form(&self) -> Option<&PdfForm<'_>>",
+        "fonts": "pub fn fonts(&self) -> &PdfFonts<'_>",
+        "fonts_mut": "pub fn fonts_mut(&mut self) -> &mut PdfFonts<'a>",
+        "metadata": "pub fn metadata(&self) -> &PdfMetadata<'_>",
+        "pages": "pub fn pages(&self) -> &PdfPages<'a>",
+        "pages_mut": "pub fn pages_mut(&mut self) -> &mut PdfPages<'a>",
+        "permissions": "pub fn permissions(&self) -> &PdfPermissions<'_>",
+        "signatures": "pub fn signatures(&self) -> &PdfSignatures<'_>",
+        "save_to_writer": "pub fn save_to_writer<W: Write + 'static>(&self, writer: &mut W) -> Result<(), PdfiumError>",
+        "save_to_file": "pub fn save_to_file(&self, path: &(impl AsRef<Path> + ?Sized)) -> Result<(), PdfiumError>",
+        "save_to_bytes": "pub fn save_to_bytes(&self) -> Result<Vec<u8>, PdfiumError>",
+        "save_to_blob": "pub fn save_to_blob(&self) -> Result<Blob, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfFontGlyph": {
+      "source": "pdf/font/glyph.rs",
+      "kind": "struct",
+      "methods": {
+        "width_at_font_size": "pub fn width_at_font_size(&self, size: PdfPoints) -> PdfPoints",
+        "segments_at_font_size": "pub fn segments_at_font_size(\n        &self,\n        size: PdfPoints,\n    ) -> Result<PdfFontGlyphPath<'_>, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfFontGlyphPath": {
+      "source": "pdf/font/glyph.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfFontGlyphIndex": {
+      "source": "pdf/font/glyphs.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfFontGlyphs": {
+      "source": "pdf/font/glyphs.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfFontGlyphIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfFontGlyphIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfFontGlyphIndex>",
+        "get": "pub fn get(&self, index: PdfFontGlyphIndex) -> Result<PdfFontGlyph<'a>, PdfiumError>",
+        "iter": "pub fn iter(&self) -> PdfFontGlyphsIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfFontGlyphsIterator": {
+      "source": "pdf/font/glyphs.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfiumCustomFontProviderRequest": {
+      "source": "pdf/font/provider.rs",
+      "kind": "struct",
+      "methods": {},
+      "public_fields": [
+        [
+          "font_face",
+          "String"
+        ],
+        [
+          "character_set",
+          "PdfFontCharacterSet"
+        ],
+        [
+          "weight",
+          "PdfFontWeight"
+        ],
+        [
+          "is_italic",
+          "bool"
+        ],
+        [
+          "is_fixed_pitch",
+          "bool"
+        ],
+        [
+          "is_serif",
+          "bool"
+        ],
+        [
+          "is_cursive",
+          "bool"
+        ]
+      ],
+      "derives": []
+    },
+    "PdfiumCustomFontHandle": {
+      "source": "pdf/font/provider.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfiumCustomFontProviderResponse": {
+      "source": "pdf/font/provider.rs",
+      "kind": "struct",
+      "methods": {},
+      "public_fields": [
+        [
+          "id",
+          "PdfiumCustomFontHandle"
+        ],
+        [
+          "font_face",
+          "String"
+        ],
+        [
+          "character_set",
+          "PdfFontCharacterSet"
+        ],
+        [
+          "data",
+          "Vec<u8>"
+        ]
+      ],
+      "derives": []
+    },
+    "PdfiumCustomFontProvider": {
+      "source": "pdf/font/provider.rs",
+      "kind": "trait",
+      "methods": {},
+      "trait_methods": {
+        "provide": "fn provide(\n        &mut self,\n        request: PdfiumCustomFontProviderRequest,\n    ) -> Option<PdfiumCustomFontProviderResponse>"
+      }
+    },
+    "PdfFontWeight": {
+      "source": "pdf/font.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Weight100": "=0",
+        "Weight200": "=1",
+        "Weight300": "=2",
+        "Weight400Normal": "=3",
+        "Weight500": "=4",
+        "Weight600": "=5",
+        "Weight700Bold": "=6",
+        "Weight800": "=7",
+        "Weight900": "=8",
+        "Custom": "(u32)"
+      },
+      "derives": [
+        "Copy",
+        "Clone",
+        "Debug",
+        "PartialEq"
+      ]
+    },
+    "PdfFontCharacterSet": {
+      "source": "pdf/font.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Ansi": "=0",
+        "Default": "=1",
+        "Symbol": "=2",
+        "JapaneseShiftJis": "=3",
+        "KoreanHangul": "=4",
+        "ChineseGb2312": "=5",
+        "ChineseBig5": "=6",
+        "Greek": "=7",
+        "Vietnamese": "=8",
+        "Hebrew": "=9",
+        "Arabic": "=10",
+        "Cyrillic": "=11",
+        "Thai": "=12",
+        "EasternEuropean": "=13"
+      },
+      "derives": []
+    },
+    "PdfFont": {
+      "source": "pdf/font.rs",
+      "kind": "struct",
+      "methods": {
+        "name": "pub fn name(&self) -> String",
+        "family": "pub fn family(&self) -> String",
+        "weight": "pub fn weight(&self) -> Result<PdfFontWeight, PdfiumError>",
+        "italic_angle": "pub fn italic_angle(&self) -> Result<i32, PdfiumError>",
+        "ascent": "pub fn ascent(&self, font_size: PdfPoints) -> Result<PdfPoints, PdfiumError>",
+        "descent": "pub fn descent(&self, font_size: PdfPoints) -> Result<PdfPoints, PdfiumError>",
+        "is_fixed_pitch": "pub fn is_fixed_pitch(&self) -> bool",
+        "is_proportional_pitch": "pub fn is_proportional_pitch(&self) -> bool",
+        "is_serif": "pub fn is_serif(&self) -> bool",
+        "is_sans_serif": "pub fn is_sans_serif(&self) -> bool",
+        "is_symbolic": "pub fn is_symbolic(&self) -> bool",
+        "is_non_symbolic": "pub fn is_non_symbolic(&self) -> bool",
+        "is_cursive": "pub fn is_cursive(&self) -> bool",
+        "is_italic": "pub fn is_italic(&self) -> bool",
+        "is_all_caps": "pub fn is_all_caps(&self) -> bool",
+        "is_small_caps": "pub fn is_small_caps(&self) -> bool",
+        "is_bold_reenforced": "pub fn is_bold_reenforced(&self) -> bool",
+        "is_built_in": "pub fn is_built_in(&self) -> bool",
+        "built_in": "pub fn built_in(&self) -> Option<PdfFontBuiltin>",
+        "is_embedded": "pub fn is_embedded(&self) -> Result<bool, PdfiumError>",
+        "data": "pub fn data(&self) -> Result<Vec<u8>, PdfiumError>",
+        "glyphs": "pub fn glyphs(&self) -> &PdfFontGlyphs<'_>"
+      },
+      "derives": []
+    },
+    "PdfLink": {
+      "source": "pdf/link.rs",
+      "kind": "struct",
+      "methods": {
+        "action": "pub fn action(&self) -> Option<PdfAction<'a>>",
+        "destination": "pub fn destination(&self) -> Option<PdfDestination<'a>>",
+        "rect": "pub fn rect(&self) -> Result<PdfRect, PdfiumError>"
+      },
+      "derives": []
+    },
+    "PdfMatrixValue": {
+      "source": "pdf/matrix.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfMatrix": {
+      "source": "pdf/matrix.rs",
+      "kind": "struct",
+      "methods": {
+        "new": "pub const fn new(\n        a: PdfMatrixValue,\n        b: PdfMatrixValue,\n        c: PdfMatrixValue,\n        d: PdfMatrixValue,\n        e: PdfMatrixValue,\n        f: PdfMatrixValue,\n    ) -> Self",
+        "zero": "pub const fn zero() -> Self",
+        "identity": "pub const fn identity() -> Self",
+        "a": "pub fn a(&self) -> PdfMatrixValue",
+        "set_a": "pub fn set_a(&mut self, a: PdfMatrixValue)",
+        "b": "pub fn b(&self) -> PdfMatrixValue",
+        "set_b": "pub fn set_b(&mut self, b: PdfMatrixValue)",
+        "c": "pub fn c(&self) -> PdfMatrixValue",
+        "set_c": "pub fn set_c(&mut self, c: PdfMatrixValue)",
+        "d": "pub fn d(&self) -> PdfMatrixValue",
+        "set_d": "pub fn set_d(&mut self, d: PdfMatrixValue)",
+        "e": "pub fn e(&self) -> PdfMatrixValue",
+        "set_e": "pub fn set_e(&mut self, e: PdfMatrixValue)",
+        "f": "pub fn f(&self) -> PdfMatrixValue",
+        "set_f": "pub fn set_f(&mut self, f: PdfMatrixValue)",
+        "invert": "pub fn invert(&self) -> PdfMatrix",
+        "transpose": "pub fn transpose(&self) -> PdfMatrix",
+        "determinant": "pub fn determinant(&self) -> PdfMatrixValue",
+        "add": "pub fn add(&self, other: PdfMatrix) -> PdfMatrix",
+        "subtract": "pub fn subtract(&self, other: PdfMatrix) -> PdfMatrix",
+        "multiply": "pub fn multiply(&self, other: PdfMatrix) -> PdfMatrix",
+        "apply_to_points": "pub fn apply_to_points(&self, x: PdfPoints, y: PdfPoints) -> (PdfPoints, PdfPoints)"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone"
+      ]
+    },
+    "PdfClipPathSegmentIndex": {
+      "source": "pdf/path/clip_path.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfClipPath": {
+      "source": "pdf/path/clip_path.rs",
+      "kind": "struct",
+      "methods": {
+        "len": "pub fn len(&self) -> PdfClipPathSegmentIndex",
+        "is_empty": "pub fn is_empty(&self) -> bool",
+        "as_range": "pub fn as_range(&self) -> Range<PdfClipPathSegmentIndex>",
+        "as_range_inclusive": "pub fn as_range_inclusive(&self) -> RangeInclusive<PdfClipPathSegmentIndex>",
+        "get": "pub fn get(\n        &self,\n        index: PdfClipPathSegmentIndex,\n    ) -> Result<PdfClipPathSegments<'a>, PdfiumError>",
+        "iter": "pub fn iter(&self) -> PdfClipPathIterator<'_>"
+      },
+      "derives": []
+    },
+    "PdfClipPathIterator": {
+      "source": "pdf/path/clip_path.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfClipPathSegments": {
+      "source": "pdf/path/clip_path.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPathSegmentType": {
+      "source": "pdf/path/segment.rs",
+      "kind": "enum",
+      "methods": {},
+      "variants": {
+        "Unknown": "=-1",
+        "LineTo": "=0",
+        "BezierTo": "=1",
+        "MoveTo": "=2"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialOrd",
+        "PartialEq"
+      ]
+    },
+    "PdfPathSegment": {
+      "source": "pdf/path/segment.rs",
+      "kind": "struct",
+      "methods": {
+        "segment_type": "pub fn segment_type(&self) -> PdfPathSegmentType",
+        "is_close": "pub fn is_close(&self) -> bool",
+        "point": "pub fn point(&self) -> (PdfPoints, PdfPoints)",
+        "x": "pub fn x(&self) -> PdfPoints",
+        "y": "pub fn y(&self) -> PdfPoints"
+      },
+      "derives": []
+    },
+    "PdfPathSegmentIndex": {
+      "source": "pdf/path/segments.rs",
+      "kind": "type",
+      "methods": {}
+    },
+    "PdfPathSegments": {
+      "source": "pdf/path/segments.rs",
+      "kind": "trait",
+      "methods": {},
+      "trait_methods": {
+        "len": "fn len(&self) -> PdfPathSegmentIndex",
+        "is_empty": "fn is_empty(&self) -> bool",
+        "as_range": "fn as_range(&self) -> Range<PdfPathSegmentIndex>",
+        "as_range_inclusive": "fn as_range_inclusive(&self) -> RangeInclusive<PdfPathSegmentIndex>",
+        "get": "fn get(&self, index: PdfPathSegmentIndex) -> Result<PdfPathSegment<'a>, PdfiumError>",
+        "iter": "fn iter(&'a self) -> PdfPathSegmentsIterator<'a>"
+      }
+    },
+    "PdfPathSegmentsIterator": {
+      "source": "pdf/path/segments.rs",
+      "kind": "struct",
+      "methods": {},
+      "derives": []
+    },
+    "PdfPoints": {
+      "source": "pdf/points.rs",
+      "kind": "struct",
+      "methods": {
+        "new": "pub const fn new(value: f32) -> Self",
+        "zero": "pub const fn zero() -> Self",
+        "max": "pub const fn max() -> Self",
+        "min": "pub const fn min() -> Self",
+        "from_inches": "pub fn from_inches(inches: f32) -> Self",
+        "from_cm": "pub fn from_cm(cm: f32) -> Self",
+        "from_mm": "pub fn from_mm(mm: f32) -> Self",
+        "to_inches": "pub fn to_inches(&self) -> f32",
+        "to_cm": "pub fn to_cm(&self) -> f32",
+        "to_mm": "pub fn to_mm(&self) -> f32",
+        "abs": "pub fn abs(&self) -> PdfPoints"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone",
+        "PartialOrd",
+        "PartialEq"
+      ]
+    },
+    "PdfQuadPoints": {
+      "source": "pdf/quad_points.rs",
+      "kind": "struct",
+      "methods": {
+        "new": "pub const fn new(\n        x1: PdfPoints,\n        y1: PdfPoints,\n        x2: PdfPoints,\n        y2: PdfPoints,\n        x3: PdfPoints,\n        y3: PdfPoints,\n        x4: PdfPoints,\n        y4: PdfPoints,\n    ) -> Self",
+        "new_from_values": "pub const fn new_from_values(\n        x1: f32,\n        y1: f32,\n        x2: f32,\n        y2: f32,\n        x3: f32,\n        y3: f32,\n        x4: f32,\n        y4: f32,\n    ) -> Self",
+        "zero": "pub const fn zero() -> Self",
+        "from_rect": "pub fn from_rect(rect: &PdfRect) -> Self",
+        "x1": "pub fn x1(&self) -> PdfPoints",
+        "y1": "pub fn y1(&self) -> PdfPoints",
+        "x2": "pub fn x2(&self) -> PdfPoints",
+        "y2": "pub fn y2(&self) -> PdfPoints",
+        "x3": "pub fn x3(&self) -> PdfPoints",
+        "y3": "pub fn y3(&self) -> PdfPoints",
+        "x4": "pub fn x4(&self) -> PdfPoints",
+        "y4": "pub fn y4(&self) -> PdfPoints",
+        "left": "pub fn left(&self) -> PdfPoints",
+        "right": "pub fn right(&self) -> PdfPoints",
+        "bottom": "pub fn bottom(&self) -> PdfPoints",
+        "top": "pub fn top(&self) -> PdfPoints",
+        "width": "pub fn width(&self) -> PdfPoints",
+        "height": "pub fn height(&self) -> PdfPoints",
+        "transform": "pub fn transform(&self, matrix: PdfMatrix) -> PdfQuadPoints",
+        "to_rect": "pub fn to_rect(&self) -> PdfRect"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone"
+      ]
+    },
+    "PdfRect": {
+      "source": "pdf/rect.rs",
+      "kind": "struct",
+      "methods": {
+        "new": "pub const fn new(bottom: PdfPoints, left: PdfPoints, top: PdfPoints, right: PdfPoints) -> Self",
+        "new_from_values": "pub const fn new_from_values(bottom: f32, left: f32, top: f32, right: f32) -> Self",
+        "zero": "pub const fn zero() -> Self",
+        "left": "pub const fn left(&self) -> PdfPoints",
+        "right": "pub const fn right(&self) -> PdfPoints",
+        "bottom": "pub const fn bottom(&self) -> PdfPoints",
+        "top": "pub const fn top(&self) -> PdfPoints",
+        "width": "pub fn width(&self) -> PdfPoints",
+        "height": "pub fn height(&self) -> PdfPoints",
+        "contains": "pub fn contains(&self, x: PdfPoints, y: PdfPoints) -> bool",
+        "contains_x": "pub fn contains_x(&self, x: PdfPoints) -> bool",
+        "contains_y": "pub fn contains_y(&self, y: PdfPoints) -> bool",
+        "is_inside": "pub fn is_inside(&self, other: &PdfRect) -> bool",
+        "does_overlap": "pub fn does_overlap(&self, other: &PdfRect) -> bool",
+        "transform": "pub fn transform(&self, matrix: PdfMatrix) -> PdfRect",
+        "to_quad_points": "pub fn to_quad_points(&self) -> PdfQuadPoints"
+      },
+      "derives": [
+        "Debug",
+        "Copy",
+        "Clone"
+      ]
+    },
+    "PdfiumReader": {
+      "source": "pdfium.rs",
+      "kind": "trait",
+      "methods": {},
+      "trait_methods": {}
+    },
+    "Pdfium": {
+      "source": "pdfium.rs",
+      "kind": "struct",
+      "methods": {
+        "set_custom_font_provider": "pub fn set_custom_font_provider(&mut self, provider: Box<dyn PdfiumCustomFontProvider>)",
+        "clear_custom_font_provider": "pub fn clear_custom_font_provider(&mut self)",
+        "use_platform_default_font_provider": "pub fn use_platform_default_font_provider(&mut self) -> Result<(), PdfiumError>",
+        "load_pdf_from_byte_slice": "pub fn load_pdf_from_byte_slice<'a>(\n        &'a self,\n        bytes: &'a [u8],\n        password: Option<&str>,\n    ) -> Result<PdfDocument<'a>, PdfiumError>",
+        "load_pdf_from_byte_vec": "pub fn load_pdf_from_byte_vec(\n        &self,\n        bytes: Vec<u8>,\n        password: Option<&str>,\n    ) -> Result<PdfDocument<'_>, PdfiumError>",
+        "load_pdf_from_file": "pub fn load_pdf_from_file<'a>(\n        &'a self,\n        path: &(impl AsRef<Path> + ?Sized),\n        password: Option<&str>,\n    ) -> Result<PdfDocument<'a>, PdfiumError>",
+        "load_pdf_from_reader": "pub fn load_pdf_from_reader<'a, R: PdfiumReader + 'a>(\n        &'a self,\n        reader: R,\n        password: Option<&str>,\n    ) -> Result<PdfDocument<'a>, PdfiumError>",
+        "load_pdf_from_fetch": "pub async fn load_pdf_from_fetch<'a>(\n        &'a self,\n        url: impl ToString,\n        password: Option<&str>,\n    ) -> Result<PdfDocument<'a>, PdfiumError>",
+        "load_pdf_from_blob": "pub async fn load_pdf_from_blob<'a>(\n        &'a self,\n        blob: Blob,\n        password: Option<&str>,\n    ) -> Result<PdfDocument<'a>, PdfiumError>",
+        "create_new_pdf": "pub fn create_new_pdf<'a>(&'a self) -> Result<PdfDocument<'a>, PdfiumError>"
+      },
+      "derives": []
+    }
+  },
+  "transform_code_sha256": "d0fcb0476d1070a12d0afbb024a7a764bcc54dc9bdfbf4ed87c636274578d10c"
+}

@@ -1,0 +1,40 @@
+% Copyright (c) 2026 DorianRudolph
+% SPDX-License-Identifier: MIT
+%PDF-1.7
+% ò¤ô
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 1 /Kids [3 0 R] >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 256 192] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<<  /Length 32 >>
+stream
+q 160 0 0 160 48 16 cm /Im0 Do Q
+endstream
+endobj
+5 0 obj
+<< /Type /XObject /Subtype /Image /Width 32 /Height 32 /BitsPerComponent 1 /ColorSpace /DeviceGray /Filter [/ASCIIHexDecode /JBIG2Decode] /DecodeParms [null << >>] /Length 209 >>
+stream
+00000001300001000000130000002000000020000000000000000000000000000002260001000000340000002000000020000000000000000000013314cc5fffffff26a2998bffffffffe662998bffffffe4d453317ffffffffc0040040000000331000100000000>
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000081 00000 n 
+0000000130 00000 n 
+0000000187 00000 n 
+0000000317 00000 n 
+0000000400 00000 n 
+trailer <<
+  /Root 1 0 R
+  /Size 6
+>>
+startxref
+821
+%%EOF

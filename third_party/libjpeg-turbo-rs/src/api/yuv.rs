@@ -1,0 +1,996 @@
+// libjpeg-turbo-rs: alloc prelude (no_std support, issue #356)
+/// YUV planar encode/decode API.
+///
+/// The Rust counterparts of TurboJPEG's YUV functions (`docs/C_API_REFERENCE.md`
+/// maps each C call; the packed forms take no `align` and are not drop-in
+/// replacements for every packed C call):
+///
+/// - `encode_yuv` / `encode_yuv_planes` — RGB → YUV color conversion (no JPEG)
+/// - `compress_from_yuv` / `compress_from_yuv_planes` — YUV → JPEG compression
+/// - `decompress_to_yuv` / `decompress_to_yuv_planes` — JPEG → YUV decompression
+/// - `decode_yuv` / `decode_yuv_planes` — YUV → RGB color conversion (no JPEG)
+///
+/// Packed YUV format: Y plane concatenated with Cb plane then Cr plane.
+/// For grayscale, only the Y plane is present.
+use crate::api::raw_data::{compress_raw, decompress_raw};
+use crate::common::bufsize::{yuv_plane_height, yuv_plane_size, yuv_plane_width};
+use crate::common::error::{JpegError, Result};
+use crate::common::layout::ImageLayout;
+use crate::common::types::{PixelFormat, Subsampling};
+use crate::decode::color as decode_color;
+use crate::encode::color as encode_color;
+#[allow(unused_imports)]
+use alloc::{format, vec};
+#[allow(unused_imports)]
+use alloc::{string::ToString, vec::Vec};
+
+/// Returns whether the given pixel format is grayscale (single channel, no color).
+fn is_grayscale_format(pixel_format: PixelFormat) -> bool {
+    pixel_format == PixelFormat::Grayscale
+}
+
+/// Number of color planes for the given pixel format.
+fn num_planes(pixel_format: PixelFormat) -> usize {
+    if is_grayscale_format(pixel_format) {
+        1
+    } else {
+        3
+    }
+}
+
+/// Extract R, G, B channel offsets and bytes-per-pixel for the given pixel format.
+/// Returns `None` for formats that do not support direct RGB extraction (Grayscale, Cmyk, Rgb565).
+fn rgb_offsets(pixel_format: PixelFormat) -> Option<(usize, usize, usize, usize)> {
+    let r_off: usize = pixel_format.red_offset()?;
+    let g_off: usize = pixel_format.green_offset()?;
+    let b_off: usize = pixel_format.blue_offset()?;
+    let bpp: usize = pixel_format.bytes_per_pixel();
+    Some((r_off, g_off, b_off, bpp))
+}
+
+/// The three packed-plane sizes as one span, refusing a total that is not
+/// representable.
+///
+/// Each plane individually fits `isize::MAX` — `yuv_plane_size` proves that —
+/// but their sum need not, and both call sites use the total as the bound on a
+/// caller-supplied buffer, where a wrapped value compares too low
+/// (P4-139 chunk 2).
+fn checked_sum_of_planes(y: usize, cb: usize, cr: usize) -> Result<usize> {
+    let total: Option<usize> = y
+        .checked_add(cb)
+        .and_then(|partial| partial.checked_add(cr))
+        .filter(|sum| *sum <= isize::MAX as usize);
+    total.ok_or(JpegError::LimitExceeded {
+        what: "packed YUV buffer",
+        actual: u64::MAX,
+        limit: isize::MAX as u64,
+    })
+}
+
+/// Validate that a pixel buffer has the expected size.
+///
+/// This is the entry gate for the pixels-in direction — `encode_yuv_planes`,
+/// and `encode_yuv` through it — so the product has to be
+/// the checked one: `width * height * bpp` unchecked wraps, and a wrapped
+/// expectation compares *below* the caller's length — `(1 << 62) x 4` at three
+/// bytes per pixel wraps to exactly 0, so an **empty** buffer passed the check
+/// that exists to reject it and the row loops then indexed it
+/// (P4-139 chunk 2).
+fn validate_pixel_buffer(
+    pixels: &[u8],
+    width: usize,
+    height: usize,
+    pixel_format: PixelFormat,
+) -> Result<()> {
+    let bpp: usize = pixel_format.bytes_per_pixel();
+    let expected: usize =
+        ImageLayout::packed(width, height, bpp, "YUV source image")?.total_bytes();
+    if pixels.len() < expected {
+        return Err(JpegError::BufferTooSmall {
+            need: expected,
+            got: pixels.len(),
+        });
+    }
+    Ok(())
+}
+
+// ──────────────────────────────────────────────
+// RGB → YUV (color conversion only, no JPEG)
+// ──────────────────────────────────────────────
+
+/// Convert RGB pixels to packed YUV buffer with chroma subsampling.
+///
+/// The packed format concatenates the Y plane, then Cb, then Cr.
+/// For grayscale input, only the Y plane is produced.
+///
+/// Uses BT.601 coefficients matching libjpeg-turbo's color conversion.
+pub fn encode_yuv(
+    pixels: &[u8],
+    width: usize,
+    height: usize,
+    pixel_format: PixelFormat,
+    subsampling: Subsampling,
+) -> Result<Vec<u8>> {
+    let planes: Vec<Vec<u8>> = encode_yuv_planes(pixels, width, height, pixel_format, subsampling)?;
+
+    let total_size: usize = planes.iter().map(|p| p.len()).sum();
+    let mut packed: Vec<u8> = Vec::with_capacity(total_size);
+    for plane in &planes {
+        packed.extend_from_slice(plane);
+    }
+    Ok(packed)
+}
+
+/// Convert RGB pixels to separate Y/Cb/Cr plane buffers.
+///
+/// Returns 1 plane (Y only) for grayscale, or 3 planes (Y, Cb, Cr) for color.
+/// Chroma planes are downsampled according to the subsampling mode.
+pub fn encode_yuv_planes(
+    pixels: &[u8],
+    width: usize,
+    height: usize,
+    pixel_format: PixelFormat,
+    subsampling: Subsampling,
+) -> Result<Vec<Vec<u8>>> {
+    if width == 0 || height == 0 {
+        return Err(JpegError::CorruptData(
+            "image dimensions must be non-zero".to_string(),
+        ));
+    }
+    validate_pixel_buffer(pixels, width, height, pixel_format)?;
+
+    let is_gray: bool = is_grayscale_format(pixel_format);
+    let _n_planes: usize = num_planes(pixel_format);
+
+    // Compute plane dimensions
+    let y_w: usize = yuv_plane_width(0, width, subsampling);
+    let y_h: usize = yuv_plane_height(0, height, subsampling);
+
+    let mut y_plane: Vec<u8> = vec![0u8; y_w * y_h];
+
+    if is_gray {
+        // Grayscale: just copy pixel values directly into Y plane
+        let bpp: usize = pixel_format.bytes_per_pixel();
+        for row in 0..height {
+            for col in 0..width {
+                y_plane[row * y_w + col] = pixels[row * width * bpp + col * bpp];
+            }
+        }
+        // Replicate last column if padded
+        for row in 0..height {
+            let last_val: u8 = y_plane[row * y_w + width - 1];
+            for col in width..y_w {
+                y_plane[row * y_w + col] = last_val;
+            }
+        }
+        // Replicate last row if padded
+        if y_h > height {
+            let src_start: usize = (height - 1) * y_w;
+            for row in height..y_h {
+                let dst_start: usize = row * y_w;
+                y_plane.copy_within(src_start..src_start + y_w, dst_start);
+            }
+        }
+        return Ok(vec![y_plane]);
+    }
+
+    // Color: convert RGB → YCbCr
+    let cb_w: usize = yuv_plane_width(1, width, subsampling);
+    let cb_h: usize = yuv_plane_height(1, height, subsampling);
+    let cr_w: usize = yuv_plane_width(2, width, subsampling);
+    let cr_h: usize = yuv_plane_height(2, height, subsampling);
+
+    // Full-resolution YCbCr for intermediate computation
+    let mut full_y: Vec<u8> = vec![0u8; y_w * y_h];
+    let mut full_cb: Vec<u8> = vec![0u8; y_w * y_h];
+    let mut full_cr: Vec<u8> = vec![0u8; y_w * y_h];
+
+    let _bpp: usize = pixel_format.bytes_per_pixel();
+
+    // Convert each row
+    match pixel_format {
+        PixelFormat::Rgb => {
+            for row in 0..height {
+                let row_start: usize = row * width * 3;
+                let row_pixels: &[u8] = &pixels[row_start..row_start + width * 3];
+                let y_start: usize = row * y_w;
+                encode_color::rgb_to_ycbcr_row(
+                    row_pixels,
+                    &mut full_y[y_start..y_start + width],
+                    &mut full_cb[y_start..y_start + width],
+                    &mut full_cr[y_start..y_start + width],
+                    width,
+                );
+            }
+        }
+        PixelFormat::Rgba => {
+            for row in 0..height {
+                let row_start: usize = row * width * 4;
+                let row_pixels: &[u8] = &pixels[row_start..row_start + width * 4];
+                let y_start: usize = row * y_w;
+                encode_color::rgba_to_ycbcr_row(
+                    row_pixels,
+                    &mut full_y[y_start..y_start + width],
+                    &mut full_cb[y_start..y_start + width],
+                    &mut full_cr[y_start..y_start + width],
+                    width,
+                );
+            }
+        }
+        _ => {
+            // Generic path using channel offsets
+            let (r_off, g_off, b_off, bpp) = rgb_offsets(pixel_format).ok_or_else(|| {
+                JpegError::CorruptData(format!(
+                    "pixel format {:?} is not supported for YUV encoding",
+                    pixel_format
+                ))
+            })?;
+            for row in 0..height {
+                let row_start: usize = row * width * bpp;
+                let row_pixels: &[u8] = &pixels[row_start..row_start + width * bpp];
+                let y_start: usize = row * y_w;
+                encode_color::generic_to_ycbcr_row(
+                    row_pixels,
+                    &mut full_y[y_start..y_start + width],
+                    &mut full_cb[y_start..y_start + width],
+                    &mut full_cr[y_start..y_start + width],
+                    width,
+                    bpp,
+                    r_off,
+                    g_off,
+                    b_off,
+                );
+            }
+        }
+    }
+
+    // Replicate last column in Y if padded
+    for row in 0..height {
+        let last_y: u8 = full_y[row * y_w + width - 1];
+        let last_cb: u8 = full_cb[row * y_w + width - 1];
+        let last_cr: u8 = full_cr[row * y_w + width - 1];
+        for col in width..y_w {
+            full_y[row * y_w + col] = last_y;
+            full_cb[row * y_w + col] = last_cb;
+            full_cr[row * y_w + col] = last_cr;
+        }
+    }
+
+    // Replicate last row if padded
+    if y_h > height {
+        for row in height..y_h {
+            full_y.copy_within((height - 1) * y_w..height * y_w, row * y_w);
+            full_cb.copy_within((height - 1) * y_w..height * y_w, row * y_w);
+            full_cr.copy_within((height - 1) * y_w..height * y_w, row * y_w);
+        }
+    }
+
+    // Y plane: just take the first y_w * y_h bytes (already the right size)
+    let y_out: Vec<u8> = full_y;
+
+    // Downsample chroma to get Cb and Cr planes
+    let (h_factor, v_factor) = subsampling_factors(subsampling);
+    let mut cb_out: Vec<u8> = vec![0u8; cb_w * cb_h];
+    let mut cr_out: Vec<u8> = vec![0u8; cr_w * cr_h];
+
+    for cy in 0..cb_h {
+        for cx in 0..cb_w {
+            let mut sum_cb: u32 = 0;
+            let mut sum_cr: u32 = 0;
+            let mut count: u32 = 0;
+            for dy in 0..v_factor {
+                for dx in 0..h_factor {
+                    let sy: usize = cy * v_factor + dy;
+                    let sx: usize = cx * h_factor + dx;
+                    if sy < y_h && sx < y_w {
+                        sum_cb += full_cb[sy * y_w + sx] as u32;
+                        sum_cr += full_cr[sy * y_w + sx] as u32;
+                        count += 1;
+                    }
+                }
+            }
+            #[allow(unknown_lints, clippy::manual_checked_ops)]
+            if count > 0 {
+                cb_out[cy * cb_w + cx] = ((sum_cb + count / 2) / count) as u8;
+                cr_out[cy * cr_w + cx] = ((sum_cr + count / 2) / count) as u8;
+            }
+        }
+    }
+
+    Ok(vec![y_out, cb_out, cr_out])
+}
+
+/// Returns (horizontal_factor, vertical_factor) for chroma downsampling.
+fn subsampling_factors(subsampling: Subsampling) -> (usize, usize) {
+    match subsampling {
+        Subsampling::S444 | Subsampling::Unknown => (1, 1),
+        Subsampling::S422 => (2, 1),
+        Subsampling::S420 => (2, 2),
+        Subsampling::S440 => (1, 2),
+        Subsampling::S411 => (4, 1),
+        Subsampling::S441 => (1, 4),
+        Subsampling::S410 => (4, 2),
+        Subsampling::S24 => (2, 4),
+    }
+}
+
+// ──────────────────────────────────────────────
+// YUV → JPEG (compress from YUV)
+// ──────────────────────────────────────────────
+
+/// Compress packed YUV buffer to JPEG.
+///
+/// The packed YUV buffer must contain Y, then Cb, then Cr planes concatenated.
+/// For grayscale (single-plane), pass only the Y data.
+pub fn compress_from_yuv(
+    yuv_buf: &[u8],
+    width: usize,
+    height: usize,
+    subsampling: Subsampling,
+    quality: u8,
+) -> Result<Vec<u8>> {
+    // Split the packed buffer into planes
+    let y_size: usize = yuv_plane_size(0, width, height, subsampling);
+    let cb_size: usize = yuv_plane_size(1, width, height, subsampling);
+    let cr_size: usize = yuv_plane_size(2, width, height, subsampling);
+
+    // Detect if this is a grayscale buffer (just Y plane)
+    let is_grayscale: bool = yuv_buf.len() == y_size && cb_size > 0;
+
+    if is_grayscale {
+        let y_plane: &[u8] = &yuv_buf[..y_size];
+        let y_w: usize = yuv_plane_width(0, width, subsampling);
+        let y_h: usize = yuv_plane_height(0, height, subsampling);
+        compress_raw(
+            &[y_plane],
+            &[y_w],
+            &[y_h],
+            width,
+            height,
+            quality,
+            Subsampling::S444,
+        )
+    } else {
+        // A gate, so the sum is checked: three plane sizes each bounded by
+        // `isize::MAX` can still exceed it together, and a wrapped total
+        // compares below the caller's length (P4-139 chunk 2).
+        let expected_total: usize = checked_sum_of_planes(y_size, cb_size, cr_size)?;
+        if yuv_buf.len() < expected_total {
+            return Err(JpegError::BufferTooSmall {
+                need: expected_total,
+                got: yuv_buf.len(),
+            });
+        }
+
+        let y_plane: &[u8] = &yuv_buf[..y_size];
+        let cb_plane: &[u8] = &yuv_buf[y_size..y_size + cb_size];
+        let cr_plane: &[u8] = &yuv_buf[y_size + cb_size..y_size + cb_size + cr_size];
+
+        let y_w: usize = yuv_plane_width(0, width, subsampling);
+        let y_h: usize = yuv_plane_height(0, height, subsampling);
+        let cb_w: usize = yuv_plane_width(1, width, subsampling);
+        let cb_h: usize = yuv_plane_height(1, height, subsampling);
+
+        compress_raw(
+            &[y_plane, cb_plane, cr_plane],
+            &[y_w, cb_w, cb_w],
+            &[y_h, cb_h, cb_h],
+            width,
+            height,
+            quality,
+            subsampling,
+        )
+    }
+}
+
+/// Compress planar YUV buffers to JPEG.
+///
+/// `planes` should be `[Y, Cb, Cr]` for color, or `[Y]` for grayscale.
+pub fn compress_from_yuv_planes(
+    planes: &[&[u8]],
+    width: usize,
+    height: usize,
+    subsampling: Subsampling,
+    quality: u8,
+) -> Result<Vec<u8>> {
+    let is_grayscale: bool = planes.len() == 1;
+    if !is_grayscale && planes.len() != 3 {
+        return Err(JpegError::CorruptData(format!(
+            "expected 1 (grayscale) or 3 (YCbCr) planes, got {}",
+            planes.len()
+        )));
+    }
+
+    if is_grayscale {
+        let y_w: usize = yuv_plane_width(0, width, subsampling);
+        let y_h: usize = yuv_plane_height(0, height, subsampling);
+        compress_raw(
+            planes,
+            &[y_w],
+            &[y_h],
+            width,
+            height,
+            quality,
+            Subsampling::S444,
+        )
+    } else {
+        let y_w: usize = yuv_plane_width(0, width, subsampling);
+        let y_h: usize = yuv_plane_height(0, height, subsampling);
+        let cb_w: usize = yuv_plane_width(1, width, subsampling);
+        let cb_h: usize = yuv_plane_height(1, height, subsampling);
+
+        compress_raw(
+            planes,
+            &[y_w, cb_w, cb_w],
+            &[y_h, cb_h, cb_h],
+            width,
+            height,
+            quality,
+            subsampling,
+        )
+    }
+}
+
+// ──────────────────────────────────────────────
+// JPEG → YUV (decompress to YUV)
+// ──────────────────────────────────────────────
+
+/// Decompress JPEG to packed YUV buffer.
+///
+/// Returns `(yuv_buf, width, height, subsampling)`.
+/// The packed buffer has Y plane first, then Cb, then Cr.
+/// For grayscale JPEGs, only the Y plane is returned.
+///
+/// Like [`decompress_to_yuv_planes`], a 4-component (CMYK/YCCK) source packs
+/// **four** planes, not three — see that function's note on the TurboJPEG
+/// C ABI, which rejects such frames rather than emitting the fourth.
+pub fn decompress_to_yuv(data: &[u8]) -> Result<(Vec<u8>, usize, usize, Subsampling)> {
+    let (planes, width, height, subsampling) = decompress_to_yuv_planes(data)?;
+
+    let total_size: usize = planes.iter().map(|p| p.len()).sum();
+    let mut packed: Vec<u8> = Vec::with_capacity(total_size);
+    for plane in &planes {
+        packed.extend_from_slice(plane);
+    }
+    Ok((packed, width, height, subsampling))
+}
+
+/// Decompress JPEG to separate Y/Cb/Cr plane buffers.
+///
+/// Returns `(planes, width, height, subsampling)`.
+///
+/// One plane per SOF component: 1 for grayscale, 3 for YCbCr, and **4 for a
+/// CMYK/YCCK source** — the plane count comes from the frame, not from the
+/// Y/Cb/Cr naming. The TurboJPEG C ABI models only 1 or 3 planes, so
+/// `tj3DecompressToYUV8` / `tj3DecompressToYUVPlanes8` reject a 4-component
+/// frame rather than passing the fourth plane on (P4-125); a Rust caller that
+/// sizes buffers for three planes must apply the same check itself.
+pub fn decompress_to_yuv_planes(data: &[u8]) -> Result<(Vec<Vec<u8>>, usize, usize, Subsampling)> {
+    yuv_planes_from_raw(decompress_raw(data)?)
+}
+
+/// The plane trimming [`decompress_to_yuv_planes`] applies to a raw decode,
+/// shared with `TjHandle::decompress_to_yuv_planes`, which decodes under the
+/// handle's limits rather than the defaults.
+pub(crate) fn yuv_planes_from_raw(
+    raw: crate::api::raw_data::RawImage,
+) -> Result<(Vec<Vec<u8>>, usize, usize, Subsampling)> {
+    // Determine subsampling from raw plane dimensions
+    let subsampling: Subsampling = detect_subsampling(&raw)?;
+
+    // The raw planes from decompress_raw may be MCU-aligned (larger than needed).
+    // We need to trim them to the exact YUV plane sizes.
+    let width: usize = raw.width;
+    let height: usize = raw.height;
+    let n_comps: usize = raw.num_components;
+
+    let mut planes: Vec<Vec<u8>> = Vec::with_capacity(n_comps);
+
+    for comp in 0..n_comps {
+        // Components 0..=2 are Y/Cb/Cr and follow the subsampling model. A
+        // 4-component CMYK/YCCK frame's fourth component is the K channel,
+        // which carries **full resolution** — it is not a third chroma plane.
+        // Sizing it through the chroma rule truncated it to the chroma
+        // dimensions, silently dropping three quarters of K on a 4:2:0 frame
+        // (issue #466, P4-126 criterion 4). The helpers now reject index >= 3
+        // outright, so the luma rule is applied explicitly here.
+        let luma_like: bool = comp == 0 || comp >= 3;
+        let dim_component: usize = if luma_like { 0 } else { comp };
+        let target_w: usize = yuv_plane_width(dim_component, width, subsampling);
+        let target_h: usize = yuv_plane_height(dim_component, height, subsampling);
+        let target_size: usize = target_w * target_h;
+        let raw_w: usize = raw.plane_widths[comp];
+        let raw_h: usize = raw.plane_heights[comp];
+
+        if raw_w == target_w && raw_h == target_h {
+            // Exact match, use as-is
+            planes.push(raw.planes[comp][..target_size].to_vec());
+        } else {
+            // Need to extract a sub-region
+            let mut plane: Vec<u8> = vec![0u8; target_size];
+            let copy_w: usize = target_w.min(raw_w);
+            let copy_h: usize = target_h.min(raw_h);
+
+            for row in 0..copy_h {
+                let src_start: usize = row * raw_w;
+                let dst_start: usize = row * target_w;
+                plane[dst_start..dst_start + copy_w]
+                    .copy_from_slice(&raw.planes[comp][src_start..src_start + copy_w]);
+                // Replicate last column if target is wider
+                if copy_w < target_w && copy_w > 0 {
+                    let last_val: u8 = plane[dst_start + copy_w - 1];
+                    for col in copy_w..target_w {
+                        plane[dst_start + col] = last_val;
+                    }
+                }
+            }
+            // Replicate last row if target is taller
+            if copy_h < target_h && copy_h > 0 {
+                let last_row_start: usize = (copy_h - 1) * target_w;
+                for row in copy_h..target_h {
+                    let dst_start: usize = row * target_w;
+                    plane.copy_within(last_row_start..last_row_start + target_w, dst_start);
+                }
+            }
+            planes.push(plane);
+        }
+    }
+
+    Ok((planes, width, height, subsampling))
+}
+
+/// The geometry of one component in [`turbojpeg_yuv_planes`]: its sampling
+/// factors.
+pub(crate) type ComponentSampling = (usize, usize);
+
+/// Bytes [`turbojpeg_yuv_planes`] and the raw decode feeding it allocate for
+/// a frame at IDCT size `block`: the MCU-padded raw component planes, the
+/// scratch rows and the output planes. A scaled decode outgrows the 1/1
+/// estimate `Decoder` checks (4x at 2/1), so the YUV path checks this one too.
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn turbojpeg_yuv_estimate(
+    sampling: &[ComponentSampling],
+    image_width: usize,
+    image_height: usize,
+    block: usize,
+    out_width: usize,
+    out_height: usize,
+    subsampling: Subsampling,
+) -> u64 {
+    let max_h: usize = sampling.iter().map(|&(h, _)| h).max().unwrap_or(1);
+    let max_v: usize = sampling.iter().map(|&(_, v)| v).max().unwrap_or(1);
+    let mcus_x: u64 = image_width.div_ceil(max_h * 8) as u64;
+    let mcus_y: u64 = image_height.div_ceil(max_v * 8) as u64;
+    let block: u64 = block as u64;
+    sampling
+        .iter()
+        .enumerate()
+        .fold(0u64, |total: u64, (component, &(h, v))| {
+            let raw: u64 = (mcus_x * h as u64 * block).saturating_mul(mcus_y * v as u64 * block);
+            let scratch: u64 = ((image_width * h).div_ceil(max_h * 8) as u64 * block)
+                .saturating_mul(v as u64 * block);
+            let dim_component: usize = if component >= 3 { 0 } else { component };
+            let plane: u64 = (yuv_plane_width(dim_component, out_width, subsampling) as u64)
+                .saturating_mul(yuv_plane_height(dim_component, out_height, subsampling) as u64);
+            total
+                .saturating_add(raw)
+                .saturating_add(scratch)
+                .saturating_add(plane)
+        })
+}
+
+/// YUV planes exactly as `tj3DecompressToYUVPlanes8` writes them
+/// (`turbojpeg.c:2241-2344`), from a raw decode whose blocks were
+/// reconstructed at `block` x `block` samples (the scaled IDCT size,
+/// `dctsize`).
+///
+/// Each plane is `yuv_plane_width` x `yuv_plane_height` of the scaled frame
+/// (`out_width` x `out_height`). Upstream decodes one iMCU row at a time into
+/// a scratch buffer holding, for each component in turn, `v_samp * dctsize`
+/// rows of `width_in_blocks * dctsize` samples, and copies `pw` bytes from
+/// each scratch row into the plane. Two consequences fall outside the image
+/// and are reproduced here because they are what stock writes:
+///
+/// - When `pw` exceeds the scratch row (an odd `width_in_blocks * dctsize`
+///   under a two-sample plane padding), the copy runs on into the next
+///   scratch row — of the same component, or of the next one after its last
+///   row. Past the last component's last row upstream reads beyond its own
+///   allocation; those bytes are undefined there and zero here.
+/// - libjpeg writes only the block rows the component has
+///   (`height_in_blocks`), so on the last iMCU row the remaining scratch rows
+///   still hold the previous iMCU row's samples, and that is what a padding
+///   row receives.
+///
+/// Every sample of the scaled image itself is the plain IDCT output.
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn turbojpeg_yuv_planes(
+    raw: &crate::api::raw_data::RawImage,
+    sampling: &[ComponentSampling],
+    image_width: usize,
+    image_height: usize,
+    block: usize,
+    out_width: usize,
+    out_height: usize,
+    subsampling: Subsampling,
+) -> Result<Vec<Vec<u8>>> {
+    let max_h: usize = sampling.iter().map(|&(h, _)| h).max().unwrap_or(1);
+    let max_v: usize = sampling.iter().map(|&(_, v)| v).max().unwrap_or(1);
+    let components: usize = sampling.len();
+    // Per component: scratch row width, scratch rows per iMCU row, block rows,
+    // plane width, plane height, offset of its scratch rows.
+    let mut layout: Vec<(usize, usize, usize, usize, usize, usize)> =
+        Vec::with_capacity(components);
+    let mut scratch_len: usize = 0;
+    for (component, &(h, v)) in sampling.iter().enumerate() {
+        let width_in_blocks: usize = (image_width * h).div_ceil(max_h * 8);
+        let height_in_blocks: usize = (image_height * v).div_ceil(max_v * 8);
+        let scratch_width: usize = width_in_blocks * block;
+        let scratch_rows: usize = v * block;
+        let dim_component: usize = if component >= 3 { 0 } else { component };
+        let plane_width: usize = yuv_plane_width(dim_component, out_width, subsampling);
+        let plane_height: usize = yuv_plane_height(dim_component, out_height, subsampling);
+        if raw.plane_widths[component] < scratch_width {
+            return Err(JpegError::CorruptData(format!(
+                "raw plane {component} is {} samples wide, the component needs {scratch_width}",
+                raw.plane_widths[component]
+            )));
+        }
+        layout.push((
+            scratch_width,
+            scratch_rows,
+            height_in_blocks,
+            plane_width,
+            plane_height,
+            scratch_len,
+        ));
+        let component_len: usize = crate::common::layout::checked_span(
+            &[scratch_width, scratch_rows],
+            "YUV scratch rows",
+        )?;
+        scratch_len = scratch_len
+            .checked_add(component_len)
+            .ok_or_else(|| JpegError::CorruptData("YUV scratch size overflows".to_string()))?;
+    }
+    // Upstream's scratch is `malloc`ed and never cleared; a row read before
+    // libjpeg first writes it is undefined there and zero here. Sized and
+    // allocated fallibly: an upscaled frame can be large, and an allocator
+    // abort is not something the C ABI's unwind guard can turn into -1.
+    let mut scratch: Vec<u8> =
+        crate::common::try_alloc::try_filled_vec(scratch_len, 0u8, "YUV scratch")?;
+    let mut planes: Vec<Vec<u8>> = Vec::with_capacity(layout.len());
+    for &(_, _, _, plane_width, plane_height, _) in &layout {
+        let plane_len: usize =
+            crate::common::layout::checked_span(&[plane_width, plane_height], "YUV plane")?;
+        planes.push(crate::common::try_alloc::try_filled_vec(
+            plane_len,
+            0u8,
+            "YUV plane",
+        )?);
+    }
+    let imcu_rows: usize = out_height.div_ceil(max_v * block);
+    for imcu_row in 0..imcu_rows {
+        // What `jpeg_read_raw_data` writes into the scratch: the component's
+        // existing block rows only.
+        for (component, &(scratch_width, scratch_rows, height_in_blocks, _, _, offset)) in
+            layout.iter().enumerate()
+        {
+            let raw_width: usize = raw.plane_widths[component];
+            let raw_plane: &[u8] = &raw.planes[component];
+            for row in 0..scratch_rows {
+                let block_row: usize = imcu_row * sampling[component].1 + row / block;
+                if block_row >= height_in_blocks {
+                    continue;
+                }
+                let source: usize = (imcu_row * scratch_rows + row) * raw_width;
+                let target: usize = offset + row * scratch_width;
+                scratch[target..target + scratch_width]
+                    .copy_from_slice(&raw_plane[source..source + scratch_width]);
+            }
+        }
+        // The copy into the planes: `pw` bytes from each scratch row, for the
+        // rows the plane still has.
+        for (component, &(scratch_width, scratch_rows, _, plane_width, plane_height, offset)) in
+            layout.iter().enumerate()
+        {
+            let first_row: usize = imcu_row * scratch_rows;
+            let rows: usize = scratch_rows.min(plane_height.saturating_sub(first_row));
+            for row in 0..rows {
+                let source: usize = offset + row * scratch_width;
+                let available: usize = scratch_len.saturating_sub(source).min(plane_width);
+                let target: usize = (first_row + row) * plane_width;
+                planes[component][target..target + available]
+                    .copy_from_slice(&scratch[source..source + available]);
+            }
+        }
+    }
+    Ok(planes)
+}
+
+/// Detect chroma subsampling from raw plane dimensions.
+fn detect_subsampling(raw: &crate::api::raw_data::RawImage) -> Result<Subsampling> {
+    if raw.num_components == 1 {
+        return Ok(Subsampling::S444);
+    }
+    if raw.num_components < 3 {
+        return Err(JpegError::CorruptData(format!(
+            "unexpected component count: {}",
+            raw.num_components
+        )));
+    }
+
+    let y_w: usize = raw.plane_widths[0];
+    let y_h: usize = raw.plane_heights[0];
+    let cb_w: usize = raw.plane_widths[1];
+    let cb_h: usize = raw.plane_heights[1];
+
+    // Compute ratios (use ceiling division for non-exact multiples)
+    let h_ratio: usize = y_w.div_ceil(cb_w);
+    let v_ratio: usize = y_h.div_ceil(cb_h);
+
+    match (h_ratio, v_ratio) {
+        (1, 1) => Ok(Subsampling::S444),
+        (2, 1) => Ok(Subsampling::S422),
+        (2, 2) => Ok(Subsampling::S420),
+        (1, 2) => Ok(Subsampling::S440),
+        (4, 1) => Ok(Subsampling::S411),
+        (1, 4) => Ok(Subsampling::S441),
+        (4, 2) => Ok(Subsampling::S410),
+        (2, 4) => Ok(Subsampling::S24),
+        _ => Err(JpegError::CorruptData(format!(
+            "unrecognized chroma subsampling ratio {}:{} (Y={}x{}, Cb={}x{})",
+            h_ratio, v_ratio, y_w, y_h, cb_w, cb_h
+        ))),
+    }
+}
+
+// ──────────────────────────────────────────────
+// YUV → RGB (color conversion only, no JPEG)
+// ──────────────────────────────────────────────
+
+/// Convert packed YUV buffer to RGB pixels.
+///
+/// The packed buffer must have Y, Cb, Cr planes concatenated.
+/// For grayscale, only Y plane is expected.
+pub fn decode_yuv(
+    yuv_buf: &[u8],
+    width: usize,
+    height: usize,
+    subsampling: Subsampling,
+    pixel_format: PixelFormat,
+) -> Result<Vec<u8>> {
+    let y_size: usize = yuv_plane_size(0, width, height, subsampling);
+    let is_gray_output: bool = is_grayscale_format(pixel_format);
+
+    if is_gray_output || yuv_buf.len() == y_size {
+        // Grayscale decode
+        let y_plane: &[u8] = &yuv_buf[..y_size.min(yuv_buf.len())];
+        let planes: Vec<&[u8]> = vec![y_plane];
+        return decode_yuv_planes_impl(&planes, width, height, subsampling, pixel_format, true);
+    }
+
+    let cb_size: usize = yuv_plane_size(1, width, height, subsampling);
+    let cr_size: usize = yuv_plane_size(2, width, height, subsampling);
+    let expected_total: usize = checked_sum_of_planes(y_size, cb_size, cr_size)?;
+
+    if yuv_buf.len() < expected_total {
+        return Err(JpegError::BufferTooSmall {
+            need: expected_total,
+            got: yuv_buf.len(),
+        });
+    }
+
+    let y_plane: &[u8] = &yuv_buf[..y_size];
+    let cb_plane: &[u8] = &yuv_buf[y_size..y_size + cb_size];
+    let cr_plane: &[u8] = &yuv_buf[y_size + cb_size..y_size + cb_size + cr_size];
+
+    decode_yuv_planes(
+        &[y_plane, cb_plane, cr_plane],
+        width,
+        height,
+        subsampling,
+        pixel_format,
+    )
+}
+
+/// Convert planar YUV buffers to RGB pixels.
+///
+/// `planes` should be `[Y, Cb, Cr]` for color, or `[Y]` for grayscale.
+pub fn decode_yuv_planes(
+    planes: &[&[u8]],
+    width: usize,
+    height: usize,
+    subsampling: Subsampling,
+    pixel_format: PixelFormat,
+) -> Result<Vec<u8>> {
+    let is_gray: bool = planes.len() == 1;
+    if !is_gray && planes.len() != 3 {
+        return Err(JpegError::CorruptData(format!(
+            "expected 1 (grayscale) or 3 (YCbCr) planes, got {}",
+            planes.len()
+        )));
+    }
+    decode_yuv_planes_impl(planes, width, height, subsampling, pixel_format, is_gray)
+}
+
+/// Internal implementation for YUV → pixel conversion.
+fn decode_yuv_planes_impl(
+    planes: &[&[u8]],
+    width: usize,
+    height: usize,
+    subsampling: Subsampling,
+    pixel_format: PixelFormat,
+    is_grayscale: bool,
+) -> Result<Vec<u8>> {
+    if width == 0 || height == 0 {
+        return Err(JpegError::CorruptData(
+            "image dimensions must be non-zero".to_string(),
+        ));
+    }
+
+    let bpp: usize = pixel_format.bytes_per_pixel();
+    let mut output: Vec<u8> = vec![0u8; width * height * bpp];
+
+    let y_w: usize = yuv_plane_width(0, width, subsampling);
+
+    if is_grayscale {
+        // Grayscale: Y values → output
+        let y_plane: &[u8] = planes[0];
+        if is_grayscale_format(pixel_format) {
+            // Grayscale → Grayscale: direct copy of Y values
+            for row in 0..height {
+                let y_start: usize = row * y_w;
+                let out_start: usize = row * width;
+                output[out_start..out_start + width]
+                    .copy_from_slice(&y_plane[y_start..y_start + width]);
+            }
+        } else {
+            // Grayscale → RGB/RGBA/etc: Y→R=G=B
+            for row in 0..height {
+                let y_start: usize = row * y_w;
+                for col in 0..width {
+                    let y_val: u8 = y_plane[y_start + col];
+                    let base: usize = (row * width + col) * bpp;
+                    write_pixel_from_rgb(&mut output, base, y_val, y_val, y_val, pixel_format);
+                }
+            }
+        }
+        return Ok(output);
+    }
+
+    // Color: upsample chroma and convert to output format
+    let y_plane: &[u8] = planes[0];
+    let cb_plane: &[u8] = planes[1];
+    let cr_plane: &[u8] = planes[2];
+
+    let cb_w: usize = yuv_plane_width(1, width, subsampling);
+    let (h_factor, v_factor) = subsampling_factors(subsampling);
+
+    // For each output row, get upsampled Cb/Cr and convert
+    let mut row_cb: Vec<u8> = vec![128u8; width];
+    let mut row_cr: Vec<u8> = vec![128u8; width];
+    let mut row_y: Vec<u8> = vec![0u8; width];
+
+    for row in 0..height {
+        // Copy Y for this row
+        let y_start: usize = row * y_w;
+        row_y[..width].copy_from_slice(&y_plane[y_start..y_start + width]);
+
+        // Upsample Cb/Cr for this row via nearest-neighbor
+        let chroma_row: usize = row / v_factor;
+        for col in 0..width {
+            let chroma_col: usize = col / h_factor;
+            let cb_idx: usize = chroma_row * cb_w + chroma_col;
+            let cr_idx: usize = chroma_row * cb_w + chroma_col;
+            row_cb[col] = cb_plane[cb_idx];
+            row_cr[col] = cr_plane[cr_idx];
+        }
+
+        // Convert YCbCr row to output pixel format
+        let out_start: usize = row * width * bpp;
+        let out_row: &mut [u8] = &mut output[out_start..out_start + width * bpp];
+
+        match pixel_format {
+            PixelFormat::Rgb => {
+                decode_color::ycbcr_to_rgb_row(&row_y, &row_cb, &row_cr, out_row, width);
+            }
+            PixelFormat::Rgba => {
+                decode_color::ycbcr_to_rgba_row(&row_y, &row_cb, &row_cr, out_row, width);
+            }
+            PixelFormat::Bgr => {
+                decode_color::ycbcr_to_bgr_row(&row_y, &row_cb, &row_cr, out_row, width);
+            }
+            PixelFormat::Bgra => {
+                decode_color::ycbcr_to_bgra_row(&row_y, &row_cb, &row_cr, out_row, width);
+            }
+            PixelFormat::Grayscale => {
+                decode_color::grayscale_row(&row_y, out_row, width);
+            }
+            PixelFormat::Rgb565 => {
+                decode_color::ycbcr_to_rgb565_row(&row_y, &row_cb, &row_cr, out_row, width);
+            }
+            _ => {
+                // Generic 4bpp format using channel offsets
+                let r_off: usize = pixel_format.red_offset().ok_or_else(|| {
+                    JpegError::CorruptData(format!(
+                        "pixel format {:?} not supported for YUV decode",
+                        pixel_format
+                    ))
+                })?;
+                let g_off: usize = pixel_format.green_offset().unwrap();
+                let b_off: usize = pixel_format.blue_offset().unwrap();
+                // Determine the pad/alpha offset (the remaining byte out of 0,1,2,3)
+                let pad_off: usize = (0..4)
+                    .find(|&i| i != r_off && i != g_off && i != b_off)
+                    .unwrap();
+                decode_color::ycbcr_to_generic_4bpp_row(
+                    &row_y, &row_cb, &row_cr, out_row, width, r_off, g_off, b_off, pad_off,
+                );
+            }
+        }
+    }
+
+    Ok(output)
+}
+
+/// Write an RGB pixel into the output buffer at position `base` using the given pixel format.
+fn write_pixel_from_rgb(
+    output: &mut [u8],
+    base: usize,
+    r: u8,
+    g: u8,
+    b: u8,
+    pixel_format: PixelFormat,
+) {
+    match pixel_format {
+        PixelFormat::Rgb => {
+            output[base] = r;
+            output[base + 1] = g;
+            output[base + 2] = b;
+        }
+        PixelFormat::Rgba | PixelFormat::Rgbx => {
+            output[base] = r;
+            output[base + 1] = g;
+            output[base + 2] = b;
+            output[base + 3] = 255;
+        }
+        PixelFormat::Bgr => {
+            output[base] = b;
+            output[base + 1] = g;
+            output[base + 2] = r;
+        }
+        PixelFormat::Bgra | PixelFormat::Bgrx => {
+            output[base] = b;
+            output[base + 1] = g;
+            output[base + 2] = r;
+            output[base + 3] = 255;
+        }
+        PixelFormat::Argb => {
+            output[base] = 255;
+            output[base + 1] = r;
+            output[base + 2] = g;
+            output[base + 3] = b;
+        }
+        PixelFormat::Abgr => {
+            output[base] = 255;
+            output[base + 1] = b;
+            output[base + 2] = g;
+            output[base + 3] = r;
+        }
+        PixelFormat::Xrgb => {
+            output[base] = 255;
+            output[base + 1] = r;
+            output[base + 2] = g;
+            output[base + 3] = b;
+        }
+        PixelFormat::Xbgr => {
+            output[base] = 255;
+            output[base + 1] = b;
+            output[base + 2] = g;
+            output[base + 3] = r;
+        }
+        PixelFormat::Grayscale => {
+            output[base] = r; // Y = R = G = B for grayscale
+        }
+        _ => {}
+    }
+}

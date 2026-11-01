@@ -1,0 +1,5770 @@
+{
+  "version": 1,
+  "metric": "connected-residual-bgra-v2",
+  "reference_dpi": 144,
+  "default_max_error": 2.0,
+  "channel_leeway": 0,
+  "edge_mass_divisor": 16.0,
+  "cases": {
+    "agg_blend_spans": {
+      "page_count": 1
+    },
+    "agg_dense_edges": {
+      "page_count": 1
+    },
+    "agg_opaque_narrow_spans": {
+      "page_count": 1
+    },
+    "agg_solid_spans": {
+      "page_count": 1
+    },
+    "agg_transparent_spans": {
+      "page_count": 1
+    },
+    "alpha_composite": {
+      "page_count": 1
+    },
+    "annotation_markup_multiline_no_ap": {
+      "page_count": 1
+    },
+    "axial_shading": {
+      "page_count": 1
+    },
+    "blank": {
+      "page_count": 1
+    },
+    "ccitt_g4": {
+      "page_count": 1
+    },
+    "clip_path": {
+      "page_count": 1
+    },
+    "cropped_text": {
+      "page_count": 4
+    },
+    "dashed_lines": {
+      "page_count": 1
+    },
+    "embedded_cid": {
+      "page_count": 1
+    },
+    "embedded_truetype": {
+      "page_count": 1
+    },
+    "encrypted_r2": {
+      "page_count": 1
+    },
+    "encrypted_r3": {
+      "page_count": 1
+    },
+    "encrypted_r5": {
+      "page_count": 1
+    },
+    "encrypted_r6": {
+      "page_count": 1
+    },
+    "font_matrix": {
+      "page_count": 1
+    },
+    "form_object_with_image": {
+      "page_count": 1
+    },
+    "form_object_with_path": {
+      "page_count": 1
+    },
+    "hamiltonian": {
+      "page_count": 1
+    },
+    "hayro/corpus/0000120": {
+      "page_count": 2
+    },
+    "hayro/corpus/0000157": {
+      "page_count": 2,
+      "pages": {
+        "0": {
+          "max_error": 2.951,
+          "max_error_by_dpi": {
+            "288": 3.409
+          },
+          "reason": "Text-outline rasterization: text and character boxes agree; FreeType versus Fontations cubic rounding/contour closure leaves small connected coverage differences in Helvetica headings. No missing text."
+        }
+      }
+    },
+    "hayro/corpus/0000325": {
+      "page_count": 4
+    },
+    "hayro/corpus/0001010": {
+      "page_count": 1
+    },
+    "hayro/corpus/0001763": {
+      "page_count": 12
+    },
+    "hayro/corpus/0002771": {
+      "page_count": 1
+    },
+    "hayro/corpus/0004641": {
+      "page_count": 108
+    },
+    "hayro/corpus/0010055": {
+      "page_count": 10
+    },
+    "hayro/corpus/0020461": {
+      "page_count": 1
+    },
+    "hayro/corpus/0025639": {
+      "page_count": 12
+    },
+    "hayro/corpus/0031730": {
+      "page_count": 10
+    },
+    "hayro/corpus/0041790": {
+      "page_count": 152
+    },
+    "hayro/corpus/0054044": {
+      "page_count": 2
+    },
+    "hayro/corpus/0076190": {
+      "page_count": 7
+    },
+    "hayro/corpus/0076584": {
+      "page_count": 2
+    },
+    "hayro/corpus/0083781": {
+      "page_count": 14
+    },
+    "hayro/corpus/0092523": {
+      "page_count": 93
+    },
+    "hayro/corpus/0134905": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs."
+    },
+    "hayro/corpus/0138201": {
+      "page_count": 19
+    },
+    "hayro/corpus/0155999": {
+      "page_count": 62
+    },
+    "hayro/corpus/0167641": {
+      "page_count": 60
+    },
+    "hayro/corpus/0210666": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 3.921
+          },
+          "reason": "Single-pixel coverage along a large heading glyph stem in the tall design article. All 8,072 extracted characters and their boxes agree; photographs and article layout remain present."
+        }
+      }
+    },
+    "hayro/corpus/0267112": {
+      "page_count": 3
+    },
+    "hayro/corpus/0289093": {
+      "page_count": 3
+    },
+    "hayro/corpus/0344421": {
+      "page_count": 72
+    },
+    "hayro/corpus/0357865": {
+      "page_count": 2
+    },
+    "hayro/corpus/0370851": {
+      "page_count": 2
+    },
+    "hayro/corpus/0380221": {
+      "page_count": 12
+    },
+    "hayro/corpus/0408476": {
+      "page_count": 36
+    },
+    "hayro/corpus/0411272": {
+      "page_count": 60
+    },
+    "hayro/corpus/0506179": {
+      "page_count": 5
+    },
+    "hayro/corpus/0518325": {
+      "page_count": 1
+    },
+    "hayro/corpus/0554304": {
+      "page_count": 1
+    },
+    "hayro/corpus/0605516": {
+      "page_count": 96
+    },
+    "hayro/corpus/0688054": {
+      "page_count": 1
+    },
+    "hayro/corpus/0731182": {
+      "page_count": 1
+    },
+    "hayro/corpus/0755501": {
+      "page_count": 2
+    },
+    "hayro/corpus/0899694": {
+      "page_count": 16,
+      "pages": {
+        "5": {
+          "max_error": 4.3,
+          "max_error_by_dpi": {
+            "288": 35.969
+          },
+          "reason": "Small non-text edge coverage differences in the advertisement artwork. Text and character boxes agree; isolated non-text rendering reproduces the residual. Layout and content visually agree."
+        }
+      }
+    },
+    "hayro/corpus/0917011": {
+      "page_count": 1
+    },
+    "hayro/corpus/0938098": {
+      "page_count": 251
+    },
+    "hayro/corpus/0942791": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs."
+    },
+    "hayro/custom/InlineAbbreviations": {
+      "page_count": 1
+    },
+    "hayro/custom/OverlappingGlyphClipping": {
+      "page_count": 1
+    },
+    "hayro/custom/TextClippingModeChanges": {
+      "page_count": 1
+    },
+    "hayro/custom/andler-optimal-lot-size": {
+      "page_count": 3
+    },
+    "hayro/custom/animated-distributions": {
+      "page_count": 2
+    },
+    "hayro/custom/annotation_checkbox": {
+      "page_count": 1
+    },
+    "hayro/custom/blank_page_without_contents": {
+      "page_count": 3
+    },
+    "hayro/custom/catalog-in-objstm-aes": {
+      "page_count": 1
+    },
+    "hayro/custom/clip_path_evenodd": {
+      "page_count": 1
+    },
+    "hayro/custom/clip_path_nested": {
+      "page_count": 1
+    },
+    "hayro/custom/clip_path_painted": {
+      "page_count": 1
+    },
+    "hayro/custom/color_separation_3": {
+      "page_count": 1
+    },
+    "hayro/custom/color_space_icc_gray": {
+      "page_count": 1
+    },
+    "hayro/custom/color_space_icc_invalid_profile": {
+      "page_count": 1
+    },
+    "hayro/custom/color_space_icc_srgb": {
+      "page_count": 1
+    },
+    "hayro/custom/color_space_indexed": {
+      "page_count": 1
+    },
+    "hayro/custom/color_space_lab": {
+      "page_count": 4
+    },
+    "hayro/custom/color_space_separation_1": {
+      "page_count": 4
+    },
+    "hayro/custom/color_space_separation_2": {
+      "page_count": 1
+    },
+    "hayro/custom/deeply_nested_object": {
+      "page_count": 1
+    },
+    "hayro/custom/devicen_none": {
+      "page_count": 1
+    },
+    "hayro/custom/encrypted_aes_128": {
+      "page_count": 1
+    },
+    "hayro/custom/encrypted_aes_256": {
+      "page_count": 1
+    },
+    "hayro/custom/encrypted_aes_256_hardened": {
+      "page_count": 1
+    },
+    "hayro/custom/encrypted_rc4_rev2": {
+      "page_count": 1
+    },
+    "hayro/custom/encrypted_rc4_rev3": {
+      "page_count": 1
+    },
+    "hayro/custom/fill_degenerate": {
+      "page_count": 1
+    },
+    "hayro/custom/fillrule_evenodd": {
+      "page_count": 1
+    },
+    "hayro/custom/filter_flate_1bit": {
+      "page_count": 1
+    },
+    "hayro/custom/filter_tiff_predictor_gray": {
+      "page_count": 1
+    },
+    "hayro/custom/fireworks": {
+      "page_count": 1
+    },
+    "hayro/custom/flate_predictor_bpc_1": {
+      "page_count": 1
+    },
+    "hayro/custom/flate_predictor_invalid": {
+      "page_count": 1
+    },
+    "hayro/custom/font_cid_1": {
+      "page_count": 1
+    },
+    "hayro/custom/font_cid_2": {
+      "page_count": 4
+    },
+    "hayro/custom/font_cid_3": {
+      "page_count": 1
+    },
+    "hayro/custom/font_cid_4": {
+      "page_count": 1
+    },
+    "hayro/custom/font_cid_5": {
+      "page_count": 1
+    },
+    "hayro/custom/font_cid_6": {
+      "page_count": 1
+    },
+    "hayro/custom/font_cid_7": {
+      "page_count": 1
+    },
+    "hayro/custom/font_mmtype_1": {
+      "page_count": 1
+    },
+    "hayro/custom/font_standard_1": {
+      "page_count": 2
+    },
+    "hayro/custom/font_standard_2": {
+      "page_count": 9
+    },
+    "hayro/custom/font_standard_widths_array": {
+      "page_count": 1
+    },
+    "hayro/custom/font_truetype_1": {
+      "page_count": 1
+    },
+    "hayro/custom/font_truetype_2": {
+      "page_count": 1
+    },
+    "hayro/custom/font_truetype_3": {
+      "page_count": 1
+    },
+    "hayro/custom/font_truetype_4": {
+      "page_count": 1
+    },
+    "hayro/custom/font_truetype_5": {
+      "page_count": 1
+    },
+    "hayro/custom/font_truetype_6": {
+      "page_count": 1
+    },
+    "hayro/custom/font_truetype_7": {
+      "page_count": 7
+    },
+    "hayro/custom/font_truetype_8": {
+      "page_count": 8
+    },
+    "hayro/custom/font_truetype_slow_post_lookup": {
+      "page_count": 7
+    },
+    "hayro/custom/font_type1_1": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_10": {
+      "page_count": 10
+    },
+    "hayro/custom/font_type1_11": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_12": {
+      "page_count": 2
+    },
+    "hayro/custom/font_type1_2": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_3": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_4": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_5": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_6": {
+      "page_count": 2
+    },
+    "hayro/custom/font_type1_7": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_8": {
+      "page_count": 2
+    },
+    "hayro/custom/font_type1_9": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_cff_1": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_cff_2": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_cff_3": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_cff_4": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type1_cff_5": {
+      "page_count": 2
+    },
+    "hayro/custom/font_type1_cff_6": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type3_filled_glyphs": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 167.793,
+          "max_error_by_dpi": {
+            "288": 1210.461
+          },
+          "reason": "Pinned native Type3 rendering omits the glyph fill alpha; Rust applies ca=0.8. Independently asserted by C API opacity controls; see docs/capi-known-native-differences.md#type3-and-gray8-text-opacity."
+        }
+      }
+    },
+    "hayro/custom/font_type3_shape_glyphs": {
+      "page_count": 1
+    },
+    "hayro/custom/font_type3_stroked_glyphs": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 76.55,
+          "max_error_by_dpi": {
+            "288": 528.638
+          },
+          "reason": "Pinned native Type3 rendering omits the glyph alpha; Rust applies ca=0.8. Independently asserted by C API opacity controls; see docs/capi-known-native-differences.md#type3-and-gray8-text-opacity."
+        }
+      }
+    },
+    "hayro/custom/font_type3_widths_with_matrix": {
+      "page_count": 1
+    },
+    "hayro/custom/font_vertical": {
+      "page_count": 1
+    },
+    "hayro/custom/fonts_type1_latex": {
+      "page_count": 1
+    },
+    "hayro/custom/function_type0_1": {
+      "page_count": 1
+    },
+    "hayro/custom/function_type0_2": {
+      "page_count": 1
+    },
+    "hayro/custom/gradient_on_rect": {
+      "page_count": 1
+    },
+    "hayro/custom/gradient_on_rotated_rect": {
+      "page_count": 1
+    },
+    "hayro/custom/image_1_bit_per_component": {
+      "page_count": 1
+    },
+    "hayro/custom/image_ccit_1": {
+      "page_count": 1
+    },
+    "hayro/custom/image_ccit_3": {
+      "page_count": 1
+    },
+    "hayro/custom/image_ccit_4": {
+      "page_count": 1
+    },
+    "hayro/custom/image_ccitt_rows_above_height": {
+      "page_count": 1
+    },
+    "hayro/custom/image_ccitt_rows_below_height": {
+      "page_count": 1
+    },
+    "hayro/custom/image_cmyk_icc_jpg": {
+      "page_count": 1
+    },
+    "hayro/custom/image_cmyk_jpg": {
+      "page_count": 1
+    },
+    "hayro/custom/image_inline_10": {
+      "page_count": 1
+    },
+    "hayro/custom/image_inline_2": {
+      "page_count": 1
+    },
+    "hayro/custom/image_inline_3": {
+      "page_count": 1
+    },
+    "hayro/custom/image_inline_4": {
+      "page_count": 1
+    },
+    "hayro/custom/image_inline_5": {
+      "page_count": 1
+    },
+    "hayro/custom/image_inline_6": {
+      "page_count": 1
+    },
+    "hayro/custom/image_inline_7": {
+      "page_count": 1
+    },
+    "hayro/custom/image_inline_8": {
+      "page_count": 5
+    },
+    "hayro/custom/image_inline_9": {
+      "page_count": 1
+    },
+    "hayro/custom/image_interpolate": {
+      "page_count": 1
+    },
+    "hayro/custom/image_jbig2_2": {
+      "page_count": 22
+    },
+    "hayro/custom/image_jbig2_3": {
+      "page_count": 1
+    },
+    "hayro/custom/image_jbig2_4": {
+      "page_count": 3
+    },
+    "hayro/custom/image_jbig2_crash": {
+      "page_count": 1
+    },
+    "hayro/custom/image_lab": {
+      "page_count": 1
+    },
+    "hayro/custom/image_lab_2": {
+      "page_count": 1
+    },
+    "hayro/custom/image_luma16": {
+      "page_count": 1
+    },
+    "hayro/custom/image_luma8": {
+      "page_count": 1
+    },
+    "hayro/custom/image_luma8_icc": {
+      "page_count": 1
+    },
+    "hayro/custom/image_luma8_jpg": {
+      "page_count": 1
+    },
+    "hayro/custom/image_mask": {
+      "page_count": 1
+    },
+    "hayro/custom/image_mask_4": {
+      "page_count": 1
+    },
+    "hayro/custom/image_mask_hairline": {
+      "page_count": 1
+    },
+    "hayro/custom/image_mask_missing_bpc": {
+      "page_count": 2
+    },
+    "hayro/custom/image_named_colorspace": {
+      "page_count": 1
+    },
+    "hayro/custom/image_rgb16": {
+      "page_count": 1
+    },
+    "hayro/custom/image_rgb8": {
+      "page_count": 1
+    },
+    "hayro/custom/image_rgb8_decode": {
+      "page_count": 1
+    },
+    "hayro/custom/image_rgb8_icc": {
+      "page_count": 1
+    },
+    "hayro/custom/image_rgb8_icc_jpg": {
+      "page_count": 1
+    },
+    "hayro/custom/image_rgb8_jpg": {
+      "page_count": 1
+    },
+    "hayro/custom/image_rgba16": {
+      "page_count": 1
+    },
+    "hayro/custom/image_rgba8": {
+      "page_count": 1
+    },
+    "hayro/custom/image_rgba8_icc": {
+      "page_count": 1
+    },
+    "hayro/custom/image_smask_downscale": {
+      "page_count": 1
+    },
+    "hayro/custom/integration_coat_of_arms": {
+      "page_count": 1
+    },
+    "hayro/custom/integration_diagram": {
+      "page_count": 1
+    },
+    "hayro/custom/integration_matplotlib": {
+      "page_count": 1
+    },
+    "hayro/custom/integration_matplotlib_2": {
+      "page_count": 1
+    },
+    "hayro/custom/issue1023": {
+      "page_count": 1
+    },
+    "hayro/custom/issue10_1": {
+      "page_count": 1
+    },
+    "hayro/custom/issue10_2": {
+      "page_count": 1
+    },
+    "hayro/custom/issue11": {
+      "page_count": 1
+    },
+    "hayro/custom/issue1276": {
+      "page_count": 2
+    },
+    "hayro/custom/issue1334": {
+      "page_count": 510
+    },
+    "hayro/custom/issue141": {
+      "page_count": 1
+    },
+    "hayro/custom/issue175": {
+      "page_count": 1
+    },
+    "hayro/custom/issue40": {
+      "page_count": 2
+    },
+    "hayro/custom/issue41": {
+      "page_count": 1
+    },
+    "hayro/custom/issue42": {
+      "page_count": 1
+    },
+    "hayro/custom/issue44": {
+      "page_count": 1
+    },
+    "hayro/custom/issue494": {
+      "page_count": 1
+    },
+    "hayro/custom/issue51": {
+      "page_count": 37
+    },
+    "hayro/custom/issue53": {
+      "page_count": 1
+    },
+    "hayro/custom/issue629": {
+      "page_count": 1
+    },
+    "hayro/custom/issue892": {
+      "page_count": 1
+    },
+    "hayro/custom/issue968": {
+      "page_count": 1
+    },
+    "hayro/custom/issue994": {
+      "page_count": 1
+    },
+    "hayro/custom/issue_clipping_panic": {
+      "page_count": 1
+    },
+    "hayro/custom/issue_cmap_lookup": {
+      "page_count": 3
+    },
+    "hayro/custom/issue_cubic_start_end": {
+      "page_count": 1
+    },
+    "hayro/custom/issue_isolate_shading_transform": {
+      "page_count": 1
+    },
+    "hayro/custom/issue_missing_jpeg_image": {
+      "page_count": 1
+    },
+    "hayro/custom/issue_panic_with_clip": {
+      "page_count": 4
+    },
+    "hayro/custom/issue_panic_with_nested_clip": {
+      "page_count": 2
+    },
+    "hayro/custom/issue_predictor_with_null": {
+      "page_count": 1
+    },
+    "hayro/custom/issue_scaled_glyph": {
+      "page_count": 1
+    },
+    "hayro/custom/issue_stream_abbreviations": {
+      "page_count": 3,
+      "pages": {
+        "0": {
+          "max_error": 2.984,
+          "max_error_by_dpi": {
+            "288": 37.45
+          },
+          "reason": "Synthetic Symbol italic/standard-font outline coverage. Text agrees; isolated text rendering reproduces this small residual. Stream abbreviations decode and all content remains present."
+        }
+      }
+    },
+    "hayro/custom/issue_typst_6723": {
+      "page_count": 1
+    },
+    "hayro/custom/issue_typst_7269": {
+      "page_count": 1
+    },
+    "hayro/custom/lopdf_issue_449_1": {
+      "page_count": 1
+    },
+    "hayro/custom/lopdf_issue_449_2": {
+      "page_count": 1
+    },
+    "hayro/custom/mask_alpha": {
+      "page_count": 1
+    },
+    "hayro/custom/mask_bc": {
+      "page_count": 1
+    },
+    "hayro/custom/mask_in_type3_glyph": {
+      "page_count": 1
+    },
+    "hayro/custom/mask_luminosity": {
+      "page_count": 1
+    },
+    "hayro/custom/mask_luminosity_no_cs": {
+      "page_count": 1
+    },
+    "hayro/custom/mask_no_cs": {
+      "page_count": 1
+    },
+    "hayro/custom/mask_reuse": {
+      "page_count": 1
+    },
+    "hayro/custom/page_media_box_bottom_left": {
+      "page_count": 1
+    },
+    "hayro/custom/page_media_box_bottom_right": {
+      "page_count": 1
+    },
+    "hayro/custom/page_media_box_top_left": {
+      "page_count": 1
+    },
+    "hayro/custom/page_media_box_top_right": {
+      "page_count": 1
+    },
+    "hayro/custom/page_media_box_zoomed_out": {
+      "page_count": 1
+    },
+    "hayro/custom/page_rotation_180": {
+      "page_count": 1
+    },
+    "hayro/custom/page_rotation_270": {
+      "page_count": 1
+    },
+    "hayro/custom/page_rotation_90": {
+      "page_count": 1
+    },
+    "hayro/custom/page_rotation_none": {
+      "page_count": 1
+    },
+    "hayro/custom/password_1": {
+      "page_count": 1
+    },
+    "hayro/custom/password_2": {
+      "page_count": 3
+    },
+    "hayro/custom/password_encrypted_aes_128": {
+      "page_count": 1
+    },
+    "hayro/custom/password_encrypted_aes_256": {
+      "page_count": 1
+    },
+    "hayro/custom/password_encrypted_rc4_128": {
+      "page_count": 1
+    },
+    "hayro/custom/password_encrypted_rc4_40": {
+      "page_count": 1
+    },
+    "hayro/custom/path_as_rect": {
+      "page_count": 6
+    },
+    "hayro/custom/path_rendering_1": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_10": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_11": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_12": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_13": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_14": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_15": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_16": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_17": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_2": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_3": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_4": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_5": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_6": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_7": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_8": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_9": {
+      "page_count": 1
+    },
+    "hayro/custom/path_rendering_dash_array_0_phase": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_background": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_bbox": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_on_text": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type0_7": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type0_transform": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type1_1": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type1_2": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type1_3": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type1_4": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type1_5": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type1_6": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type1_transform": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type2_1": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type2_2": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type2_3_stops": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type2_many": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type2_no_extend": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type2_no_extend_with_background": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type2_out_of_viewport": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type2_slanted": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type3_1": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type3_2": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type3_3": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type3_collection": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 250.533,
+          "max_error_by_dpi": {
+            "288": 521.677
+          },
+          "reason": "Known pinned-native radial common-tangent stripes from undefined NaN-to-integer conversion. Rust correctly leaves the unextended boundary unpainted. Independent core and CoverageRendering.RadialRootsExtensionAndShadingPatternBackgroundAreVisible regressions cover it; see docs/capi-known-native-differences.md."
+        }
+      }
+    },
+    "hayro/custom/pattern_shading_type4_1": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type4_2": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type5": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type6": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type6_2": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type7": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_shading_type7_background": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_inner_transform": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_large_x_step": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_lines": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_nested": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_rotated": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_rotated_shape": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_simple": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_small": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_small_cell": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_small_x_and_y_step": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_small_x_step": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_stencil": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_step": {
+      "page_count": 2
+    },
+    "hayro/custom/pattern_tiling_uncolored_named_base": {
+      "page_count": 1
+    },
+    "hayro/custom/pattern_tiling_with_text": {
+      "page_count": 1
+    },
+    "hayro/custom/pdf_render_issue14": {
+      "page_count": 4
+    },
+    "hayro/custom/pdfjs_issue18062": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_100k_1894": {
+      "page_count": 36
+    },
+    "hayro/custom/pdftc_100l_0138": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_100l_1071": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_100l_1731": {
+      "page_count": 2
+    },
+    "hayro/custom/pdftc_900k_0007_page_4": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_900k_0012_page_1": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_900k_0140_page_3": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_900k_0156_page_2": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_900k_0240_page_2": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_900k_0319_page_1": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_900k_0584_page_1": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_900k_0907": {
+      "page_count": 2
+    },
+    "hayro/custom/pdftc_900k_0917_page_1_reduced": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_900k_0930_reduced": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_900k_0974_page_1": {
+      "page_count": 1
+    },
+    "hayro/custom/pdftc_900k_1016_page_3": {
+      "page_count": 1
+    },
+    "hayro/custom/rendering_conflation_artifacts": {
+      "page_count": 7
+    },
+    "hayro/custom/resvg_masking_clipPath_mixed_clip_rule": {
+      "page_count": 1
+    },
+    "hayro/custom/resvg_masking_clipPath_nested_clip_path": {
+      "page_count": 1
+    },
+    "hayro/custom/resvg_masking_clipPath_overlapped_shapes_with_evenodd": {
+      "page_count": 1
+    },
+    "hayro/custom/resvg_masking_mask_mask_type_alpha": {
+      "page_count": 1
+    },
+    "hayro/custom/resvg_masking_mask_mask_type_luminance": {
+      "page_count": 1
+    },
+    "hayro/custom/resvg_masking_mask_recursive": {
+      "page_count": 1
+    },
+    "hayro/custom/resvg_masking_mask_recursive_on_child": {
+      "page_count": 1
+    },
+    "hayro/custom/resvg_masking_mask_recursive_on_self": {
+      "page_count": 1
+    },
+    "hayro/custom/resvg_masking_mask_transform_on_shape": {
+      "page_count": 1
+    },
+    "hayro/custom/resvg_masking_mask_with_clip_path": {
+      "page_count": 1
+    },
+    "hayro/custom/resvg_masking_mask_with_image": {
+      "page_count": 1
+    },
+    "hayro/custom/separation_none": {
+      "page_count": 1
+    },
+    "hayro/custom/serenity_26033_1": {
+      "page_count": 1
+    },
+    "hayro/custom/serenity_26033_2": {
+      "page_count": 1
+    },
+    "hayro/custom/shading_operator_1": {
+      "page_count": 2
+    },
+    "hayro/custom/shading_operator_2": {
+      "page_count": 1
+    },
+    "hayro/custom/stream_ccit_not_enough_data": {
+      "page_count": 2
+    },
+    "hayro/custom/stream_flate_bpc_1": {
+      "page_count": 6
+    },
+    "hayro/custom/stream_jpx_1": {
+      "page_count": 7
+    },
+    "hayro/custom/stream_jpx_3": {
+      "page_count": 4
+    },
+    "hayro/custom/stream_jpx_5": {
+      "page_count": 1
+    },
+    "hayro/custom/stream_jpx_6": {
+      "page_count": 1
+    },
+    "hayro/custom/stroke_hairline_large_ctm": {
+      "page_count": 1
+    },
+    "hayro/custom/stroke_properties": {
+      "page_count": 1
+    },
+    "hayro/custom/text_fading": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 4.048
+          },
+          "reason": "Coverage at clipped/translucent glyph edges in the fading-text fixture. The strongest residual is a 4-by-16-pixel part of an existing glyph, not missing text; all extracted characters and boxes agree."
+        }
+      }
+    },
+    "hayro/custom/text_filled_complex_paint": {
+      "page_count": 1
+    },
+    "hayro/custom/text_no_explicit_font": {
+      "page_count": 1
+    },
+    "hayro/custom/text_rendering_1": {
+      "page_count": 1
+    },
+    "hayro/custom/text_rendering_2": {
+      "page_count": 2
+    },
+    "hayro/custom/text_rendering_3": {
+      "page_count": 1
+    },
+    "hayro/custom/text_rendering_4": {
+      "page_count": 1
+    },
+    "hayro/custom/text_rendering_5": {
+      "page_count": 1
+    },
+    "hayro/custom/text_rendering_clipping": {
+      "page_count": 1
+    },
+    "hayro/custom/text_rendering_stroking_clipping": {
+      "page_count": 1
+    },
+    "hayro/custom/text_stroked_complex_paint": {
+      "page_count": 1
+    },
+    "hayro/custom/text_with_rise": {
+      "page_count": 1
+    },
+    "hayro/custom/tile_clamp_bug": {
+      "page_count": 1
+    },
+    "hayro/custom/type0_function_too_many_entries": {
+      "page_count": 1
+    },
+    "hayro/custom/type3_shading_glyph": {
+      "page_count": 1
+    },
+    "hayro/custom/xobject_1": {
+      "page_count": 1
+    },
+    "hayro/custom/xobject_matrix": {
+      "page_count": 1
+    },
+    "hayro/custom/xobject_with_fill_opacity": {
+      "page_count": 1
+    },
+    "hayro/custom/xref_f2_len_8": {
+      "page_count": 16
+    },
+    "hayro/custom/xref_invalid_offsets": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs.",
+      "rejected_pages": {
+        "0": "Both engines reject this page in the pinned malformed fixture."
+      }
+    },
+    "hayro/pdfbox/1058": {
+      "page_count": 52
+    },
+    "hayro/pdfbox/1067": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1084": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/1147": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1174": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1200_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1200_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1206": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1278": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1288": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/1307": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1321": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/1325": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1348": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1416": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/142": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1442": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1451": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1570": {
+      "page_count": 10
+    },
+    "hayro/pdfbox/1593_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1593_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1593_3": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1606": {
+      "page_count": 7
+    },
+    "hayro/pdfbox/1607": {
+      "page_count": 14
+    },
+    "hayro/pdfbox/1620": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1628": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/163": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1686": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1689": {
+      "page_count": 5,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 3.984
+          },
+          "reason": "Unembedded Arial Narrow glyph coverage in the red telephone number. The strongest connected residual is four pixels; all 4,480 extracted characters and their boxes agree, with no missing number or changed layout."
+        }
+      }
+    },
+    "hayro/pdfbox/1693": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/1697": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1708": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1727": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/1752_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1752_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1771": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1772": {
+      "page_count": 18
+    },
+    "hayro/pdfbox/1791": {
+      "page_count": 12
+    },
+    "hayro/pdfbox/1794": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1809": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1814": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1819": {
+      "page_count": 487
+    },
+    "hayro/pdfbox/1867": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1868": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1875": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1876": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1879": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/1908": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1910": {
+      "page_count": 42
+    },
+    "hayro/pdfbox/1911": {
+      "page_count": 15,
+      "pages": {
+        "0": {
+          "max_error": 6.0,
+          "max_error_by_dpi": {
+            "288": 10.371
+          },
+          "reason": "Text/clip compositing edge coverage: removing text or rendering it alone passes the normal gate; only the combined scene has this small residual. Text and character boxes agree; visual layout/content agree."
+        }
+      }
+    },
+    "hayro/pdfbox/1915": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_10": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_11": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_12": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 12.192,
+          "max_error_by_dpi": {
+            "288": 86.846
+          },
+          "reason": "Type-7 tensor-patch shading boundary precision. The residual is a narrow crease/edge in an otherwise matching shaded object; no missing patch or changed overall colour."
+        }
+      }
+    },
+    "hayro/pdfbox/1915_13": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_14": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_15": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_16": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_17": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_18": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_19": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_3": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_4": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_5": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_6": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_7": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_8": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1915_9": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1918": {
+      "page_count": 27
+    },
+    "hayro/pdfbox/1927": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1931": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1934": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1936_1": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/1936_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1938": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1940": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1949": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1950": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1958": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1966_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1966_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1968": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1970": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/1997": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2006": {
+      "page_count": 7
+    },
+    "hayro/pdfbox/2027_1": {
+      "page_count": 34
+    },
+    "hayro/pdfbox/2027_2": {
+      "page_count": 17
+    },
+    "hayro/pdfbox/2046": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2059": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2090": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/2091": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2103": {
+      "page_count": 2,
+      "pages": {
+        "1": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.897
+          },
+          "reason": "Single-pixel coverage along a vertical glyph stem in the brochure heading. All extracted characters and boxes agree within 0.000008 point; the illustrations and text remain present."
+        }
+      }
+    },
+    "hayro/pdfbox/2112": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/2137": {
+      "page_count": 27
+    },
+    "hayro/pdfbox/2142": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2156_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2156_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2163": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2170": {
+      "page_count": 102
+    },
+    "hayro/pdfbox/2171": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2176": {
+      "page_count": 8
+    },
+    "hayro/pdfbox/2180": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2182": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2185": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2187": {
+      "page_count": 7
+    },
+    "hayro/pdfbox/2191": {
+      "page_count": 8,
+      "pages": {
+        "1": {
+          "max_error": 1228.929,
+          "max_error_by_dpi": {
+            "288": 7231.105
+          },
+          "reason": "Known pinned-native AGG image-blend omission. Two spot-colour ramps with overprint should use Darken; native overwrites the first ramp with Normal, producing the lighter title background. Rust preserves Darken, independently covered by CoverageCompositing.SpotAndCmykImageOverprintUsesDarkenOnlyUnderItsRequiredState; see docs/capi-known-native-differences.md."
+        }
+      }
+    },
+    "hayro/pdfbox/2192": {
+      "page_count": 24
+    },
+    "hayro/pdfbox/2202": {
+      "page_count": 12
+    },
+    "hayro/pdfbox/2204": {
+      "page_count": 26
+    },
+    "hayro/pdfbox/2216": {
+      "page_count": 9
+    },
+    "hayro/pdfbox/2217": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2228": {
+      "page_count": 6
+    },
+    "hayro/pdfbox/2241": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2243": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2244": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2265": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 47.108,
+          "max_error_by_dpi": {
+            "288": 199.125
+          },
+          "reason": "The embedded Lab ICC profile is byte-identical to pdfbox/5464. Pinned native rejects its Lab input format and uses the approximate alternate Lab conversion; Rust evaluates the embedded profile. See Images.FractionalLabSpotTintsUseTheEmbeddedProfile and docs/capi-known-native-differences.md."
+        }
+      }
+    },
+    "hayro/pdfbox/2296": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/2315": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2339": {
+      "page_count": 28
+    },
+    "hayro/pdfbox/2344": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2345": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2347": {
+      "page_count": 8
+    },
+    "hayro/pdfbox/2350": {
+      "page_count": 7
+    },
+    "hayro/pdfbox/2359": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2363": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2385_1": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/2385_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2385_3": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/2385_4": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/239": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2436": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2445": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2448": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/2452": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2487": {
+      "page_count": 22
+    },
+    "hayro/pdfbox/2489": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2495": {
+      "page_count": 5
+    },
+    "hayro/pdfbox/2499": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2540": {
+      "page_count": 19
+    },
+    "hayro/pdfbox/2555": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2558": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2560": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/2561": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/2585": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/2598": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2599": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/2607": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/2658": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2660": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2681": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2726": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2733": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2737": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2778": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/2779": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/2794": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/2814": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2829": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/2884": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2906": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/2909": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2957": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2958": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2959": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2966": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/2990": {
+      "page_count": 9
+    },
+    "hayro/pdfbox/3000_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3000_10": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3000_11": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3000_12": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3000_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3000_3": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3000_4": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3000_5": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3000_6": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3000_7": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.357
+          },
+          "reason": "Single-row coverage at a blue artwork boundary in the JPX-based cover. The photograph and title retain their geometry and colour; extracted characters and boxes agree."
+        }
+      }
+    },
+    "hayro/pdfbox/3000_8": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3000_9": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/301": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3031": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3041": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3045": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/31": {
+      "page_count": 5
+    },
+    "hayro/pdfbox/3107": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3118": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3182": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3185": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/3221": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3223": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3246": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/3273": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/3293": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3297": {
+      "page_count": 18
+    },
+    "hayro/pdfbox/3304": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3369": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3400": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3423": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/3445": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3446": {
+      "page_count": 34
+    },
+    "hayro/pdfbox/3456": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3457": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 1851.048,
+          "reason": "Transformed bitmap outer-edge coverage, primarily the thin right page border in the slide background. Isolated non-text rendering reproduces it; text positions and the slide artwork visually agree."
+        }
+      }
+    },
+    "hayro/pdfbox/3465": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3475": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3491": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3499": {
+      "page_count": 8
+    },
+    "hayro/pdfbox/3500": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3501": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3505": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3516": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3526": {
+      "page_count": 23
+    },
+    "hayro/pdfbox/3558": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3562": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3564": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3579": {
+      "page_count": 16
+    },
+    "hayro/pdfbox/3591": {
+      "page_count": 48
+    },
+    "hayro/pdfbox/3592": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3615": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3622": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3627": {
+      "page_count": 8
+    },
+    "hayro/pdfbox/3640": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3647": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3654": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3657": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3661": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3670": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3676": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3678": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/3686": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3693": {
+      "page_count": 8
+    },
+    "hayro/pdfbox/3694": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3702": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3703": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 185.1,
+          "max_error_by_dpi": {
+            "288": 347.165
+          },
+          "reason": "Damaged CAD content contains joined numeric/operator tokens such as l346.21 and 364.60044346.21. Native, Rust and MuPDF recover different stray strokes; the central drawing and labels remain present. Bound this malformed-input recovery rather than reproducing native off-page line artifacts."
+        }
+      }
+    },
+    "hayro/pdfbox/3717": {
+      "page_count": 19
+    },
+    "hayro/pdfbox/3724": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3725_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3725_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3728": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3731": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3754": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3755": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3769": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3783": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3784": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3797": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3798": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs.",
+      "rejected_pages": {
+        "0": "Both engines reject this page in the pinned malformed fixture."
+      }
+    },
+    "hayro/pdfbox/3813": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3874": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/390": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3909_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3909_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3922": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3923": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3928": {
+      "page_count": 6
+    },
+    "hayro/pdfbox/3932": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3933": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/3934": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/3937": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.239
+          },
+          "reason": "Unembedded Arial/Trebuchet glyph-outline coverage, strongest at an @ curve. Both engines recover the same unusual overlapping layout; all extracted characters and boxes agree."
+        }
+      }
+    },
+    "hayro/pdfbox/3948": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/3956": {
+      "page_count": 6
+    },
+    "hayro/pdfbox/3965": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3977": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3979": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/3990": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/4001": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4006": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4010": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4015": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4059": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/4060": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4064": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4077": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4081": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4085": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4093": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4110": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/4114": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 9.041
+          },
+          "reason": "Low-level quantization/resampling in the ICC JPEG photograph. The strongest connected residual peaks at four channel levels; the feather, stones, text and crop marks remain present, and extracted characters/positions agree."
+        }
+      }
+    },
+    "hayro/pdfbox/4149": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4200": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4201": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4211": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4217_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4217_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4218": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4228": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4245": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 4.889
+          },
+          "reason": "Coverage/resampling along an outlined cartoon edge in the Book Fair poster. The strongest connected residual spans two pixel rows; artwork and background colours remain present, and all 241 extracted characters and boxes agree."
+        }
+      }
+    },
+    "hayro/pdfbox/4246": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4268": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4277": {
+      "page_count": 17
+    },
+    "hayro/pdfbox/4278": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4279": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4320": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/4326": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4328": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4330": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/4395_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4395_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4464": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4468_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4468_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4468_3": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4468_4": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4468_5": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4470": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4474": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4484": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4503": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4516_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4516_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4517": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4518": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4520": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4527": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4530": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/454": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4559": {
+      "page_count": 84
+    },
+    "hayro/pdfbox/4561": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/457": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4598": {
+      "page_count": 16
+    },
+    "hayro/pdfbox/4607": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/462": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4627": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4661": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/4674": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/4676": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 5.093,
+          "max_error_by_dpi": {
+            "288": 52.795
+          },
+          "reason": "Small clipped-glyph coverage differences in the white Chinese heading over the photograph. Text-only and non-text-only controls each pass; no missing heading or changed photograph."
+        }
+      }
+    },
+    "hayro/pdfbox/4683": {
+      "page_count": 9
+    },
+    "hayro/pdfbox/4719": {
+      "page_count": 8
+    },
+    "hayro/pdfbox/4753": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 210.12,
+          "max_error_by_dpi": {
+            "288": 840.309
+          },
+          "reason": "Damaged embedded CFF FontMatrix: two real values begin with an exponent but no mantissa. Native omits g183 list bullets; Rust uses a fallback matrix and draws them. Fixing only those two encoded nibbles makes both draw bullets and pass (0.082). Existing damaged-font recovery is accepted while the page remains legible."
+        }
+      }
+    },
+    "hayro/pdfbox/4778": {
+      "page_count": 3,
+      "pages": {
+        "0": {
+          "max_error": 265223.535,
+          "max_error_by_dpi": {
+            "288": 1048404.614
+          },
+          "reason": "Damaged CAD content has invalid cm operands such as 594.481.5. Both engines recover distorted green paths, but differ in safety-clamped long strokes and diagonals; the grid and main drawing remain present. Accept reasonable bounded malformed-input recovery, not a general path-rendering allowance."
+        }
+      }
+    },
+    "hayro/pdfbox/4787": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/479": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4793": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4798": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4800": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/4801": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4820": {
+      "page_count": 20
+    },
+    "hayro/pdfbox/4831": {
+      "page_count": 9
+    },
+    "hayro/pdfbox/4832": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4850": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4851": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4858": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4863": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/488": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/490": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4900": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/491": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4913": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4915": {
+      "page_count": 264
+    },
+    "hayro/pdfbox/4917": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4927": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.784,
+          "max_error_by_dpi": {
+            "288": 5.511
+          },
+          "reason": "Text rasterization/quantization. All 323 used Unicode/font outline controls agree within 0.000163 em after canonicalizing contour closure; character boxes and text agree. The remaining connected residual is glyph-edge coverage."
+        }
+      }
+    },
+    "hayro/pdfbox/4929": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4934_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4934_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/4938": {
+      "page_count": 2,
+      "pages": {
+        "0": {
+          "max_error": 4.075,
+          "reason": "Bitmap resampling/edge quantization in the screen illustrations. The non-text control retains the small residual; text, character boxes and visible illustration geometry agree."
+        }
+      }
+    },
+    "hayro/pdfbox/4949": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/498": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/4996": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.387
+          },
+          "reason": "Single-pixel coverage along a white heading stem on the dark infographic background. Extracted characters and boxes agree; no missing text, icon or changed flat background."
+        }
+      }
+    },
+    "hayro/pdfbox/5038": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/5054": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5074_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5074_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5079": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/509": {
+      "page_count": 6
+    },
+    "hayro/pdfbox/5097": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/5115": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5134": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5140": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5250_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5250_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5251": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5260": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5275": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5283": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5294": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5296": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5302": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5307": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5310": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5337": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5370_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5370_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5370_3": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5370_4": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5386": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/539": {
+      "page_count": 9,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.426
+          },
+          "reason": "Single-pixel coverage along a large heading stem in the survey form. Extracted characters and boxes agree within 0.000008 point; fields and rules retain their positions."
+        }
+      }
+    },
+    "hayro/pdfbox/5403": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/541": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/5414": {
+      "page_count": 6
+    },
+    "hayro/pdfbox/5416": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/5418": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5419": {
+      "page_count": 7
+    },
+    "hayro/pdfbox/5442": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5447": {
+      "page_count": 24,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 4.865
+          },
+          "reason": "Page-edge/resampling coverage in the display advertisement, strongest on a one-pixel strip at the left page edge. Product artwork and labels remain present; extracted characters and boxes agree."
+        },
+        "1": {
+          "max_error": 77.682,
+          "reason": "Small non-text coverage/resampling differences around outlined labels in the display-ad artwork. The non-text control reproduces the residual; text and character boxes agree. No missing product/label or broad colour cast."
+        }
+      }
+    },
+    "hayro/pdfbox/5461": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/5463": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/5464": {
+      "page_count": 102,
+      "pages": {
+        "2": {
+          "max_error": 334.582,
+          "max_error_by_dpi": {
+            "288": 1481.848
+          },
+          "reason": "Pinned native PDFium rejects Lab ICC input and uses its approximate alternate Lab conversion. Rust preserves fractional Lab and matches a LittleCMS-converted RGB control with zero residual at 144 DPI; see Images.FractionalLabSpotTintsUseTheEmbeddedProfile and docs/capi-known-native-differences.md."
+        }
+      }
+    },
+    "hayro/pdfbox/5484": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/5488": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/5491": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/552": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5553": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5567": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5597_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5597_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5597_3": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5604": {
+      "page_count": 4
+    },
+    "hayro/pdfbox/5611": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5616": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/5635": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5651": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5657": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 151887.384,
+          "max_error_by_dpi": {
+            "288": 633527.645
+          },
+          "reason": "Embedded JPX opacity: native premattes colour onto white and applies alpha again, whereas Rust applies alpha once. Independent C API controls and MuPDF agree with the Rust policy; see docs/capi-known-native-differences.md#embedded-jpx-opacity-and-advanced-codec-recovery."
+        }
+      }
+    },
+    "hayro/pdfbox/5665": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5702": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5704": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5706": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/5738": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/5778": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 755.848,
+          "max_error_by_dpi": {
+            "288": 3074.479
+          },
+          "reason": "The spot-colour image uses the identical Lab ICC profile as pdfbox/5464. Pinned native falls back to approximate alternate Lab; Rust evaluates fractional ICC Lab directly. See Images.FractionalLabSpotTintsUseTheEmbeddedProfile and docs/capi-known-native-differences.md."
+        }
+      }
+    },
+    "hayro/pdfbox/5782": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs."
+    },
+    "hayro/pdfbox/5795": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5802": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5829": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5839": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/584": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5876": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5910": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5926": {
+      "page_count": 13
+    },
+    "hayro/pdfbox/5952": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5957": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/5963": {
+      "page_count": 3
+    },
+    "hayro/pdfbox/5987": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5989": {
+      "page_count": 8
+    },
+    "hayro/pdfbox/5992_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/5992_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/6008": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/6024": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/615_1": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/615_2": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/617": {
+      "page_count": 25
+    },
+    "hayro/pdfbox/624": {
+      "page_count": 8
+    },
+    "hayro/pdfbox/647": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/660": {
+      "page_count": 11
+    },
+    "hayro/pdfbox/682": {
+      "page_count": 7
+    },
+    "hayro/pdfbox/692": {
+      "page_count": 23
+    },
+    "hayro/pdfbox/697": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/767": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/795": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/813": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/833": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/905": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/907": {
+      "page_count": 36
+    },
+    "hayro/pdfbox/918": {
+      "page_count": 2
+    },
+    "hayro/pdfbox/921": {
+      "page_count": 1
+    },
+    "hayro/pdfbox/994": {
+      "page_count": 1
+    },
+    "hayro/pdfium/346598551": {
+      "page_count": 1
+    },
+    "hayro/pdfium/361712478": {
+      "page_count": 1
+    },
+    "hayro/pdfium/362796158": {
+      "page_count": 1
+    },
+    "hayro/pdfium/364635887": {
+      "page_count": 1
+    },
+    "hayro/pdfium/372749732": {
+      "page_count": 1
+    },
+    "hayro/pdfium/373764900": {
+      "page_count": 3
+    },
+    "hayro/pdfium/380018383": {
+      "page_count": 1
+    },
+    "hayro/pdfium/383375931": {
+      "page_count": 4
+    },
+    "hayro/pdfium/391275083": {
+      "page_count": 3
+    },
+    "hayro/pdfium/398193019": {
+      "page_count": 1
+    },
+    "hayro/pdfium/399937354": {
+      "page_count": 2
+    },
+    "hayro/pdfium/40643649": {
+      "page_count": 1
+    },
+    "hayro/pdfium/40643657": {
+      "page_count": 1
+    },
+    "hayro/pdfium/40643674": {
+      "page_count": 7,
+      "pages": {
+        "5": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.137
+          },
+          "reason": "Glyph-edge coverage around the email-address @ curve. Extracted characters and boxes agree; the report text and signature seal retain their layout."
+        }
+      }
+    },
+    "hayro/pdfium/40643678": {
+      "page_count": 6
+    },
+    "hayro/pdfium/412524377": {
+      "page_count": 2
+    },
+    "hayro/pdfium/413597066": {
+      "page_count": 1
+    },
+    "hayro/pdfium/413635900_1": {
+      "page_count": 1
+    },
+    "hayro/pdfium/413635900_2": {
+      "page_count": 1
+    },
+    "hayro/pdfium/413635900_3": {
+      "page_count": 1
+    },
+    "hayro/pdfium/413635900_4": {
+      "page_count": 1
+    },
+    "hayro/pdfium/413635900_5": {
+      "page_count": 1
+    },
+    "hayro/pdfium/413635900_6": {
+      "page_count": 1
+    },
+    "hayro/pdfium/413635900_7": {
+      "page_count": 1
+    },
+    "hayro/pdfium/414588524": {
+      "page_count": 5
+    },
+    "hayro/pdfium/41480155": {
+      "page_count": 1
+    },
+    "hayro/pdfium/41480161": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.744,
+          "reason": "Antialiased diagonal coverage at adjoining red/black/white pattern edges. Shapes, colours and tile positions agree; the residual is confined to their one-pixel boundaries."
+        }
+      }
+    },
+    "hayro/pdfium/41480171": {
+      "page_count": 1
+    },
+    "hayro/pdfium/41480189": {
+      "page_count": 2
+    },
+    "hayro/pdfium/42270032": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270065": {
+      "page_count": 506
+    },
+    "hayro/pdfium/42270075": {
+      "page_count": 3
+    },
+    "hayro/pdfium/42270083": {
+      "page_count": 3
+    },
+    "hayro/pdfium/42270133": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270187": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270333": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270339": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270389": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270415": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270450": {
+      "page_count": 26,
+      "pages": {
+        "2": {
+          "max_error": 19.127,
+          "max_error_by_dpi": {
+            "288": 97.41
+          },
+          "reason": "Synthetic Symbol bold/italic and standard-font rasterization. Removing text passes; Unicode sequences agree and canonical glyph outlines mostly agree within 0.000163 em. Synthetic contour closure/emboldening and hinted versus unhinted coverage remain bounded here; mathematical layout is retained."
+        },
+        "3": {
+          "max_error": 18.929,
+          "max_error_by_dpi": {
+            "288": 95.266
+          },
+          "reason": "Synthetic Symbol bold/italic and standard-font rasterization. Removing text passes; Unicode sequences agree and canonical glyph outlines mostly agree within 0.000163 em. Synthetic contour closure/emboldening and hinted versus unhinted coverage remain bounded here; mathematical layout is retained."
+        },
+        "10": {
+          "max_error": 22.848,
+          "max_error_by_dpi": {
+            "288": 215.441
+          },
+          "reason": "Synthetic Symbol bold/italic and standard-font rasterization. Removing text passes; Unicode sequences agree and canonical glyph outlines mostly agree within 0.000163 em. Synthetic contour closure/emboldening and hinted versus unhinted coverage remain bounded here; mathematical layout is retained."
+        },
+        "15": {
+          "max_error": 17.918,
+          "max_error_by_dpi": {
+            "288": 97.41
+          },
+          "reason": "Synthetic Symbol bold/italic and standard-font rasterization. Removing text passes; Unicode sequences agree and canonical glyph outlines mostly agree within 0.000163 em. Synthetic contour closure/emboldening and hinted versus unhinted coverage remain bounded here; mathematical layout is retained."
+        },
+        "17": {
+          "max_error": 30.553,
+          "max_error_by_dpi": {
+            "288": 191.437
+          },
+          "reason": "Synthetic Symbol bold/italic and standard-font rasterization. Removing text passes; Unicode sequences agree and canonical glyph outlines mostly agree within 0.000163 em. Synthetic contour closure/emboldening and hinted versus unhinted coverage remain bounded here; mathematical layout is retained."
+        },
+        "19": {
+          "max_error": 29.431,
+          "max_error_by_dpi": {
+            "288": 191.437
+          },
+          "reason": "Synthetic Symbol bold/italic and standard-font rasterization. Removing text passes; Unicode sequences agree and canonical glyph outlines mostly agree within 0.000163 em. Synthetic contour closure/emboldening and hinted versus unhinted coverage remain bounded here; mathematical layout is retained."
+        },
+        "20": {
+          "max_error": 18.878,
+          "max_error_by_dpi": {
+            "288": 155.209
+          },
+          "reason": "Synthetic Symbol bold/italic and standard-font rasterization. Removing text passes; Unicode sequences agree and canonical glyph outlines mostly agree within 0.000163 em. Synthetic contour closure/emboldening and hinted versus unhinted coverage remain bounded here; mathematical layout is retained."
+        },
+        "21": {
+          "max_error": 29.431,
+          "max_error_by_dpi": {
+            "288": 191.437
+          },
+          "reason": "Synthetic Symbol bold/italic and standard-font rasterization. Removing text passes; Unicode sequences agree and canonical glyph outlines mostly agree within 0.000163 em. Synthetic contour closure/emboldening and hinted versus unhinted coverage remain bounded here; mathematical layout is retained."
+        }
+      }
+    },
+    "hayro/pdfium/42270469": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 24.482
+          },
+          "reason": "Unembedded Symbol,Bold substitution: native paints Latin a, while Rust and independent MuPDF paint Greek alpha as required by Symbol encoding. Both engines extract alpha; retain Rust's Symbol glyph rather than matching native's Latin fallback."
+        }
+      }
+    },
+    "hayro/pdfium/42270494": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270499": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270527": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270551": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270553": {
+      "page_count": 3
+    },
+    "hayro/pdfium/42270577": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270598": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270610": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270625": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270645": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs."
+    },
+    "hayro/pdfium/42270651": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270655": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270659": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270669": {
+      "page_count": 2
+    },
+    "hayro/pdfium/42270676": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270705": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270709": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 18447.773,
+          "max_error_by_dpi": {
+            "288": 74149.382
+          },
+          "reason": "Damaged content contains malformed numeric tokens and a nearly singular text matrix [0 11 9552 9552.455 76.429 78] for partial sums for. Both engines parse the same matrix. Rust uses its intentional large-Y outline fallback; native uses bounded glyph bitmaps. Resulting giant text differs; accept bounded recovery of this damaged input, not a parser or colour regression."
+        }
+      }
+    },
+    "hayro/pdfium/42270730": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270732": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270743": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270774": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270784": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270786": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270788": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270887": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 172.691,
+          "max_error_by_dpi": {
+            "288": 439.877
+          },
+          "reason": "Embedded TrueType hinted-bitmap versus unhinted-outline behavior: native shows only My while Rust preserves My report name. All 14 characters/boxes agree; canonical glyph outlines agree within 0.000163 em apart from space representation. Preserve the readable Rust label rather than reproducing native glyph loss."
+        }
+      }
+    },
+    "hayro/pdfium/42270892": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270899": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270900": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270904_1": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270904_2": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270912": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270913": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270926": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270931": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270933": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270942": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270955": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270959": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs."
+    },
+    "hayro/pdfium/42270962": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270973": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42270993": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271017": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271051": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271064": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271085": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271107": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271118": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271134": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271141": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271169": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271177": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271192": {
+      "page_count": 6
+    },
+    "hayro/pdfium/42271239": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271312": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271379": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271443": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271468": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271499": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271512": {
+      "page_count": 5
+    },
+    "hayro/pdfium/42271520": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271521": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271541": {
+      "page_count": 2
+    },
+    "hayro/pdfium/42271552": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271568": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 21.098,
+          "max_error_by_dpi": {
+            "288": 87.561
+          },
+          "reason": "Anisotropically scaled Form strokes: native drops most horizontal grid lines while Rust retains the encoded horizontal and vertical lines. The source Form contains both directions; repeated transforms scale one axis by 816/1056. Bound this renderer coverage difference rather than deleting the retained grid."
+        }
+      }
+    },
+    "hayro/pdfium/42271601": {
+      "page_count": 3
+    },
+    "hayro/pdfium/42271606": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271608_1": {
+      "expect": "reject",
+      "reason": "Encrypted fixture has no password in the pinned Hayro case; both engines reject it."
+    },
+    "hayro/pdfium/42271608_2": {
+      "expect": "reject",
+      "reason": "Encrypted fixture has no password in the pinned Hayro case; both engines reject it."
+    },
+    "hayro/pdfium/42271609": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271613": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271618": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271663": {
+      "page_count": 28
+    },
+    "hayro/pdfium/42271676": {
+      "page_count": 10
+    },
+    "hayro/pdfium/42271713": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271823": {
+      "page_count": 168
+    },
+    "hayro/pdfium/42271895": {
+      "page_count": 2
+    },
+    "hayro/pdfium/42271921": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271935": {
+      "page_count": 6
+    },
+    "hayro/pdfium/42271938": {
+      "page_count": 13
+    },
+    "hayro/pdfium/42271946": {
+      "page_count": 1
+    },
+    "hayro/pdfium/42271956": {
+      "page_count": 1
+    },
+    "hayro/pdfium/467170761": {
+      "page_count": 1
+    },
+    "hayro/pdfium/471224081": {
+      "page_count": 1
+    },
+    "hayro/pdfium/471404119": {
+      "page_count": 1
+    },
+    "hayro/pdfium/479025308": {
+      "page_count": 1
+    },
+    "hayro/pdfium/487746367": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs.",
+      "rejected_pages": {
+        "7": "Both engines reject this page in the pinned malformed fixture."
+      }
+    },
+    "hayro/pdfjs/20130226130259": {
+      "page_count": 5
+    },
+    "hayro/pdfjs/ContentStreamNoCycleType3insideType3": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/High-Pressure-Measurement-WP-001287": {
+      "page_count": 4,
+      "pages": {
+        "2": {
+          "max_error": 109.048,
+          "reason": "Thin coloured chart strokes and grid borders have differing edge coverage. Non-text-only rendering reproduces the residual; text and boxes agree, and chart geometry/data/labels visually agree."
+        }
+      }
+    },
+    "hayro/pdfjs/IdentityToUnicodeMap_charCodeOf": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/IndexedCS_negative_and_high": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/ShowText-ShadingPattern": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 5.0
+          },
+          "reason": "Single-pixel glyph-stem coverage in the text/shading demonstration. Extracted characters and boxes agree; the gradient and all four text rows remain present."
+        }
+      }
+    },
+    "hayro/pdfjs/Type3WordSpacing": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/ZapfDingbats": {
+      "page_count": 2,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.814
+          },
+          "reason": "Coverage on the two horizontal edges of the character-set heading rule. All extracted characters and boxes agree; dingbat symbols and character-table geometry remain present."
+        },
+        "1": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.814
+          },
+          "reason": "Coverage on the two horizontal edges of the character-set heading rule. All extracted characters and boxes agree; dingbat symbols and character-table geometry remain present."
+        }
+      }
+    },
+    "hayro/pdfjs/aboutstacks": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/alphatrans": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/arabiccidtruetype": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bigboundingbox": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/boundingBox_invalid": {
+      "invalid_geometry": {
+        "2": "The third page has invalid non-positive dimensions in both engines."
+      }
+    },
+    "hayro/pdfjs/bpl13210": {
+      "page_count": 370
+    },
+    "hayro/pdfjs/bug1011159": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1020858": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1027533": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1028735": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1037816": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1046314": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1050040": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1057544": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1064894": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1065245": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1068432": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1072164": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1077808": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1108301": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1108753": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1123803": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1130815": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/bug1132849": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1140761": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1142033": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1146106": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1151216": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1157493": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1175962": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1186827": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1199237": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/bug1200096": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1245391": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1250079": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs."
+    },
+    "hayro/pdfjs/bug1252420": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1260585": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1292316": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1308536": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1337429": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1354114": {
+      "page_count": 30
+    },
+    "hayro/pdfjs/bug1365930": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1392647": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1393476": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1425312": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/bug1443140": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/bug1473809": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1513120": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1529502": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1539074": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1539074_1": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1627427": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1650302": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 83.383,
+          "max_error_by_dpi": {
+            "288": 270.57
+          },
+          "reason": "Known deferred malformed-SFNT recovery: unsorted loca offsets cause different glyph/component recovery in FreeType and Fontations. Canonical available outlines agree, but bitmap glyph recovery differs. See TODO.md; this does not claim the malformed font is fixed."
+        }
+      }
+    },
+    "hayro/pdfjs/bug1652224": {
+      "page_count": 6
+    },
+    "hayro/pdfjs/bug1659412": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1671312_ArialNarrow": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1671312_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1703683": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1721218_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1727053": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1734802": {
+      "page_count": 13
+    },
+    "hayro/pdfjs/bug1743245": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1749563": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/bug1753075": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/bug1753983": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1755507": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1782186": {
+      "expect": "reject",
+      "reason": "Despite the supplied Hello password, malformed empty page-tree objects cause both engines to reject this fixture."
+    },
+    "hayro/pdfjs/bug1791583": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1795263": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1799927": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1820909": {
+      "page_count": 54,
+      "pages": {
+        "1": {
+          "max_error": 8.343,
+          "reason": "CJK glyph rasterization and quadratic-to-cubic rounding. Removing text passes, all Unicode sequences/boxes agree, and canonical outline controls agree within 0.000324 em. Bound the residual coverage without treating missing characters as normal."
+        },
+        "3": {
+          "max_error": 7.488,
+          "reason": "CJK glyph rasterization and quadratic-to-cubic rounding. Removing text passes, all Unicode sequences/boxes agree, and canonical outline controls agree within 0.000324 em. Bound the residual coverage without treating missing characters as normal."
+        },
+        "7": {
+          "max_error": 8.604,
+          "reason": "CJK glyph rasterization and quadratic-to-cubic rounding. Removing text passes, all Unicode sequences/boxes agree, and canonical outline controls agree within 0.000324 em. Bound the residual coverage without treating missing characters as normal."
+        },
+        "8": {
+          "max_error": 2.064,
+          "reason": "CJK glyph rasterization and quadratic-to-cubic rounding. Removing text passes, all Unicode sequences/boxes agree, and canonical outline controls agree within 0.000324 em. Bound the residual coverage without treating missing characters as normal."
+        }
+      }
+    },
+    "hayro/pdfjs/bug1826783": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1898802": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/bug1899804": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1901253": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1903731": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1905623": {
+      "page_count": 203
+    },
+    "hayro/pdfjs/bug1919513": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1942064": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug1946953": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/bug1953099": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug766138": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug810214": {
+      "page_count": 107
+    },
+    "hayro/pdfjs/bug816075": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug847420": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug850854": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug852992": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug854315": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug857031": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/bug858128": {
+      "page_count": 9
+    },
+    "hayro/pdfjs/bug859204": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug860632": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug864847": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug865858": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug866395": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug878026": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug878194": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/bug887152": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/bug888437": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug889327": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/bug893730": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug894572": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug898853": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug900822": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug903856": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug911034": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug920426": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug921409": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug921760": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/bug946506": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/bug951051": {
+      "page_count": 35
+    },
+    "hayro/pdfjs/bug956965": {
+      "page_count": 56
+    },
+    "hayro/pdfjs/cable": {
+      "page_count": 8
+    },
+    "hayro/pdfjs/calgray": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/calrgb": {
+      "page_count": 17
+    },
+    "hayro/pdfjs/ccitt_EndOfBlock_false": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/cid_cff": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/clippath": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/close-path-bug": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/cmykjpeg": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/colorkeymask": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/colorspace_atan": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/colorspace_cos": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/colorspace_sin": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/devicen": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/endchar": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/extgstate": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/filled-background-range": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/font_ascent_descent": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/franz": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/franz_2": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/freeculture": {
+      "page_count": 352,
+      "pages": {
+        "2": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 3.495
+          },
+          "reason": "Coverage along existing narrow vertical bars in the footer barcode artwork. The strongest residual spans only two pixel columns; all bars remain present and extracted text/boxes agree."
+        },
+        "3": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 3.495
+          },
+          "reason": "Coverage along existing narrow vertical bars in the footer barcode artwork. The strongest residual spans only two pixel columns; all bars remain present and extracted text/boxes agree."
+        },
+        "4": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 3.636
+          },
+          "reason": "Coverage along existing narrow vertical bars in the footer barcode artwork. The strongest residual spans only two pixel columns; all bars remain present and extracted text/boxes agree."
+        }
+      }
+    },
+    "hayro/pdfjs/geothermal": {
+      "page_count": 372
+    },
+    "hayro/pdfjs/german-umlaut": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/gesamt": {
+      "page_count": 408
+    },
+    "hayro/pdfjs/glyph_accent": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/gradientfill": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/helloworld-bad": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/html5checker": {
+      "page_count": 122
+    },
+    "hayro/pdfjs/i9-pdf": {
+      "page_count": 5
+    },
+    "hayro/pdfjs/ichiji": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/images_1bit_grayscale": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/intelisa": {
+      "page_count": 424
+    },
+    "hayro/pdfjs/isssue18194": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1002": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue10084": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1010": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1015": {
+      "page_count": 9
+    },
+    "hayro/pdfjs/issue10326": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs.",
+      "rejected_pages": {
+        "0": "Both engines reject this page in the pinned malformed fixture."
+      }
+    },
+    "hayro/pdfjs/issue10339": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue10388": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue10402": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue10438": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1049": {
+      "page_count": 13
+    },
+    "hayro/pdfjs/issue10491": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue10519": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue10542": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1055": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue10572": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue10614": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue10665": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue10717": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue10880": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2465113.982,
+          "max_error_by_dpi": {
+            "288": 9892280.146
+          },
+          "reason": "Malformed JPEG declares 65280 rows but its PDF image dictionary and actual entropy data have 3712. Existing Rust dimension repair renders the scan; native mostly paints gray. Changing only the JPEG height makes native and Rust pixel-identical at 144 DPI."
+        }
+      }
+    },
+    "hayro/pdfjs/issue1096": {
+      "page_count": 24
+    },
+    "hayro/pdfjs/issue10989": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 6391586.324,
+          "max_error_by_dpi": {
+            "288": 26197481.314
+          },
+          "reason": "Malformed JPEG declares 60000 rows instead of the actual/PDF 6304. Existing Rust dimension repair renders the scan; native mostly paints gray. A JPEG-height-only control makes both engines pixel-identical at 144 DPI."
+        }
+      }
+    },
+    "hayro/pdfjs/issue11004": {
+      "page_count": 8
+    },
+    "hayro/pdfjs/issue11045": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11052": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11088": {
+      "page_count": 5
+    },
+    "hayro/pdfjs/issue11124": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11131_reduced": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 89.698,
+          "max_error_by_dpi": {
+            "288": 205.246
+          },
+          "reason": "Known deferred malformed-SFNT recovery: unsorted loca offsets. Available outline controls agree, but FreeType recovers bitmap glyph components differently from Fontations. See TODO.md; this is a bounded existing damaged-font discrepancy, not a fix."
+        }
+      }
+    },
+    "hayro/pdfjs/issue11139": {
+      "page_count": 19
+    },
+    "hayro/pdfjs/issue11144_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11150": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11230": {
+      "page_count": 139
+    },
+    "hayro/pdfjs/issue11242": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1127": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue11279": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11287": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue11306": {
+      "page_count": 6
+    },
+    "hayro/pdfjs/issue1133": {
+      "page_count": 48,
+      "pages": {
+        "1": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 5.382
+          },
+          "reason": "Single-row coverage at the bottom of the orange timetable sidebar. The schedule cells and text retain their positions; all extracted characters and boxes agree."
+        }
+      }
+    },
+    "hayro/pdfjs/issue11330": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue11385": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11403": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11451": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11473": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11477": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11526": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue11532": {
+      "page_count": 54
+    },
+    "hayro/pdfjs/issue11549": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1155": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11555": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11578": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11651-eq": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11678": {
+      "page_count": 8
+    },
+    "hayro/pdfjs/issue1169": {
+      "page_count": 7,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.263
+          },
+          "reason": "Text-outline coverage around an @ curve in the paper heading. All 6,112 extracted characters and their boxes agree; no missing text or changed paper layout."
+        }
+      }
+    },
+    "hayro/pdfjs/issue11697": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1171": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11718": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11740": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11768": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 96.631,
+          "max_error_by_dpi": {
+            "288": 457.678
+          },
+          "reason": "Malformed embedded UTF-8 CMap: single-byte cidchar entries lie outside its declared multibyte codespaces, and native exposes a non-Unicode 0xe0e0e0 value. Rust declines those mappings; the three-glyph malformed-input recovery differs."
+        }
+      }
+    },
+    "hayro/pdfjs/issue11794": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11871": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue11915": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue11931": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12007_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12010": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12120": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12213": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12213.1": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12294-print": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue12295": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 3338.177,
+          "max_error_by_dpi": {
+            "288": 7740.553
+          },
+          "reason": "Native omits the final vector waveform strips that Rust and independent MuPDF retain. Both engines parse all 65,872 paths; the difference is confined to the lower graph section. Preserve the waveform content rather than matching the blank native area."
+        }
+      }
+    },
+    "hayro/pdfjs/issue12306": {
+      "page_count": 23
+    },
+    "hayro/pdfjs/issue1233": {
+      "page_count": 13
+    },
+    "hayro/pdfjs/issue12392": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue12399": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12402": {
+      "page_count": 8
+    },
+    "hayro/pdfjs/issue12418": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1243": {
+      "page_count": 18
+    },
+    "hayro/pdfjs/issue12533": {
+      "page_count": 24
+    },
+    "hayro/pdfjs/issue1257": {
+      "page_count": 29
+    },
+    "hayro/pdfjs/issue12579": {
+      "page_count": 28
+    },
+    "hayro/pdfjs/issue12705": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12714": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue12752": {
+      "page_count": 5
+    },
+    "hayro/pdfjs/issue12798": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12810": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12823": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue12841": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13051": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1309": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13107": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13130": {
+      "page_count": 5
+    },
+    "hayro/pdfjs/issue13132": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue13147": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1317": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue13193": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13211": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13242": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13316": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13325": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13343": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue13372": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13433": {
+      "page_count": 103
+    },
+    "hayro/pdfjs/issue13447": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1350": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue13561": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 9.67,
+          "max_error_by_dpi": {
+            "288": 13.872
+          },
+          "reason": "Resampling/edge coverage in the single rasterized flow diagram. Isolated non-text rendering reproduces the residual; all arrows, labels and boxes remain visibly present."
+        }
+      }
+    },
+    "hayro/pdfjs/issue13610": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13626": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13783": {
+      "page_count": 15
+    },
+    "hayro/pdfjs/issue13794": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue13851": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13916": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13931": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13971": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue13999": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue14117": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14164": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14165": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1419": {
+      "page_count": 28
+    },
+    "hayro/pdfjs/issue14200": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14203": {
+      "page_count": 16
+    },
+    "hayro/pdfjs/issue14256": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14269": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14297": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14462": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1453": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14618": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1466": {
+      "page_count": 9
+    },
+    "hayro/pdfjs/issue14685": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue14724": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14814": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue14821": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14881": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14917": {
+      "page_count": 6
+    },
+    "hayro/pdfjs/issue14953": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14982": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue14990": {
+      "page_count": 33
+    },
+    "hayro/pdfjs/issue15033": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue15044": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.994
+          },
+          "reason": "Coverage along an existing glyph stem in the invoice/remittance heading. Extracted characters and boxes agree within 0.000031 point; fields, barcode and amounts retain their geometry."
+        }
+      }
+    },
+    "hayro/pdfjs/issue1512": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue15139": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue15220": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue15289": {
+      "page_count": 5,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 3.977
+          },
+          "reason": "Single-pixel coverage along a chapter-title glyph stem. Extracted characters and boxes agree within 0.000031 point; chapter title and body text remain present."
+        }
+      }
+    },
+    "hayro/pdfjs/issue15292": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 10.083,
+          "max_error_by_dpi": {
+            "288": 81.904
+          },
+          "reason": "Malformed embedded Encoding CMap: <00A0> is explicitly mapped to CID 98 but lies outside the declared <0001> <0192> codespace (A0 exceeds the second-byte upper bound 92), and no other codespace accepts it. Rust rejects the code and draws CID 0 .notdef marks at two footer spaces; native partial-prefix recovery leaves them blank. Malformed-CMap recovery remains deferred; this is not an AA difference or missing raw CID Type 1 outline support. See docs/fonts.md#malformed-embedded-cmaps."
+        }
+      }
+    },
+    "hayro/pdfjs/issue1536": {
+      "page_count": 54
+    },
+    "hayro/pdfjs/issue15441": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue15443": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue15492": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 10448045.77,
+          "max_error_by_dpi": {
+            "288": 42047053.962
+          },
+          "reason": "Malformed JPEG declares 65000 rows instead of the actual/PDF 10320. Existing Rust dimension repair renders the scan; native mostly paints gray. A JPEG-height-only control makes both engines pixel-identical at 144 DPI."
+        }
+      }
+    },
+    "hayro/pdfjs/issue15559": {
+      "page_count": 8
+    },
+    "hayro/pdfjs/issue15577": {
+      "page_count": 4,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 35.194
+          },
+          "reason": "Single-row coverage on a 2,000-pixel horizontal form rule. Its connected residual peaks at about 5.5 channel levels; the complete rule and table borders remain present, with matching extracted text/positions."
+        }
+      }
+    },
+    "hayro/pdfjs/issue15594": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue15604": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue15716": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue15784": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue15833": {
+      "page_count": 9
+    },
+    "hayro/pdfjs/issue15893_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue15942": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1597": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue15977": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16038": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16081": {
+      "page_count": 8
+    },
+    "hayro/pdfjs/issue16114": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16127": {
+      "page_count": 12
+    },
+    "hayro/pdfjs/issue16263": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16287": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1629": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16300": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16395": {
+      "page_count": 5
+    },
+    "hayro/pdfjs/issue16432": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16444": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16454": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue16464": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16485": {
+      "page_count": 636
+    },
+    "hayro/pdfjs/issue16538": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1655": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1658": {
+      "page_count": 21
+    },
+    "hayro/pdfjs/issue16742": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16759": {
+      "page_count": 12
+    },
+    "hayro/pdfjs/issue16782": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 151887.384,
+          "max_error_by_dpi": {
+            "288": 633527.645
+          },
+          "reason": "Duplicate of pdfbox/5657: embedded JPX opacity is applied twice in native, once in Rust; independent C API controls cover this native defect. See docs/capi-known-native-differences.md#embedded-jpx-opacity-and-advanced-codec-recovery."
+        }
+      }
+    },
+    "hayro/pdfjs/issue16839": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue16843": {
+      "page_count": 6
+    },
+    "hayro/pdfjs/issue1685": {
+      "page_count": 84
+    },
+    "hayro/pdfjs/issue16863": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1687": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue17061": {
+      "page_count": 102
+    },
+    "hayro/pdfjs/issue17065": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1709": {
+      "page_count": 32
+    },
+    "hayro/pdfjs/issue17147": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue17169": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue17190": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue17190_1": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1721": {
+      "page_count": 36,
+      "pages": {
+        "0": {
+          "max_error": 29.287,
+          "reason": "Small image/border coverage differences in a web-page capture, strongest around the search-box border. Isolated non-text rendering reproduces the residual; all 67,735 text characters and their boxes agree."
+        }
+      }
+    },
+    "hayro/pdfjs/issue17289": {
+      "page_count": 6,
+      "pages": {
+        "1": {
+          "max_error": 17.622,
+          "reason": "JPX resolution hint intentionally follows the drawn image size in Rust, but native uses destination bitmap dimensions. Different wavelet levels at 144 DPI leave a narrow image-edge residual; see docs/image-decode-resolution.md. Higher-DPI output must be checked independently."
+        },
+        "3": {
+          "max_error": 20.27,
+          "reason": "JPX resolution hint intentionally follows the drawn image size in Rust, but native uses destination bitmap dimensions. Different wavelet levels at 144 DPI leave a narrow image-edge residual; see docs/image-decode-resolution.md. Higher-DPI output must be checked independently."
+        },
+        "5": {
+          "max_error": 10.955,
+          "reason": "JPX resolution hint intentionally follows the drawn image size in Rust, but native uses destination bitmap dimensions. Different wavelet levels at 144 DPI leave a narrow image-edge residual; see docs/image-decode-resolution.md. Higher-DPI output must be checked independently."
+        }
+      }
+    },
+    "hayro/pdfjs/issue17671": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 33.281,
+          "max_error_by_dpi": {
+            "288": 137.052
+          },
+          "reason": "Malformed embedded Calibri subset has an unsorted loca entry. Fontations and FreeType recover the affected glyph differently; remaining canonical outline controls agree. Accept bounded damaged-font recovery."
+        }
+      }
+    },
+    "hayro/pdfjs/issue17689": {
+      "page_count": 7
+    },
+    "hayro/pdfjs/issue17779": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue17794": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue17808": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue17848": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue17871_bottom_right": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue17871_top_right": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue17906": {
+      "page_count": 5
+    },
+    "hayro/pdfjs/issue17929": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1796": {
+      "page_count": 31
+    },
+    "hayro/pdfjs/issue18058": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18059": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1810": {
+      "page_count": 12
+    },
+    "hayro/pdfjs/issue18117": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18122": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18138": {
+      "page_count": 7
+    },
+    "hayro/pdfjs/issue18208": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18298": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue18444": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue18466": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18529": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18645": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18765": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1877": {
+      "page_count": 6
+    },
+    "hayro/pdfjs/issue18801": {
+      "page_count": 7
+    },
+    "hayro/pdfjs/issue18816": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18823": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18894": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18896": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18941": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18956": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue18973": {
+      "page_count": 45
+    },
+    "hayro/pdfjs/issue19022": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1905": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1912": {
+      "page_count": 19
+    },
+    "hayro/pdfjs/issue19176": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19182": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19234": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19319": {
+      "page_count": 42
+    },
+    "hayro/pdfjs/issue19326": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue1936": {
+      "page_count": 8
+    },
+    "hayro/pdfjs/issue19360": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19484_1": {
+      "expect": "reject",
+      "reason": "Encrypted fixture has no password in the pinned Hayro case; both engines reject it."
+    },
+    "hayro/pdfjs/issue19484_2": {
+      "expect": "reject",
+      "reason": "Encrypted fixture has no password in the pinned Hayro case; both engines reject it."
+    },
+    "hayro/pdfjs/issue19494": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue19510": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19532": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19550": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19611": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19633": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19695": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19800-eq": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19802": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19848": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue19971": {
+      "page_count": 6
+    },
+    "hayro/pdfjs/issue1998": {
+      "page_count": 8
+    },
+    "hayro/pdfjs/issue2006": {
+      "page_count": 9
+    },
+    "hayro/pdfjs/issue2017": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2074": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2098": {
+      "page_count": 158
+    },
+    "hayro/pdfjs/issue2099": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2128": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2139": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue215": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2176": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2177": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2386": {
+      "page_count": 141
+    },
+    "hayro/pdfjs/issue2391-1": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2391-2": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2442": {
+      "page_count": 8
+    },
+    "hayro/pdfjs/issue2462": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2531": {
+      "page_count": 119
+    },
+    "hayro/pdfjs/issue2537": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 367.019,
+          "max_error_by_dpi": {
+            "288": 1449.885
+          },
+          "reason": "Known deferred malformed-SFNT recovery: invalid indexToLocFormat changes glyph recovery between FreeType and Fontations. See TODO.md; the bounded exception records the current damaged-font result without claiming a fix."
+        }
+      }
+    },
+    "hayro/pdfjs/issue2618": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2642": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue269_1": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue269_2": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2761": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2770": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2799": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2829": {
+      "page_count": 30
+    },
+    "hayro/pdfjs/issue2833": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2840": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2856": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 144.144,
+          "max_error_by_dpi": {
+            "288": 622.845
+          },
+          "reason": "Bounded composed-LUT approximation at the v4 YCC-RGB gamut boundary: the affected decoded image differs from native by at most 5 channel levels; direct profile evaluation reduces that to 1, but costs 24.5 versus 3.7 ms/megapixel. Other decoded profile images differ by at most 1. Retain the fast path for this visually subtle chart; no missing image content."
+        }
+      }
+    },
+    "hayro/pdfjs/issue2881": {
+      "page_count": 12
+    },
+    "hayro/pdfjs/issue2884": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2931": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2948": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2956": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue2984": {
+      "page_count": 26
+    },
+    "hayro/pdfjs/issue3025": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3061": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3062": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue3064": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3115": {
+      "page_count": 171
+    },
+    "hayro/pdfjs/issue3188": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3205": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3207": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3263": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue3323": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3351.1": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3351.2": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3351.3": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3371": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3384": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3405": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3427": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue3438": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3458": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3521": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3566": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3584": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3591": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3666": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue3694": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3879": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3885": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3903": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue3928": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue3999": {
+      "page_count": 21
+    },
+    "hayro/pdfjs/issue4061": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4090": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue4227": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4244": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4246": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4260": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4304": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4379": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4398": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 62.28,
+          "max_error_by_dpi": {
+            "288": 246.076
+          },
+          "reason": "Malformed Calibri subset: final loca offset is 7996 but glyf table length is 7994. Composite digit 8 references final glyph 26; FreeType tolerates the truncated/padding mismatch, Fontations rejects that outline. Only this recovered digit differs; other canonical outlines agree within 0.000163 em. Changing only the glyf table length to include its existing two padding bytes restores the digit and gives zero residual at 144 DPI."
+        }
+      }
+    },
+    "hayro/pdfjs/issue4402": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4436": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4573": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4575": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4630": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4648": {
+      "page_count": 31
+    },
+    "hayro/pdfjs/issue4650": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4668": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4706": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4722": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4800": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4801": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4875": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4881": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4883": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue4890": {
+      "page_count": 2,
+      "pages": {
+        "0": {
+          "max_error": 3.738,
+          "max_error_by_dpi": {
+            "288": 18.134
+          },
+          "reason": "Low-level image colour/resampling quantization, now reduced by the CMYK correction. The strongest non-text residual peaks at 3 channel levels; text control passes and the page content visually agrees."
+        }
+      }
+    },
+    "hayro/pdfjs/issue4909": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue4926": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue4934": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5010": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5039": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5044": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5070": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5084": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5138": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5202": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5238": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5244": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5256": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5280": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5291": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5334": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5421": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5470": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5475": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5481": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue5501": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5540": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5549": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5564": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5567": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5592": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue5644": {
+      "page_count": 6,
+      "pages": {
+        "0": {
+          "max_error": 5.454,
+          "max_error_by_dpi": {
+            "288": 10.908
+          },
+          "reason": "Single-pixel horizontal-rule/rectangle coverage in clipped table borders. Non-text controls retain the residual; text-only controls pass and Unicode sequences/boxes agree. No missing table data."
+        },
+        "1": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 7.146
+          },
+          "reason": "Single-row coverage at a red diagram rectangle edge. All diagram parts remain present and extracted characters/boxes agree; other pages have independently isolated horizontal-rule coverage differences."
+        },
+        "2": {
+          "max_error": 11.35,
+          "max_error_by_dpi": {
+            "288": 26.513
+          },
+          "reason": "Single-pixel horizontal-rule/rectangle coverage in clipped table borders. Non-text controls retain the residual; text-only controls pass and Unicode sequences/boxes agree. No missing table data."
+        },
+        "4": {
+          "max_error": 26.725,
+          "max_error_by_dpi": {
+            "288": 34.914
+          },
+          "reason": "Single-pixel horizontal-rule/rectangle coverage in clipped table borders. Non-text controls retain the residual; text-only controls pass and Unicode sequences/boxes agree. No missing table data."
+        }
+      }
+    },
+    "hayro/pdfjs/issue5677": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5686": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5701": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5704": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5726": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5747": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5751": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5752": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue5801": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.933
+          },
+          "reason": "Coverage along existing bold letter stems in the timetable title. All 114 extracted characters and their boxes agree; no missing or substituted label."
+        }
+      }
+    },
+    "hayro/pdfjs/issue5804": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5874": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5909": {
+      "page_count": 2,
+      "pages": {
+        "1": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 18.84
+          },
+          "reason": "Single-row coverage at the edge of the green holdings-header background. The table, figures and headings retain their positions; all extracted characters and boxes agree."
+        }
+      }
+    },
+    "hayro/pdfjs/issue5939": {
+      "page_count": 6
+    },
+    "hayro/pdfjs/issue5946": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5954": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue5994": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6006": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6010_1": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6010_2": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6066": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue6068": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6071": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6081": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6099": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6113": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6117": {
+      "page_count": 7
+    },
+    "hayro/pdfjs/issue6127": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue6132": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6165": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue6231_1": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6238": {
+      "page_count": 164
+    },
+    "hayro/pdfjs/issue6286": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6289": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6296": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6298": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6305": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6336": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6342": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6360": {
+      "page_count": 4
+    },
+    "hayro/pdfjs/issue6364": {
+      "page_count": 56
+    },
+    "hayro/pdfjs/issue6365": {
+      "page_count": 53
+    },
+    "hayro/pdfjs/issue6387": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6410": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6413": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6541": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6549": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue6652": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6692": {
+      "page_count": 109
+    },
+    "hayro/pdfjs/issue6707": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6721_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6737": {
+      "page_count": 7
+    },
+    "hayro/pdfjs/issue6741": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6769": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6769_no_matrix": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6782": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6889": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6894": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6901-eq": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6931": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue6961": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue7020": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7074_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7101": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7200": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7303": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue7308": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7339": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7403": {
+      "page_count": 2,
+      "pages": {
+        "0": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 3.409
+          },
+          "reason": "Single-pixel coverage along a heading glyph stem. All 105 extracted characters and their boxes agree; title weight and layout remain visibly consistent."
+        }
+      }
+    },
+    "hayro/pdfjs/issue7406": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7426": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7439": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7454": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7492-eq": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7507": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7544": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7580-eq": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7598": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7665": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7696": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7769": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7828": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7835": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7847_radial": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7855": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7872": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7891_bc0": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7891_bc1": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue7901": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8019": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8022": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue8047": {
+      "page_count": 6
+    },
+    "hayro/pdfjs/issue8061": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8076": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8088": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue8092": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8097": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8111": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8117": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8125": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8169": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue818": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue8182": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue8187": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8234": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8330": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue8380": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue840": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue8424": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue845": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8480": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8565": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8570": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8586": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8613": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8614": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue8697": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8702-eq": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue8707": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8795_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8798": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8823": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8895": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue8960_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9017_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9084": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9105": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9105_other": {
+      "expect": "reject",
+      "reason": "Both engines reject this malformed fixture under the pinned case inputs."
+    },
+    "hayro/pdfjs/issue9129": {
+      "page_count": 6
+    },
+    "hayro/pdfjs/issue918": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue919": {
+      "page_count": 9
+    },
+    "hayro/pdfjs/issue9195": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9243": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue925": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9252": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9262": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9278": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9285": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue9291": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9367": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9418": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9425": {
+      "page_count": 16
+    },
+    "hayro/pdfjs/issue9458": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9462": {
+      "page_count": 3
+    },
+    "hayro/pdfjs/issue9534_reduced": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9540": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9650": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/issue9679": {
+      "page_count": 1,
+      "pages": {
+        "0": {
+          "max_error": 4724.315,
+          "max_error_by_dpi": {
+            "288": 44518.11
+          },
+          "reason": "Malformed JPEG/PDF dimension disagreement (3505 versus 3488 rows): existing Rust recovery uses PDF height, native uses JPEG height. Correcting only the dictionary to 3505 makes both engines identical; this bounds the existing recovery-policy difference."
+        }
+      }
+    },
+    "hayro/pdfjs/issue9713": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9915": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9940": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/issue9949": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/jbig2_huffman_2": {
+      "page_count": 199
+    },
+    "hayro/pdfjs/jbig2_symbol_offset": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/mmtype1": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/operator-in-TJ-array": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/p020121130574743273239": {
+      "page_count": 10
+    },
+    "hayro/pdfjs/pattern_text_embedded_font": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/personwithdog": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/protectip": {
+      "page_count": 30
+    },
+    "hayro/pdfjs/shavian-load": {
+      "page_count": 2
+    },
+    "hayro/pdfjs/simpletype3font": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/standard_fonts_no_system_fonts": {
+      "page_count": 14
+    },
+    "hayro/pdfjs/type4psfunc": {
+      "page_count": 1
+    },
+    "hayro/pdfjs/zerowidthline": {
+      "page_count": 1
+    },
+    "hefferon_toc": {
+      "page_count": 448
+    },
+    "hello_world": {
+      "page_count": 1
+    },
+    "image_clipped": {
+      "page_count": 1
+    },
+    "jbig2_mmr": {
+      "page_count": 1
+    },
+    "jpeg_rgb": {
+      "page_count": 1
+    },
+    "jpx_rgb": {
+      "page_count": 1
+    },
+    "obp_0526": {
+      "page_count": 570
+    },
+    "openstax_biology_2e": {
+      "page_count": 1475,
+      "pages": {
+        "476": {
+          "max_error": 2.0,
+          "max_error_by_dpi": {
+            "288": 2.216
+          },
+          "reason": "Single-pixel coverage along the blue Applying-the-Laws-of-Thermodynamics heading stem on page 476. All extracted characters and boxes agree within 0.000031 point; the body text remains complete."
+        },
+        "787": {
+          "max_error": 17.695,
+          "max_error_by_dpi": {
+            "288": 157.44
+          },
+          "reason": "Low-level resampling/coverage quantization in the page 787 raster illustration (strongest residual peak about 3.14 channel levels). Text-only control passes; text/boxes and figure content agree."
+        }
+      }
+    },
+    "pattern_fill": {
+      "page_count": 1
+    },
+    "pattern_fill_uncolored": {
+      "page_count": 1
+    },
+    "pattern_stroke": {
+      "page_count": 1
+    },
+    "pattern_stroke_uncolored": {
+      "page_count": 1
+    },
+    "radial_shading": {
+      "page_count": 1
+    },
+    "rectangles": {
+      "page_count": 1
+    },
+    "rectangles_double_flipped": {
+      "page_count": 1
+    },
+    "rectangles_multi_pages": {
+      "page_count": 5
+    },
+    "right_to_privacy": {
+      "page_count": 2,
+      "pages": {
+        "0": {
+          "max_error": 739.06,
+          "max_error_by_dpi": {
+            "288": 3380.542
+          },
+          "reason": "Pinned native JBIG2 GRRD incorrectly resets valid refinement displacements and loses text. Rust masks match independent jbig2dec hashes; see docs/capi-known-native-differences.md#valid-jbig2-refinement-displacements."
+        },
+        "1": {
+          "max_error": 419.168,
+          "max_error_by_dpi": {
+            "288": 1900.643
+          },
+          "reason": "Pinned native JBIG2 GRRD incorrectly resets valid refinement displacements and loses text. Rust masks match independent jbig2dec hashes; see docs/capi-known-native-differences.md#valid-jbig2-refinement-displacements."
+        }
+      }
+    },
+    "rotated_image": {
+      "page_count": 1
+    },
+    "rotated_text_90": {
+      "page_count": 1
+    },
+    "smask_blend": {
+      "page_count": 1
+    },
+    "stamp_appearance": {
+      "page_count": 1
+    },
+    "text_color": {
+      "page_count": 1
+    },
+    "type3": {
+      "page_count": 1
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8f5eb">
+  <title>pdfoxium</title>
+  <link rel="icon" href="data:,">
+  <style>
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #f8f5eb; }
+    #viewer { width: 100%; height: 100%; display: block; touch-action: none; }
+    /* eframe's invisible IME helper must not intercept canvas clicks. */
+    body > input[type="text"][autocapitalize="off"] { pointer-events: none; opacity: 0; }
+    #error { position: fixed; inset: 0; padding: 2rem; font: 16px system-ui; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <canvas id="viewer" aria-label="PDF viewer"></canvas>
+  <input id="open-pdf" type="file" accept=".pdf,application/pdf" hidden>
+  <div id="error" role="alert" hidden></div>
+  <script type="module" src="./bootstrap.js"></script>
+</body>
+</html>

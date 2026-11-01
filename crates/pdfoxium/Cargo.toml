@@ -1,0 +1,39 @@
+[package]
+include = ["src/**", "assets/**", "examples/**", "tests/**", "testdata/**", "include/**", "web/**", "build.rs", "Cargo.toml", "README.md", "LICENSE*", "UPSTREAM.md", "THIRD_PARTY_LICENSES.md", "!**/.DS_Store", "!**/__pycache__/**", "!**/*.py[cod]"]
+name = "pdfoxium"
+version = "0.1.0"
+edition.workspace = true
+license = "BSD-3-Clause"
+rust-version.workspace = true
+repository.workspace = true
+readme = "README.md"
+documentation = "https://docs.rs/pdfoxium"
+keywords = ["pdf", "pdfium", "rendering", "text", "forms"]
+categories = ["graphics", "parsing"]
+description = "Safe Rust PDF rendering, text, editing, forms and JavaScript"
+
+[features]
+default = ["simd", "xfa"]
+js = ["pdfoxium-core/js"]
+xfa = ["js", "pdfoxium-core/xfa"]
+simd = ["pdfoxium-core/simd"]
+render-profile = ["pdfoxium-core/render-profile"]
+# Unstable implementation interface used only by the workspace's C ABI crate.
+capi-support = []
+
+[dependencies]
+pdfoxium-core = { path = "../pdfoxium-core", version = "=0.1.0", default-features = false }
+png = "0.18.1"
+unicode-segmentation = "1.13.3"
+web-time = "1.1.0"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen-spawn = "=0.0.7"
+wasm_sync = "0.1.2"
+wasm-bindgen-futures = "0.4.80"
+web-sys = { version = "0.3.107", features = ["Window"] }
+
+# Build the native public API on docs.rs without internal/profiling features.
+[package.metadata.docs.rs]
+default-target = "x86_64-unknown-linux-gnu"
+targets = []

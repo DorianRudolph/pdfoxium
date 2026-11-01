@@ -1,0 +1,41 @@
+pub mod cpdf_aaction;
+pub mod cpdf_action;
+pub mod cpdf_annot;
+pub mod cpdf_annotlist;
+pub mod cpdf_apsettings;
+pub mod cpdf_bafontmap;
+pub mod cpdf_color_utils;
+pub mod cpdf_defaultappearance;
+pub mod cpdf_dest;
+pub mod cpdf_filespec;
+pub mod cpdf_formcontrol;
+pub mod cpdf_formfield;
+pub mod cpdf_generateap;
+pub mod cpdf_icon;
+pub mod cpdf_iconfit;
+pub mod cpdf_interactiveform;
+pub mod cpdf_metadata;
+pub mod cpdf_nametree;
+pub mod cpvt_floatrect;
+pub mod cpvt_fontmap;
+pub mod cpvt_line;
+pub mod cpvt_lineinfo;
+pub mod cpvt_section;
+pub mod cpvt_variabletext;
+pub mod cpvt_word;
+pub mod cpvt_wordinfo;
+pub mod cpvt_wordplace;
+pub mod cpvt_wordrange;
+pub mod ipvt_fontmap;
+
+pub mod cpdf_bookmark;
+pub mod cpdf_bookmarktree;
+pub mod cpdf_link;
+pub mod cpdf_linklist;
+pub mod cpdf_numbertree;
+pub mod cpdf_pagelabel;
+
+pub mod cpdf_viewerpreferences;
+
+pub mod cpdf_structelement;
+pub mod cpdf_structtree;
