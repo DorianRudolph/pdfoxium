@@ -3,7 +3,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in upstream/pdfium/LICENSE.
 """Repeatable page/content, AcroForm and interactive XFA demo walkthrough (Pillow)."""
-import argparse,hashlib,json,socket,subprocess,time
+import argparse,hashlib,json,socket,subprocess,sys,time
 from pathlib import Path
 from PIL import Image,ImageChops
 ROOT=Path(__file__).resolve().parent.parent
@@ -17,7 +17,12 @@ with (a.output/'app.log').open('w') as log:
     app=subprocess.Popen([str(a.binary.resolve()),str(assets/'editing-demo.pdf'),'--control',str(ep.resolve()),'--control-only-input'],cwd=a.output.resolve(),stdout=log,stderr=log)
     try:
         deadline=time.monotonic()+30
-        while not ep.exists():assert app.poll() is None and time.monotonic()<deadline;time.sleep(.02)
+        while not ep.exists():
+            if app.poll() is not None:
+                raise RuntimeError(f'Viewer exited with status {app.returncode} before publishing its control endpoint')
+            if time.monotonic()>=deadline:
+                raise TimeoutError('Viewer did not publish its control endpoint within 30 seconds')
+            time.sleep(.02)
         endpoint=json.loads(ep.read_text())
         def raw(method,**params):
             with socket.create_connection(('127.0.0.1',endpoint['port']),timeout=50) as s:
@@ -96,5 +101,9 @@ with (a.output/'app.log').open('w') as log:
         call('ui.quit');assert app.wait(timeout=15)==0
         print(f'Demo walkthrough passed: {len(report)} requests; artifacts in {a.output}')
     finally:
-        (a.output/'report.json').write_text(json.dumps(report,indent=2)+'\n')
+        failed=sys.exc_info()[0] is not None
         if app.poll() is None:app.terminate();app.wait(timeout=10)
+        (a.output/'report.json').write_text(json.dumps(report,indent=2)+'\n')
+        if failed:
+            print('Viewer app.log:',file=sys.stderr)
+            print((a.output/'app.log').read_text(errors='replace'),file=sys.stderr)

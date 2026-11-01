@@ -108,6 +108,9 @@ fn connection(
     tx: mpsc::SyncSender<Request>,
     ctx: egui::Context,
 ) -> std::io::Result<()> {
+    // Accepted sockets inherit the listener's nonblocking mode on macOS,
+    // unlike Linux. Connection workers use blocking I/O with deadlines.
+    stream.set_nonblocking(false)?;
     stream.set_read_timeout(Some(Duration::from_secs(2)))?;
     stream.set_write_timeout(Some(Duration::from_secs(5)))?;
     let mut line = Vec::new();
@@ -255,6 +258,12 @@ mod transport_tests {
         let endpoint: Value = serde_json::from_slice(&original).unwrap();
         let stream =
             TcpStream::connect(("127.0.0.1", endpoint["port"].as_u64().unwrap() as u16)).unwrap();
+        stream
+            .set_read_timeout(Some(Duration::from_secs(5)))
+            .unwrap();
+        // Let the worker accept before any bytes arrive. An inherited
+        // nonblocking socket must wait for the request instead of closing it.
+        thread::sleep(Duration::from_millis(100));
         let mut write = stream.try_clone().unwrap();
         writeln!(
             write,
