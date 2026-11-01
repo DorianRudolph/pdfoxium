@@ -7,22 +7,22 @@ the `pdfoxium` wrapper nor the C ABI is a production dependency. Consumers do
 not need a native PDFium library, a C/C++ compiler or the PDFium submodule.
 This is a 0.1 preview; APIs may change during 0.x.
 
-[API reference](https://docs.rs/pdfoxium-render) ·
-[crates.io](https://crates.io/crates/pdfoxium-render) ·
 [Source](https://github.com/DorianRudolph/pdfoxium/tree/main/crates/pdfoxium-render)
 
 ## Installation
 
-Requires Rust 1.95 or later. To keep existing `pdfium_render` imports, replace
-the upstream dependency with this package alias:
+Requires Rust 1.95 or later. The project is not yet published on crates.io.
+To keep existing `pdfium_render` imports, replace the upstream dependency with
+this GitHub package alias:
 
 ```toml
 [dependencies]
-pdfium-render = { package = "pdfoxium-render", version = "0.1.0" }
+pdfium-render = { package = "pdfoxium-render", git = "https://github.com/DorianRudolph/pdfoxium" }
 ```
 
-You can also declare `pdfoxium-render = "0.1.0"` directly; the library target is
-still named `pdfium_render`. Choose one dependency declaration, and remove the
+Add `rev = "<full commit SHA>"` to pin a specific commit. You can also use
+`pdfoxium-render` as the dependency key without the `package` field; the library
+target is still named `pdfium_render`. Choose one declaration, and remove the
 upstream `pdfium-render` dependency to avoid an import-name collision.
 
 ## Open and render
@@ -59,8 +59,9 @@ with the default features, an `image::DynamicImage`. Text is available through
 through `PdfDocument::save_to_file` or `PdfDocument::save_to_bytes`.
 
 For live form event dispatch, JavaScript callbacks and render worker pools,
-use [pdfoxium](https://docs.rs/pdfoxium). The compatibility form collections
-provide field queries and edits, not that crate's `FormSession` event loop.
+use [pdfoxium](https://github.com/DorianRudolph/pdfoxium/tree/main/crates/pdfoxium).
+The compatibility form collections provide field queries and edits, not that
+crate's `FormSession` event loop.
 
 The upstream declarations are copied, including explicit lifetimes, collection
 references, enums, distinct typed object and annotation wrappers, named iterators,

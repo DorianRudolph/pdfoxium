@@ -5,22 +5,24 @@ text/search, editing/saving and interactive forms. Production dependencies are
 Rust-only; no native PDFium library, C/C++ compiler or PDFium submodule is needed
 by consumers. This is a 0.1 preview; APIs may change during 0.x.
 
-[API reference](https://docs.rs/pdfoxium) ·
-[crates.io](https://crates.io/crates/pdfoxium) ·
 [Source and examples](https://github.com/DorianRudolph/pdfoxium/tree/main/crates/pdfoxium/examples)
 
 ## Installation
 
-Requires Rust 1.95 or later. Add this to `Cargo.toml`:
+Requires Rust 1.95 or later. The project is not yet published on crates.io;
+add the GitHub dependency to `Cargo.toml`:
 
 ```toml
 [dependencies]
-pdfoxium = "0.1.0"
+pdfoxium = { git = "https://github.com/DorianRudolph/pdfoxium" }
 ```
+
+Cargo resolves the engine and bundled codecs from the same repository. Add
+`rev = "<full commit SHA>"` to pin a specific commit.
 
 Use `pdfoxium` for document/page handles, interactive forms and render workers.
 For the safe `pdfium-render` 0.9.4 interface, use
-[pdfoxium-render](https://docs.rs/pdfoxium-render) instead.
+[pdfoxium-render](https://github.com/DorianRudolph/pdfoxium/tree/main/crates/pdfoxium-render) instead.
 
 ## Features and platforms
 
@@ -33,14 +35,14 @@ For the safe `pdfium-render` 0.9.4 interface, use
 | `capi-support` | No | Internal interface used by the workspace C ABI; not a stable consumer API. |
 
 For rendering/text/editing without JavaScript or XFA, use
-`pdfoxium = { version = "0.1.0", default-features = false, features = ["simd"] }`.
+`pdfoxium = { git = "https://github.com/DorianRudolph/pdfoxium", default-features = false, features = ["simd"] }`.
 Omit `simd` as well for a scalar build. The public API remains available with
 reduced features; engine capabilities change.
 
 Native runtime validation covers macOS arm64 and Linux x64. Windows is not yet
 runtime-validated. WebAssembly requires additional thread/worker setup; see the
 [browser build guide](https://github.com/DorianRudolph/pdfoxium/blob/main/docs/viewer-wasm.md).
-The docs.rs build documents the default native features.
+Generate the API reference locally with `cargo doc -p pdfoxium --no-deps`.
 
 ## API guide
 

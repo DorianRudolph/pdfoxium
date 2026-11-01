@@ -8,10 +8,24 @@ native PDFium is used as a test oracle.
 
 https://github.com/user-attachments/assets/507e1db3-4e98-41e8-97d9-dbd75ad62fb8
 
+## Installation
+
+Requires **Rust 1.95 or newer**. The project is not yet published on crates.io;
+add it from GitHub in your `Cargo.toml`:
+
+```toml
+[dependencies]
+pdfoxium = { git = "https://github.com/DorianRudolph/pdfoxium" }
+```
+
+Cargo resolves the engine and bundled codecs from the same repository. Consumer
+builds do not require the upstream PDFium submodule. To pin a specific commit,
+add `rev = "<full commit SHA>"` to the dependency declaration.
+
 ## Rust example
 
-Add `pdfoxium = "0.1.0"` to your dependencies. This searches the first page,
-highlights each match, adds a text object, renders a PNG and saves an edited copy:
+This searches the first page, highlights each match, adds a text object,
+renders a PNG and saves an edited copy:
 
 ```rust
 use pdfoxium::{

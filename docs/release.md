@@ -68,9 +68,10 @@ validated; a local Mac run alone is not Linux validation.
 
 `pdfoxium` and `pdfoxium-render` declare their README and docs.rs URL in package
 metadata. Their READMEs are also the crate-level Rustdoc guides; examples are
-checked by doctests. Registry installation examples target the initial 0.1.0
-publication. Repository guides use absolute URLs so links also work from
-crates.io and docs.rs.
+checked by doctests. Current installation examples use GitHub dependencies while
+registry publication is pending; switch them to registry versions when the
+packages are published. Repository guides use absolute URLs so links also work
+from crates.io and docs.rs.
 
 The docs.rs metadata builds one native target, `x86_64-unknown-linux-gnu`, with
 default features. `pdfoxium-render` additionally enables
