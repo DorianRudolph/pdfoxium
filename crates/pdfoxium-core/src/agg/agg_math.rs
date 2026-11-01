@@ -1,3 +1,6 @@
+// Adapted from PDFium's Anti-Grain Geometry 2.3 for pdfoxium.
+// Distributed under the original permissive license notice below.
+//
 // Anti-Grain Geometry - Version 2.3
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //

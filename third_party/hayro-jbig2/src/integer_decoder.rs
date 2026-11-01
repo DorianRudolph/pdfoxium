@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 // PDFium arithmetic extensions: Copyright 2014 The PDFium Authors.
 // Original code copyright 2014 Foxit Software Inc. http://www.foxitsoftware.com
 // These branches use the BSD-style license in LICENSE-PDFIUM at the crate root.

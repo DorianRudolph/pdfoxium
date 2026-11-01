@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 // Note: This is a copy of the arithmetic decoder from `hayro-jpeg2000`,
 // keep the two in sync.
 

@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! Gray-scale image decoding procedure (Annex C).
 
 // PDFium arithmetic extensions: Copyright 2014 The PDFium Authors.

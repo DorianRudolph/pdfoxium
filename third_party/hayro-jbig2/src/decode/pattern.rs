@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! Pattern dictionary segment parsing and decoding (7.4.4, 6.7).
 
 // PDFium arithmetic extensions: Copyright 2014 The PDFium Authors.

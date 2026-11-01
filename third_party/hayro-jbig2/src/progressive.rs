@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 // Copyright 2014 The PDFium Authors
 // Use of this source code is governed by the BSD-style license in
 // ../LICENSE-PDFIUM. Original code copyright 2014 Foxit Software Inc.

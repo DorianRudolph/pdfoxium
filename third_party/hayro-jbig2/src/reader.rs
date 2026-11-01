@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 /// A reader for reading bits and bytes from a byte stream.
 // PDFium compatibility branches: Copyright 2014 The PDFium Authors.
 // Original code copyright 2014 Foxit Software Inc. http://www.foxitsoftware.com

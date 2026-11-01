@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! File format parsing for JBIG2 bitstreams (Annex D of ITU-T T.88).
 //!
 //! This module handles parsing of standalone JBIG2 files in both sequential

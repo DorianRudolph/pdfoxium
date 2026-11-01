@@ -13,6 +13,18 @@ The read-only `upstream/pdfium` submodule is pinned to
 (PDFium 157.0.8100.0). Keep its revision unchanged. Native oracle download URLs
 and checksums are in the [C API testing guide](../tests/capi/README.md#native-oracle-provenance).
 
+## Adaptation notices
+
+Ported source files identify the upstream project and state that the code was
+adapted for pdfoxium under the original license terms. Keep the upstream
+copyright and license notices intact below that statement, including notices
+for code that PDFium itself incorporates (such as AGG and libtiff). Existing
+source-path comments and the pinned revisions identify the implementation
+references; an upstream copyright notice does not imply that the Rust file is
+an unmodified upstream file. Table generators must emit the same adaptation
+statement. Unmodified vendored sources and copied public C headers retain their
+original notices without an adaptation claim.
+
 ## Ownership and representations
 
 Retained objects preserve allocation identity; weak edges replace non-owning

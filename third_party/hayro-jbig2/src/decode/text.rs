@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! Text region segment parsing and decoding (7.4.3, 6.4).
 
 // PDFium reader extensions: Copyright 2014 The PDFium Authors.

@@ -1,3 +1,6 @@
+// Adapted from libtiff as bundled by PDFium for pdfoxium.
+// Distributed under the original license notice below.
+//
 /*
  * Copyright (c) 1997 Greg Ward Larson
  * Copyright (c) 1997 Silicon Graphics, Inc.

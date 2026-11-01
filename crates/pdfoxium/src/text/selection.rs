@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 // Copyright 2026 The PDFium Authors
 // Copyright 2010 The Chromium Authors
 // Use of this source code is governed by a BSD-style license that can be

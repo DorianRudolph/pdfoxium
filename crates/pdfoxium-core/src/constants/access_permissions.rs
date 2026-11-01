@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! Translation of `upstream/pdfium/constants/access_permissions.h`.
 #![allow(non_upper_case_globals)]
 

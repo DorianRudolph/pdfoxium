@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! Region and dictionary segment parsing and decoding.
 
 pub(crate) mod generic;

@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! Symbol dictionary segment parsing and decoding (7.4.2, 6.5).
 
 use alloc::vec;

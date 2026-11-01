@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 // Copyright 2026 The PDFium Authors. BSD-3-Clause; see LICENSE.pdfium.
 //! Owned core object references. No C handles, raw pointers or FFI are used.
 use crate::{

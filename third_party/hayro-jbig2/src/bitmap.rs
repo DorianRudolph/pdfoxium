@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! Bitmap representation for JBIG2 decoding.
 //!
 //! "The variable whose value is the result of this decoding procedure is shown

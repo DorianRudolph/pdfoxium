@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! Segment parsing for JBIG2 bitstreams (Section 7.2).
 //!
 //! This module handles parsing of individual segment headers and defines

@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! Generic refinement region segment parsing and decoding (7.4.7, 6.3).
 
 // PDFium compatibility: Copyright 2014 The PDFium Authors.

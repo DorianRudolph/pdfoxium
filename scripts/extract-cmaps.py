@@ -36,6 +36,9 @@ def extract_group(group: str) -> str:
     if not maps:
         raise ValueError(f"Missing CMap entries for {group}")
     output = [
+        "// Contains code adapted from PDFium for pdfoxium.",
+        "// Adapted code is subject to the original license terms below.",
+        "//",
         "// Copyright 2014 The PDFium Authors",
         "// Use of this source code is governed by a BSD-style license that can be",
         "// found in upstream/pdfium/LICENSE.",
@@ -90,6 +93,9 @@ def main() -> None:
     for group in GROUPS:
         (DEST / f"{group.lower()}.rs").write_text(extract_group(group))
     unicode_output = [
+        "// Contains code adapted from PDFium for pdfoxium.",
+        "// Adapted code is subject to the original license terms below.",
+        "//",
         "// Copyright 2014 The PDFium Authors",
         "// Use of this source code is governed by a BSD-style license that can be",
         "// found in upstream/pdfium/LICENSE.",

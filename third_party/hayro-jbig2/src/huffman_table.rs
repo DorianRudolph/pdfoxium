@@ -1,3 +1,6 @@
+// Contains code adapted from PDFium for pdfoxium.
+// Adapted code is subject to the original license terms below.
+//
 //! Huffman table decoding, described in Annex B.
 
 // PDFium canonical index/read extensions: Copyright 2014 The PDFium Authors.
