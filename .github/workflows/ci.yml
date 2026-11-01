@@ -28,7 +28,7 @@ jobs:
           persist-credentials: false
       - name: Linux build and headless viewer dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libclang-dev libxkbcommon-dev libwayland-dev libvulkan1 mesa-vulkan-drivers xvfb python3-pil
+        run: sudo apt-get update && sudo apt-get install -y libclang-dev libxkbcommon-dev libxkbcommon-x11-0 libwayland-dev libvulkan1 mesa-vulkan-drivers xvfb python3-pil
       - name: Rust
         run: |
           rustup update stable --no-self-update
@@ -44,6 +44,11 @@ jobs:
         run: cargo test --locked -p pdfoxium -p pdfoxium-viewer -p pdfoxium-cli
       - name: Codec regressions
         run: cargo test --locked -p pdfoxium-ccitt -p pdfoxium-jbig2 -p pdfoxium-jpeg2000 -p pdfoxium-jpeg --lib
+      - name: Viewer demo control smoke (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cargo build --locked -p pdfoxium-viewer
+          xvfb-run -a python3 scripts/smoke-viewer-demo.py --binary target/debug/pdfoxium-viewer --output target/release-smoke/demo
       - name: C ABI comparisons
         shell: bash
         run: |
@@ -59,21 +64,16 @@ jobs:
             export PDFOXIUM_RUST_LIBRARY="$PWD/target/debug/libpdfoxium_capi.so"
           fi
           target/capi/pdfoxium_capi_tests --gtest_filter='Smoke.*:Imports.*:CoverageBarcodeBoundaries.*:CoverageFontFacePaths.*'
-      - name: Viewer demo control smoke (Linux)
+      - name: Local package verification
         if: runner.os == 'Linux'
-        run: |
-          cargo build --locked -p pdfoxium-viewer
-          xvfb-run -a python3 scripts/smoke-viewer-demo.py --binary target/debug/pdfoxium-viewer --output target/release-smoke/demo
+        run: python3 scripts/check-release.py --package
       - name: Viewer smoke failure artifacts
         if: failure() && runner.os == 'Linux'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: viewer-smoke-linux
           path: target/release-smoke/demo
           if-no-files-found: ignore
-      - name: Local package verification
-        if: runner.os == 'Linux'
-        run: python3 scripts/check-release.py --package
 
   minimum-rust:
     runs-on: ubuntu-24.04
