@@ -20,3 +20,26 @@ edition = "2021"
 license = "MIT"
 rust-version = "1.95"
 repository = "https://github.com/DorianRudolph/pdfoxium"
+
+# Keep full debugger support for first-party development builds and tests.
+[profile.dev]
+debug = "full"
+
+[profile.dev.package."*"]
+debug = "none"
+
+# Cargo's wildcard excludes workspace members, including vendored dependencies.
+[profile.dev.package.pdfoxium-ccitt]
+debug = "none"
+
+[profile.dev.package.pdfoxium-jbig2]
+debug = "none"
+
+[profile.dev.package.pdfoxium-jpeg2000]
+debug = "none"
+
+[profile.dev.package.pdfoxium-jpeg]
+debug = "none"
+
+[profile.dev.package.pdfoxium-moxcms]
+debug = "none"
